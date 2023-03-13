@@ -5,8 +5,15 @@ const axios = require("axios");
 const app = express();
 app.use(bodyParser.json());
 
+const eventStore = [];
+
+app.get("/events", (req, res) => {
+  res.send(eventStore);
+});
+
 app.post("/events", (req, res) => {
   const event = req.body;
+  eventStore.push(event);
   axios.post("http://localhost:4000/events", event).catch((err) => {
     console.log(err.message);
   });

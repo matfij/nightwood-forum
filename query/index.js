@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const axios = require("axios");
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,6 +15,19 @@ app.get("/posts", (req, res) => {
 
 app.post("/events", (req, res) => {
   const { type, data } = req.body;
+  processEvent(type, data);
+  res.status(200);
+});
+
+app.listen(4002, async () => {
+  console.log("App started on port 4002");
+  const res = await axios.get("http://localhost:5000/events");
+  for (let event of res.data) {
+    processEvent(event.type, event.data);
+  }
+});
+
+function processEvent(type, data) {
   switch (type) {
     case "PostCreated": {
       const { id, title } = data;
@@ -34,9 +48,4 @@ app.post("/events", (req, res) => {
       comment.content = content;
     }
   }
-  res.status(200);
-});
-
-app.listen(4002, () => {
-  console.log("App started on port 4002");
-});
+}
