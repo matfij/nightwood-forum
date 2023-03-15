@@ -14,7 +14,7 @@ app.post("/events", async (req, res) => {
       const status = data.content.includes(FORBIDDEN_WORD)
         ? "rejected"
         : "approved";
-      await axios.post("http://localhost:5000/events", {
+      await axios.post("http://event-bus-srv:5000/events", {
         type: "CommentModerated",
         data: {
           id: data.id,

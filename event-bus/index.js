@@ -14,19 +14,20 @@ app.get("/events", (req, res) => {
 app.post("/events", (req, res) => {
   const event = req.body;
   eventStore.push(event);
-  axios.post("http://localhost:4000/events", event).catch((err) => {
+  console.log(event);
+  axios.post("http://posts-srv:4000/events", event).catch((err) => {
     console.log(err.message);
   });
-  axios.post("http://localhost:4001/events", event).catch((err) => {
+  axios.post("http://comments-srv:4001/events", event).catch((err) => {
     console.log(err.message);
   });
-  axios.post("http://localhost:4002/events", event).catch((err) => {
+  axios.post("http://query-srv:4002/events", event).catch((err) => {
     console.log(err.message);
   });
-  axios.post("http://localhost:4003/events", event).catch((err) => {
+  axios.post("http://moderation-srv:4003/events", event).catch((err) => {
     console.log(err.message);
   });
-  res.send({ status: "ok" });
+  res.sendStatus(200);
 });
 
 app.listen(5000, () => {
