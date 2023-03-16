@@ -16,7 +16,7 @@ export default function PostList() {
   });
 
   const readPosts = async () => {
-    const res = await axios.get("posts.com/posts");
+    const res = await axios.get("http://posts.com/posts");
     setPosts({ ...res.data });
   };
 

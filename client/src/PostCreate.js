@@ -6,7 +6,7 @@ export default function PostCreate() {
 
   const createPost = async (event) => {
     event.preventDefault();
-    await axios.post("posts.com/posts", { title });
+    await axios.post("http://posts.com/posts/create", { title });
     setTitle("");
   };
 

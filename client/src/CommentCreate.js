@@ -6,7 +6,7 @@ export default function CommentCreate({ postId }) {
 
   const createComment = async (event) => {
     event.preventDefault();
-    axios.post(`http://localhost:4001/posts/${postId}/comments`, { content });
+    axios.post(`http://posts.com/posts/${postId}/comments`, { content });
     setContent("");
   };
 
