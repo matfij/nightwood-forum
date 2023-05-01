@@ -1,34 +1,15 @@
-import express from "express";
-import { Kafka, Partitioners } from "kafkajs";
+import express from 'express';
+import { RegisterRoutes } from './controllers/routes';
+import { errorHandler } from './common/error-handler';
 
 const app = express();
-const port = 13000;
 
-app.get("/", (req, res) => {
-  res.send("Generator started");
-});
+app.use(express.json());
 
-async function connectKafka() {
-  const kafka = new Kafka({
-    clientId: "my-app",
-    brokers: ["kafka:9092"],
-  });
+RegisterRoutes(app);
 
-  const producer = kafka.producer({
-    createPartitioner: Partitioners.LegacyPartitioner,
-  });
+app.use(errorHandler);
 
-  await producer.connect();
-  const ack = await producer.send({
-    topic: "topic-test",
-    messages: [{ value: "Test message 1" }],
-  });
-  console.log(ack);
-
-  await producer.disconnect();
-}
-
-app.listen(port, () => {
-  console.log(`Generator app listening on port ${port}.`);
-  connectKafka();
+app.listen(13000, () => {
+    console.log(`generator-service started`);
 });
