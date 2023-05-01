@@ -1,2 +1,1 @@
-# Re: Nightwood forum
-Work in progress.
+# Notion Gen

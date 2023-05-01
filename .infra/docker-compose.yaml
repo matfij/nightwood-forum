@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - '2181:2181'
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - '9092:9092'
+    links:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+      KAFKA_CREATE_TOPICS: 'topic-test:1:1'
+    volumes:
+      - /kafka_data:/var/run/docker.sock
+
+  generator-service:
+    build:
+      context: ../apps/generator
+      dockerfile: Dockerfile
+    ports:
+      - '13000:13000'
+    volumes:
+      - ../apps/generator:/app
+      - /app/node_modules
