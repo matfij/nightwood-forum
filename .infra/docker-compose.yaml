@@ -23,7 +23,7 @@ services:
     volumes:
       - /kafka_data:/var/run/docker.sock
 
-  generator-service:
+  generator-app:
     build:
       context: ../apps/generator
       dockerfile: Dockerfile
@@ -32,3 +32,14 @@ services:
     volumes:
       - ../apps/generator:/app
       - /app/node_modules
+    environment:
+      DB_CONNECTION_STRING: mongodb://root:root@generator-db:27017/generator
+  
+  generator-db:
+    image: mongo 
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
