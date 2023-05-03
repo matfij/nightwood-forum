@@ -33,7 +33,7 @@ services:
       - ../apps/generator:/app
       - /app/node_modules
     environment:
-      DB_CONNECTION_STRING: mongodb://root:root@generator-db:27017/generator
+      DB_CONNECTION_STRING: mongodb://root:root@generator-db:27017
   
   generator-db:
     image: mongo 

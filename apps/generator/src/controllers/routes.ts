@@ -9,6 +9,29 @@ import type { RequestHandler, Router } from 'express';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "Project": {
+        "dataType": "refObject",
+        "properties": {
+            "userId": {"dataType":"string","required":true},
+            "notionId": {"dataType":"string","required":true},
+            "notionName": {"dataType":"string","required":true},
+            "notionAccessCode": {"dataType":"string","required":true},
+            "createdAt": {"dataType":"double"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateProjectParams": {
+        "dataType": "refObject",
+        "properties": {
+            "userId": {"dataType":"string","required":true},
+            "notionId": {"dataType":"string","required":true},
+            "notionName": {"dataType":"string","required":true},
+            "notionAccessCode": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "GenerateParams": {
         "dataType": "refObject",
         "properties": {
@@ -27,7 +50,32 @@ export function RegisterRoutes(app: Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.post('/generator',
+        app.post('/generator/createProject',
+            ...(fetchMiddlewares<RequestHandler>(GeneratorController)),
+            ...(fetchMiddlewares<RequestHandler>(GeneratorController.prototype.createProject)),
+
+            function GeneratorController_createProject(request: any, response: any, next: any) {
+            const args = {
+                    params: {"in":"body","name":"params","required":true,"ref":"CreateProjectParams"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new GeneratorController();
+
+
+              const promise = controller.createProject.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/generator/generate',
             ...(fetchMiddlewares<RequestHandler>(GeneratorController)),
             ...(fetchMiddlewares<RequestHandler>(GeneratorController.prototype.generate)),
 

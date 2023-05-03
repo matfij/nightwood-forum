@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "gen:routes": "tsoa routes",
     "start": "ts-node-dev --respawn --poll src/index.ts"
   },
   "keywords": [],
