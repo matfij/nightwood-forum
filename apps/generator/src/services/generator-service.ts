@@ -1,6 +1,7 @@
 import { CreateProjectParams } from '../models/create-project-params';
 import { GenerateParams } from '../models/generate-params';
 import { Project, ProjectModel } from '../models/project-model';
+import { NotionClientService } from './notion-client-service';
 
 export class GeneratorService {
     static async createProject(params: CreateProjectParams): Promise<Project> {
@@ -8,11 +9,14 @@ export class GeneratorService {
         return projectDoc;
     }
 
-    static async generate(params: GenerateParams): Promise<string> {
+    static async generate(params: GenerateParams): Promise<any> {
         const project = await ProjectModel.findOne({ id: params.projectId });
         if (!project) {
             return 'project not found';
         }
-        return `generated for: "${project.notionName}"`;
+
+        const blocks = await NotionClientService.readPageBlocks(project.notionId, project.notionAccessCode);
+
+        return blocks;
     }
 }

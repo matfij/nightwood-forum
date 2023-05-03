@@ -2,6 +2,7 @@ import express from 'express';
 import { RegisterRoutes } from './controllers/routes';
 import { errorHandler } from './common/error-handler';
 import mongoose from 'mongoose';
+import { DB_CONNECTION_STRING } from './common/config';
 
 const app = express();
 
@@ -12,7 +13,7 @@ RegisterRoutes(app);
 app.use(errorHandler);
 
 function connectDb() {
-    mongoose.connect(process.env.DB_CONNECTION_STRING || '').then(() => console.log('generator-db connected'));
+    mongoose.connect(DB_CONNECTION_STRING).then(() => console.log('generator-db connected'));
 }
 
 app.listen(13000, () => {
