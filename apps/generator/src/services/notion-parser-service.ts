@@ -1,5 +1,5 @@
 import { BlockObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
-import { ContentBlock, ContentBlockType } from '../models/content-block-model';
+import { ContentBlock, ContentBlockType } from '../models/content-block';
 
 export class NotionParserService {
     static async parseBlocks(blocks: BlockObjectResponse[]): Promise<ContentBlock[]> {

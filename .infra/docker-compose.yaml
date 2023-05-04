@@ -43,3 +43,13 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
 
+  auth-app:
+    build:
+      context: ../apps/auth
+      dockerfile: Dockerfile
+    ports:
+      - '14000:14000'
+    volumes:
+      - ../apps/auth:/app
+      - /app/node_modules
+
