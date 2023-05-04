@@ -2,6 +2,7 @@ import { CreateProjectParams } from '../models/create-project-params';
 import { GenerateParams } from '../models/generate-params';
 import { Project, ProjectModel } from '../models/project-model';
 import { NotionClientService } from './notion-client-service';
+import { NotionParserService } from './notion-parser-service';
 
 export class GeneratorService {
     static async createProject(params: CreateProjectParams): Promise<Project> {
@@ -15,8 +16,10 @@ export class GeneratorService {
             return 'project not found';
         }
 
-        const blocks = await NotionClientService.readPageBlocks(project.notionId, project.notionAccessCode);
+        const notionBlocks = await NotionClientService.readPageBlocks(project.notionId, project.notionAccessCode);
 
-        return blocks;
+        const parsedBlocks = await NotionParserService.parseBlocks(notionBlocks);
+
+        return parsedBlocks;
     }
 }

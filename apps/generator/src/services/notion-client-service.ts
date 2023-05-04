@@ -25,7 +25,7 @@ export class NotionClientService {
             }
             if (block.has_children) {
                 const nestedBlocks = await this.readNestedBlocks(block.id, authToken);
-                resultBlocks.push(...nestedBlocks);
+                resultBlocks.push(block, ...nestedBlocks);
                 continue;
             }
             resultBlocks.push(block);
