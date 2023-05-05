@@ -52,4 +52,18 @@ services:
     volumes:
       - ../apps/auth:/app
       - /app/node_modules
+    environment:
+      APP_PORT: 14000
+      DB_TYPE: postgres
+      DB_HOST: auth-db
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASSWORD: root
 
+  auth-db:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
