@@ -12,6 +12,7 @@ import { UsersModule } from './modules/users/users.module';
             username: DB_USER,
             password: DB_PASSWORD,
             autoLoadEntities: true,
+            synchronize: true,
         }),
         UsersModule,
     ],
