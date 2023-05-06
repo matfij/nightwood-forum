@@ -59,6 +59,7 @@ services:
       DB_PORT: 5432
       DB_USER: root
       DB_PASSWORD: root
+      JWT_SECRET: secret
 
   auth-db:
     image: postgres

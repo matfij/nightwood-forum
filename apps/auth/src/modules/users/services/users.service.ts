@@ -17,4 +17,14 @@ export class UsersService {
         const savedUser = await this.usersRepository.save(newUser);
         return savedUser;
     }
+
+    async readById(id: string): Promise<UserDto> {
+        const user = await this.usersRepository.findOne({ where: { id: id } });
+        return user;
+    }
+
+    async readByUsername(username: string): Promise<UserDto> {
+        const user = await this.usersRepository.findOne({ where: { username: username } });
+        return user;
+    }
 }
