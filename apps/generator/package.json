@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "gen:routes": "tsoa routes",
+    "gen:spec": "tsoa spec",
+    "gen:client": "openapi-generator-cli generate -i .build/swagger.json -g typescript-axios -o generator-client/",
     "start": "ts-node-dev --respawn --poll src/index.ts"
   },
   "keywords": [],

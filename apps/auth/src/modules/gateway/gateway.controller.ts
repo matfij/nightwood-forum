@@ -7,6 +7,7 @@ import { AuthGuard } from '../auth/utils/auth.guard';
 import { AuthService } from '../auth/service/auth.service';
 import { UsersService } from '../users/services/users.service';
 import { GeneratorService } from './services/generator.service';
+import { CreateProjectParams, GenerateParams } from './clients/generator';
 
 @Controller('api')
 export class GatewayController {
@@ -38,14 +39,14 @@ export class GatewayController {
     }
 
     @Post('/generator/projects')
-    @UseGuards(AuthGuard)
-    async generatorCreateProject(@Body() dto: unknown) {
+    // @UseGuards(AuthGuard)
+    generatorCreateProject(@Body() dto: CreateProjectParams) {
         return this.generatorService.createProject(dto);
     }
 
     @Post('/generator/generate')
-    @UseGuards(AuthGuard)
-    async generatorGenerate(@Body() dto: unknown) {
+    // @UseGuards(AuthGuard)
+    generatorGenerate(@Body() dto: GenerateParams) {
         return this.generatorService.generate(dto);
     }
 }

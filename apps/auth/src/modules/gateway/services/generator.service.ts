@@ -1,27 +1,24 @@
-import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
 import { Injectable } from '@nestjs/common';
-import { Observable, map, tap } from 'rxjs';
+import { CreateProjectParams, Project, GenerateParams, GeneratorApi } from '../clients/generator';
 
 @Injectable()
 export class GeneratorService {
-    constructor(private httpService: HttpService) {}
+    generatorApiClient: GeneratorApi;
 
-    createProject(dto: unknown): Observable<AxiosResponse<unknown>> {
-        return this.httpService.post('http://generator-app:13000/generator/createProject', dto).pipe(
-            tap((res) => {
-                console.log(res);
-            }),
-            map((res) => res.data),
-        );
+    constructor() {
+        this.generatorApiClient = new GeneratorApi({
+            isJsonMime: (mime) => mime === 'application/json',
+            basePath: 'http://generator-app:13000',
+        });
     }
 
-    generate(dto: unknown): Observable<AxiosResponse<unknown>> {
-        return this.httpService.post('http://generator-app:13000/generator/generate', dto).pipe(
-            tap((res) => {
-                console.log(res);
-            }),
-            map((res) => res.data),
-        );
+    async createProject(dto: CreateProjectParams): Promise<Project> {
+        const res = await this.generatorApiClient.createProject(dto);
+        return res.data;
+    }
+
+    async generate(dto: GenerateParams): Promise<string> {
+        const res = await this.generatorApiClient.generate(dto);
+        return res.data;
     }
 }
