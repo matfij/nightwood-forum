@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DB_HOST, DB_PASSWORD, DB_PORT, DB_TYPE, DB_USER } from './common/config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { GatewayModule } from './modules/gateway/gateway.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from './modules/auth/auth.module';
             autoLoadEntities: true,
             synchronize: true,
         }),
+        GatewayModule,
         AuthModule,
         UsersModule,
     ],
