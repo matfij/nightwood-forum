@@ -1,6 +1,6 @@
-import { Route, Tags, Post, OperationId, Controller, Body } from 'tsoa';
+import express from 'express';
+import { Route, Tags, Post, OperationId, Controller, Body, Get, Path, Request, Response } from 'tsoa';
 import { GeneratorService } from '../services/generator-service';
-import { GenerateParams } from '../models/generate-params';
 import { CreateProjectParams } from '../models/create-project-params';
 import { Project } from '../models/project-model';
 
@@ -13,9 +13,16 @@ export class GeneratorController extends Controller {
         return GeneratorService.createProject(params);
     }
 
-    @Post('/generate')
-    @OperationId('generate')
-    async generate(@Body() params: GenerateParams): Promise<string> {
-        return GeneratorService.generate(params);
+    @Get('/website/{projectId}')
+    @OperationId('website')
+    async generate(@Request() request: express.Request, @Path() projectId: string): Promise<void> {
+        const response = request.res as express.Response;
+        const stream = (await GeneratorService.generate(projectId)).pipe(response);
+        await new Promise<void>((resolve, reject) => {
+            stream.on('end', () => {
+                response.end();
+                resolve();
+            });
+        });
     }
 }

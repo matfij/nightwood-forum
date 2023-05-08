@@ -12,6 +12,7 @@ const models: TsoaRoute.Models = {
     "Project": {
         "dataType": "refObject",
         "properties": {
+            "id": {"dataType":"string"},
             "userId": {"dataType":"string","required":true},
             "notionId": {"dataType":"string","required":true},
             "notionName": {"dataType":"string","required":true},
@@ -28,14 +29,6 @@ const models: TsoaRoute.Models = {
             "notionId": {"dataType":"string","required":true},
             "notionName": {"dataType":"string","required":true},
             "notionAccessCode": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "GenerateParams": {
-        "dataType": "refObject",
-        "properties": {
-            "projectId": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -75,13 +68,14 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/generator/generate',
+        app.get('/generator/website/:projectId',
             ...(fetchMiddlewares<RequestHandler>(GeneratorController)),
             ...(fetchMiddlewares<RequestHandler>(GeneratorController.prototype.generate)),
 
             function GeneratorController_generate(request: any, response: any, next: any) {
             const args = {
-                    params: {"in":"body","name":"params","required":true,"ref":"GenerateParams"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    projectId: {"in":"path","name":"projectId","required":true,"dataType":"string"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -57,19 +57,6 @@ export interface CreateProjectParams {
 /**
  * 
  * @export
- * @interface GenerateParams
- */
-export interface GenerateParams {
-    /**
-     * 
-     * @type {string}
-     * @memberof GenerateParams
-     */
-    'projectId': string;
-}
-/**
- * 
- * @export
  * @interface Project
  */
 export interface Project {
@@ -154,14 +141,15 @@ export const GeneratorApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @param {GenerateParams} generateParams 
+         * @param {string} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        generate: async (generateParams: GenerateParams, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'generateParams' is not null or undefined
-            assertParamExists('generate', 'generateParams', generateParams)
-            const localVarPath = `/generator/generate`;
+        website: async (projectId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('website', 'projectId', projectId)
+            const localVarPath = `/generator/website/{projectId}`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -169,18 +157,15 @@ export const GeneratorApiAxiosParamCreator = function (configuration?: Configura
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(generateParams, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -209,12 +194,12 @@ export const GeneratorApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {GenerateParams} generateParams 
+         * @param {string} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async generate(generateParams: GenerateParams, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.generate(generateParams, options);
+        async website(projectId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.website(projectId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -238,12 +223,12 @@ export const GeneratorApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @param {GenerateParams} generateParams 
+         * @param {string} projectId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        generate(generateParams: GenerateParams, options?: any): AxiosPromise<string> {
-            return localVarFp.generate(generateParams, options).then((request) => request(axios, basePath));
+        website(projectId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.website(projectId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -268,13 +253,13 @@ export class GeneratorApi extends BaseAPI {
 
     /**
      * 
-     * @param {GenerateParams} generateParams 
+     * @param {string} projectId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof GeneratorApi
      */
-    public generate(generateParams: GenerateParams, options?: AxiosRequestConfig) {
-        return GeneratorApiFp(this.configuration).generate(generateParams, options).then((request) => request(this.axios, this.basePath));
+    public website(projectId: string, options?: AxiosRequestConfig) {
+        return GeneratorApiFp(this.configuration).website(projectId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProjectParams, Project, GenerateParams, GeneratorApi } from '../clients/generator';
+import { CreateProjectParams, Project, GeneratorApi } from '../clients/generator';
 
 @Injectable()
 export class GeneratorService {
@@ -17,8 +17,8 @@ export class GeneratorService {
         return res.data;
     }
 
-    async generate(dto: GenerateParams): Promise<string> {
-        const res = await this.generatorApiClient.generate(dto);
+    async generate(projectId: string): Promise<any> {
+        const res = await this.generatorApiClient.website(projectId);
         return res.data;
     }
 }
