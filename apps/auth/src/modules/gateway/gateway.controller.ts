@@ -2,14 +2,17 @@ import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/comm
 import { AuthorizedRequest } from '../auth/models/authorized-request';
 import { RefreshTokenDto } from '../auth/models/refresh-token.dto';
 import { SigninDto } from '../auth/models/signin.dto';
-import { SignupDto } from '../auth/models/sigup.dto';
+import { SignupDto } from '../auth/models/signup.dto';
 import { AuthGuard } from '../auth/utils/auth.guard';
 import { AuthService } from '../auth/service/auth.service';
 import { UsersService } from '../users/services/users.service';
 import { GeneratorService } from './services/generator.service';
 import { CreateProjectParams } from './clients/generator';
+import { ApiTags } from '@nestjs/swagger';
+import { ProjectCreateDto } from './models/project-create.dto';
 
 @Controller('api')
+@ApiTags('ApiClient')
 export class GatewayController {
     constructor(
         private authService: AuthService,
@@ -39,13 +42,13 @@ export class GatewayController {
     }
 
     @Post('/generator/projects')
-    // @UseGuards(AuthGuard)
-    generatorCreateProject(@Body() dto: CreateProjectParams) {
-        return this.generatorService.createProject(dto);
+    @UseGuards(AuthGuard)
+    generatorCreateProject(@Req() req: AuthorizedRequest, @Body() dto: ProjectCreateDto) {
+        return this.generatorService.createProject(req.user.id, dto);
     }
 
     @Get('/generator/website/:projectId')
-    // @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard)
     generatorWebsite(@Param('projectId') projectId: string) {
         return this.generatorService.generate(projectId);
     }

@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/modules/users/services/users.service';
 import { SigninDto } from '../models/signin.dto';
 import { JWT_ACCESS_TOKEN_EXPIRE_TIME_SECONDS, JWT_REFRESH_TOKEN_EXPIRE_TIME_SECONDS } from 'src/common/config';
-import { SignupDto } from '../models/sigup.dto';
+import { SignupDto } from '../models/signup.dto';
 import { RefreshTokenDto } from '../models/refresh-token.dto';
 import { UserDto } from 'src/modules/users/models/user.dto';
 import { JwtPayload } from '../models/jwt-payload';
@@ -54,7 +54,6 @@ export class AuthService {
                 token: accessToken,
             };
         } catch (error) {
-            console.log(error);
             throw new UnauthorizedException();
         }
     }

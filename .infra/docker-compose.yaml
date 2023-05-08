@@ -60,6 +60,7 @@ services:
       DB_USER: root
       DB_PASSWORD: root
       JWT_SECRET: secret
+      GENERATOR_APP_URL: http://generator-app:13000
 
   auth-db:
     image: postgres
