@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthorizedRequest } from '../auth/models/authorized-request';
 import { RefreshTokenDto } from '../auth/models/refresh-token.dto';
@@ -9,6 +9,7 @@ import { AuthService } from '../auth/service/auth.service';
 import { UsersService } from '../users/services/users.service';
 import { GeneratorService } from './services/generator.service';
 import { ProjectCreateDto } from './models/project-create.dto';
+import { HttpStatusCode } from 'axios';
 
 @Controller('api')
 @ApiTags('ApiClient')
@@ -30,6 +31,7 @@ export class GatewayController {
     }
 
     @Post('/auth/refreshToken')
+    @HttpCode(HttpStatusCode.Ok)
     refreshToken(@Body() dto: RefreshTokenDto) {
         return this.authService.refreshToken(dto);
     }
