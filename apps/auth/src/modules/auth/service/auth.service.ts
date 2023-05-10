@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthUserDto } from '../models/auth-user.dto';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/modules/users/services/users.service';
+import { UsersService } from '../../../modules/users/services/users.service';
 import { SigninDto } from '../models/signin.dto';
-import { JWT_ACCESS_TOKEN_EXPIRE_TIME_SECONDS, JWT_REFRESH_TOKEN_EXPIRE_TIME_SECONDS } from 'src/common/config';
+import { JWT_ACCESS_TOKEN_EXPIRE_TIME_SECONDS, JWT_REFRESH_TOKEN_EXPIRE_TIME_SECONDS } from '../../../common/config';
 import { SignupDto } from '../models/signup.dto';
 import { RefreshTokenDto } from '../models/refresh-token.dto';
-import { UserDto } from 'src/modules/users/models/user.dto';
+import { UserDto } from '../../../modules/users/models/user.dto';
 import { JwtPayload } from '../models/jwt-payload';
 import { AccessTokenDto } from '../models/access-token.dto';
 

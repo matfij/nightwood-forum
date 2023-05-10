@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthorizedRequest } from '../auth/models/authorized-request';
 import { RefreshTokenDto } from '../auth/models/refresh-token.dto';
 import { SigninDto } from '../auth/models/signin.dto';
@@ -7,8 +8,6 @@ import { AuthGuard } from '../auth/utils/auth.guard';
 import { AuthService } from '../auth/service/auth.service';
 import { UsersService } from '../users/services/users.service';
 import { GeneratorService } from './services/generator.service';
-import { CreateProjectParams } from './clients/generator';
-import { ApiTags } from '@nestjs/swagger';
 import { ProjectCreateDto } from './models/project-create.dto';
 
 @Controller('api')

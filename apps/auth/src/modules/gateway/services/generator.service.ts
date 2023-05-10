@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProjectParams, Project, GeneratorApi } from '../clients/generator';
-import { GENERATOR_APP_URL } from 'src/common/config';
+import { GeneratorApi } from '../clients/generator';
+import { GENERATOR_APP_URL } from '../../../common/config';
 import { ProjectDto } from '../models/project.dto';
 import { ProjectCreateDto } from '../models/project-create.dto';
 
