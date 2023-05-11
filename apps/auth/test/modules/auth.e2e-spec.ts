@@ -4,11 +4,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
-import { AppModule } from '../../src/app.module';
 import { SignupDto } from '../../src/modules/auth/models/signup.dto';
 import { RefreshTokenDto } from '../../src/modules/auth/models/refresh-token.dto';
 import { JwtPayload } from '../../src/modules/auth/models/jwt-payload';
 import { User } from '../../src/modules/users/models/user.entity';
+import { UsersModule } from '../../src/modules/users/users.module';
+import { GatewayModule } from '../../src/modules/gateway/gateway.module';
 
 describe('gateway/auth controller', () => {
     let app: INestApplication;
@@ -19,7 +20,8 @@ describe('gateway/auth controller', () => {
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
             imports: [
-                AppModule,
+                UsersModule,
+                GatewayModule,
                 TypeOrmModule.forRoot({
                     type: 'better-sqlite3',
                     database: ':memory:',
@@ -50,6 +52,7 @@ describe('gateway/auth controller', () => {
             username: 'root',
             password: 'ValidPattern50',
         };
+
         const res = await request(httpServer).post('/api/auth/signup').send(dto).expect(201);
 
         expect(res.body['id']).toBeDefined();
@@ -100,6 +103,9 @@ describe('gateway/auth controller', () => {
         };
         const token = jwtService.sign(payload);
 
-        await request(httpServer).get('/api/auth/me').set('Authorization', `Bearer ${token}`).expect(200);
+        const res = await request(httpServer).get('/api/auth/me').set('Authorization', `Bearer ${token}`).expect(200);
+
+        expect(res.body['id']).toEqual(user.id);
+        expect(res.body['username']).toEqual(user.username);
     });
 });
