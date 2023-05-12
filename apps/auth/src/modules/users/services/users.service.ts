@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../models/user.entity';
 import { Repository } from 'typeorm';
 import { UserCreateDto } from '../models/user-create.dto';
+import { EventPattern } from '@nestjs/microservices';
 
 @Injectable()
 export class UsersService {
@@ -26,5 +27,10 @@ export class UsersService {
     async readByUsername(username: string): Promise<UserDto> {
         const user = await this.usersRepository.findOne({ where: { username: username } });
         return user;
+    }
+
+    @EventPattern('topic-test')
+    async test(data: any) {
+        console.log(data);
     }
 }

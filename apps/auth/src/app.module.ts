@@ -4,6 +4,8 @@ import { DB_HOST, DB_PASSWORD, DB_PORT, DB_TYPE, DB_USER } from './common/config
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
+import { KafkaModule } from './modules/kafka/kafka.module';
+import { LogConsumer } from './log.consumer';
 
 @Module({
     imports: [
@@ -19,6 +21,8 @@ import { GatewayModule } from './modules/gateway/gateway.module';
         GatewayModule,
         AuthModule,
         UsersModule,
+        KafkaModule,
     ],
+    providers: [LogConsumer],
 })
 export class AppModule {}

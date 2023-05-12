@@ -9,10 +9,15 @@ import { RefreshTokenDto } from '../models/refresh-token.dto';
 import { UserDto } from '../../../modules/users/models/user.dto';
 import { JwtPayload } from '../models/jwt-payload';
 import { AccessTokenDto } from '../models/access-token.dto';
+import { ProducerService } from 'src/modules/kafka/services/producer.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtService: JwtService, private usersService: UsersService) {}
+    constructor(
+        private jwtService: JwtService,
+        private producerService: ProducerService,
+        private usersService: UsersService,
+    ) {}
 
     async signup(dto: SignupDto): Promise<AuthUserDto> {
         const user = await this.usersService.readByUsername(dto.username);
@@ -21,6 +26,14 @@ export class AuthService {
         }
         const newUser = await this.usersService.create(dto);
         const [accessToken, refeshToken] = await this.generateTokens({ id: newUser.id, username: newUser.username });
+        this.producerService.produce({
+            topic: 'user-signup',
+            messages: [
+                {
+                    value: JSON.stringify(newUser),
+                },
+            ],
+        });
         return {
             id: newUser.id,
             username: newUser.username,
