@@ -1,8 +1,8 @@
 import { Kafka, Message, Producer } from 'kafkajs';
-import { EventProducer } from '../models/event-producer.interface';
 import { Logger } from '@nestjs/common';
-import { sleep } from 'src/common/utils/sleep';
-import { EventTopic } from 'src/.shared/topics';
+import { EventProducer } from '../models/event-producer.interface';
+import { sleep } from '../../../common/utils/sleep';
+import { EventTopic } from '../../../.shared/topics';
 
 export class KafkaProducer implements EventProducer {
     private readonly kafka: Kafka;

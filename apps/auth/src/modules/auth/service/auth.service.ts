@@ -9,8 +9,9 @@ import { RefreshTokenDto } from '../models/refresh-token.dto';
 import { UserDto } from '../../../modules/users/models/user.dto';
 import { JwtPayload } from '../models/jwt-payload';
 import { AccessTokenDto } from '../models/access-token.dto';
-import { ProducerService } from 'src/modules/events/services/producer.service';
-import { EventTopic } from 'src/.shared/topics';
+import { ProducerService } from '../../events/services/producer.service';
+import { EventTopic } from '../../../.shared/topics';
+import { SigninEvent, SignupEvent } from '../../../.shared/events';
 
 @Injectable()
 export class AuthService {
@@ -27,8 +28,12 @@ export class AuthService {
         }
         const newUser = await this.usersService.create(dto);
         const [accessToken, refeshToken] = await this.generateTokens({ id: newUser.id, username: newUser.username });
-        await this.producerService.produce(EventTopic.Signup, {
-            value: JSON.stringify({ id: newUser.id, username: newUser.username }),
+        await this.producerService.produce<SignupEvent>({
+            topic: EventTopic.Signup,
+            data: {
+                id: newUser.id,
+                username: newUser.username,
+            },
         });
         return {
             id: newUser.id,
@@ -47,8 +52,12 @@ export class AuthService {
             throw new HttpException('incorrect password', HttpStatus.BAD_REQUEST);
         }
         const [accessToken, refeshToken] = await this.generateTokens({ id: user.id, username: user.username });
-        await this.producerService.produce(EventTopic.Signin, {
-            value: JSON.stringify({ id: user.id, username: user.username }),
+        await this.producerService.produce<SigninEvent>({
+            topic: EventTopic.Signin,
+            data: {
+                id: user.id,
+                username: user.username,
+            },
         });
         return {
             id: user.id,

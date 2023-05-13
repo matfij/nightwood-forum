@@ -2,7 +2,7 @@ import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { KafkaConsumerOptions } from '../models/kafka-consumer-options.interface';
 import { KafkaConsumer } from './kafka.consumer';
 import { EventConsumer } from '../models/event-consumer.interface';
-import { EVENT_BROKERS } from 'src/common/config';
+import { EVENT_BROKERS } from '../../../common/config';
 
 @Injectable()
 export class ConsumerService implements OnApplicationShutdown {
