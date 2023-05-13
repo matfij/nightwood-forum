@@ -1,0 +1,5 @@
+export interface EventConsumer {
+    connect: () => Promise<void>;
+    disconnect: () => Promise<void>;
+    consume: (onMessage: (message: any) => Promise<void>) => Promise<void>;
+}

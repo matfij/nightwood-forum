@@ -6,4 +6,4 @@ import { ConsumerService } from './services/consumer.service';
     providers: [ProducerService, ConsumerService],
     exports: [ProducerService, ConsumerService],
 })
-export class KafkaModule {}
+export class EventsModule {}

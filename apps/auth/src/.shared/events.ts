@@ -1,7 +1,7 @@
-import { Topics } from './topics';
+import { EventTopic } from './topics';
 
 export interface SignupEvent {
-    topic: Topics.Signup;
+    topic: EventTopic.Signup;
     data: {
         id: string;
         username: string;
@@ -9,7 +9,7 @@ export interface SignupEvent {
 }
 
 export interface SigninEvent {
-    topic: Topics.Signup;
+    topic: EventTopic.Signup;
     data: {
         id: string;
         username: string;

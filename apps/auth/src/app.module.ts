@@ -4,8 +4,8 @@ import { DB_HOST, DB_PASSWORD, DB_PORT, DB_TYPE, DB_USER } from './common/config
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
-import { KafkaModule } from './modules/kafka/kafka.module';
 import { LogConsumer } from './log.consumer';
+import { EventsModule } from './modules/events/events.module';
 
 @Module({
     imports: [
@@ -21,7 +21,7 @@ import { LogConsumer } from './log.consumer';
         GatewayModule,
         AuthModule,
         UsersModule,
-        KafkaModule,
+        EventsModule,
     ],
     providers: [LogConsumer],
 })

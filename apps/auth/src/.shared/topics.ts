@@ -1,4 +1,4 @@
-export enum Topics {
+export enum EventTopic {
     Signup = 'signup',
     Signin = 'signin',
 }

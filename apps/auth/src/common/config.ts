@@ -4,8 +4,8 @@ export const JWT_SECRET = process.env.JWT_SECRET || 'test';
 export const JWT_ACCESS_TOKEN_EXPIRE_TIME_SECONDS = 15 * 60;
 export const JWT_REFRESH_TOKEN_EXPIRE_TIME_SECONDS = 24 * 60 * 60;
 
-export const KAFKA_BROKERS = ['kafka:9092'];
-export const KAFKA_LISTENER_GROUP_ID = 'auth-app';
+export const EVENT_BROKERS = ['kafka:9092'];
+export const EVENT_LISTENER_GROUP_ID = 'auth-app-1';
 
 export const DB_TYPE = 'postgres';
 export const DB_HOST = process.env.DB_HOST;
