@@ -28,9 +28,4 @@ export class UsersService {
         const user = await this.usersRepository.findOne({ where: { username: username } });
         return user;
     }
-
-    @EventPattern('topic-test')
-    async test(data: any) {
-        console.log(data);
-    }
 }

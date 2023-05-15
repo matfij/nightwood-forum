@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DB_HOST, DB_PASSWORD, DB_PORT, DB_TYPE, DB_USER } from './common/config';
 import { UsersModule } from './modules/users/users.module';
@@ -6,6 +6,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
 import { LogConsumer } from './log.consumer';
 import { EventsModule } from './modules/events/events.module';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 
 @Module({
     imports: [
@@ -25,4 +26,8 @@ import { EventsModule } from './modules/events/events.module';
     ],
     providers: [LogConsumer],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(LoggerMiddleware).forRoutes('/api');
+    }
+}
