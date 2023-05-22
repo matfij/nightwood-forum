@@ -22,6 +22,16 @@ services:
     volumes:
       - /kafka_data:/var/run/docker.sock
 
+  client-app:
+    build:
+      context: ../apps/client
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    volumes:
+      - ../apps/client:/app
+      - /app/node_modules
+
   generator-app:
     build:
       context: ../apps/generator
