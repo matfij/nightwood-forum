@@ -1,9 +1,10 @@
-function App() {
-    return (
-        <>
-            <h1>NotionGen</h1>
-        </>
-    );
-}
+import { LoginComponent, LoginProps } from './features/auth/login.component';
 
-export default App;
+export const App = () => {
+    const loginProps: LoginProps = {
+        hint: 'log to notion-gen',
+        canRegister: true,
+    };
+
+    return <LoginComponent {...loginProps} />;
+};
