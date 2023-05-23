@@ -42,6 +42,7 @@ services:
       - ../apps/generator:/app
       - /app/node_modules
     environment:
+      APP_PORT: 13000
       DB_CONNECTION_STRING: mongodb://root:root@generator-db:27017
   
   generator-db:

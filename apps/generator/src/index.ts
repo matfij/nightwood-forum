@@ -2,17 +2,14 @@ import os from 'os';
 import cluster from 'cluster';
 import express from 'express';
 import mongoose from 'mongoose';
-import { RegisterRoutes } from './controllers/routes';
-import { errorHandler } from './common/error-handler';
-import { DB_CONNECTION_STRING } from './common/config';
+import { APP_PORT, DB_CONNECTION_STRING } from './common/config';
+import { ProjectsRouter } from './features/projects/routes/projects-router';
+import { GeneratorRouter } from './features/generator/routes/generator-router';
 
 const app = express();
-
 app.use(express.json());
-
-RegisterRoutes(app);
-
-app.use(errorHandler);
+app.use(new GeneratorRouter().router);
+app.use(new ProjectsRouter().router);
 
 function connectDb() {
     mongoose.connect(DB_CONNECTION_STRING).then(() => console.log(`generator-db connected (pid: ${process.pid})`));
@@ -23,8 +20,8 @@ if (cluster.isPrimary) {
         cluster.fork(process.env);
     }
 } else {
-    app.listen(13000, () => {
+    app.listen(APP_PORT, () => {
         connectDb();
-        console.log(`generator-app started (pid: ${process.pid})`);
+        console.log(`generator-app started (pid: ${process.pid}).`);
     });
 }

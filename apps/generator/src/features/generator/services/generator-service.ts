@@ -1,19 +1,13 @@
 import fs from 'fs';
 import { Transform } from 'stream';
-import { CreateProjectParams } from '../models/create-project-params';
 import { GenerateParams } from '../models/generate-params';
-import { Project, ProjectModel } from '../models/project-model';
+import { ProjectModel } from '../../projects/models/project-model';
 import { NotionClientService } from './notion-client-service';
 import { NotionParserService } from './notion-parser-service';
 
 export class GeneratorService {
-    static async createProject(params: CreateProjectParams): Promise<Project> {
-        const projectDoc = await ProjectModel.create(params);
-        return projectDoc;
-    }
-
-    static async generate(projectId: string): Promise<Transform> {
-        const project = await ProjectModel.findOne({ id: projectId });
+    static async generate(params: GenerateParams): Promise<Transform> {
+        const project = await ProjectModel.findOne({ id: params.projectId });
         if (!project) {
             throw new Error('project not found');
         }
@@ -22,7 +16,7 @@ export class GeneratorService {
 
         const parsedBlocks = await NotionParserService.parseBlocks(notionBlocks);
 
-        const htmlTemplateStream = fs.createReadStream('src/templates/index.html');
+        const htmlTemplateStream = fs.createReadStream('src/features/generator/services/templates/index.html');
 
         return htmlTemplateStream.pipe(
             new Transform({

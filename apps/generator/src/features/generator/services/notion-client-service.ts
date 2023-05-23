@@ -1,5 +1,5 @@
 import { Client, isFullBlock } from '@notionhq/client';
-import { NOTION_API_URL, NOTION_API_VERSION } from '../common/config';
+import { NOTION_API_URL, NOTION_API_VERSION } from '../../../common/config';
 import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 export class NotionClientService {
