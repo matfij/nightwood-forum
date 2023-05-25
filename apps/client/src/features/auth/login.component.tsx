@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../common/store';
+import { useSigninMutation } from '../../common/apiSlice';
+import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import { setUsername } from './authSlice';
 
 export interface LoginProps {
@@ -9,50 +8,33 @@ export interface LoginProps {
 }
 
 export const LoginComponent = (props: LoginProps) => {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [login, setLogin] = useState<string>('');
-    const [users, setUsers] = useState<Array<string>>([]);
-    const [search, setSearch] = useState<string>('');
-    const [found, setFound] = useState<string>('');
-    const dispatch = useDispatch();
-    const username = useSelector((state: RootState) => state.auth.username);
+    const username = useAppSelector((state) => state.auth.username);
+    const dispatch = useAppDispatch();
+    const [signin, { isLoading, isError }] = useSigninMutation();
 
-    useEffect(() => {
-        console.log('focus');
-        inputRef.current?.focus();
-        dispatch(setUsername('test'));
-    });
-
-    const addUser = () => {
-        if (!login) {
-            return;
+    const onSignin = async () => {
+        try {
+            const res = await signin({
+                username: 'userpro',
+                password: 'secretAA123',
+            });
+            if (!('data' in res)) {
+                return;
+            }
+            dispatch(setUsername(res.data.username));
+        } catch (err) {
+            console.log(err);
         }
-        setUsers([...users, login]);
-        setLogin('');
-    };
-
-    const searchUser = () => {
-        const foundUser = users.find((user) => user === search) || '';
-        setFound(foundUser);
     };
 
     return (
         <>
             <h1>{props.hint}</h1>
-            <h2>Login {username}</h2>
-            <input value={login} ref={inputRef} onChange={(e) => setLogin(e.target.value)} type="text" />
-            <button onClick={addUser}>Login</button>
-            <h3>Online users:</h3>
-            {users.map((user) => (
-                <li key={user}>{user}</li>
-            ))}
+            <h2>Hello {username}</h2>
+            <button onClick={onSignin}>Login</button>
             <hr />
-            <h3>Search user:</h3>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" />
-            <button onClick={searchUser}>Search</button>
-            <p>
-                <b>{found}</b>
-            </p>
+            {isLoading && <p>Signing in...</p>}
+            {isError && <p>Incorrect credentials</p>}
         </>
     );
 };

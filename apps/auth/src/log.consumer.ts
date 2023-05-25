@@ -10,16 +10,16 @@ export class LogConsumer implements OnModuleInit {
     constructor(private readonly consumerService: ConsumerService) {}
 
     async onModuleInit() {
-        await this.consumerService.consume({
-            topics: { topics: [EventTopic.Signin] },
-            config: { groupId: `${EVENT_LISTENER_GROUP_ID}-${EventTopic.Signin}` },
-            onMessage: async (message) => this.onSigninEvent(message),
-        });
-        await this.consumerService.consume({
-            topics: { topics: [EventTopic.Signup] },
-            config: { groupId: `${EVENT_LISTENER_GROUP_ID}-${EventTopic.Signup}` },
-            onMessage: async (message) => this.onSignupEvent(message),
-        });
+        // await this.consumerService.consume({
+        //     topics: { topics: [EventTopic.Signin] },
+        //     config: { groupId: `${EVENT_LISTENER_GROUP_ID}-${EventTopic.Signin}` },
+        //     onMessage: async (message) => this.onSigninEvent(message),
+        // });
+        // await this.consumerService.consume({
+        //     topics: { topics: [EventTopic.Signup] },
+        //     config: { groupId: `${EVENT_LISTENER_GROUP_ID}-${EventTopic.Signup}` },
+        //     onMessage: async (message) => this.onSignupEvent(message),
+        // });
     }
 
     onSigninEvent(message: any) {
