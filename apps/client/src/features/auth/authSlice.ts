@@ -4,12 +4,14 @@ type AuthState = {
     username: string | null;
     accessToken: string | null;
     refreshToken: string | null;
+    isAuth: boolean;
 };
 
 const initialState: AuthState = {
     username: null,
     accessToken: null,
     refreshToken: null,
+    isAuth: false,
 };
 
 const authSlice = createSlice({
@@ -25,8 +27,11 @@ const authSlice = createSlice({
         setRefreshToken: (state, action: PayloadAction<string | null>) => {
             state.refreshToken = action.payload;
         },
+        setIsAuth: (state, action: PayloadAction<boolean>) => {
+            state.isAuth = action.payload;
+        },
     },
 });
 
 export default authSlice.reducer;
-export const { setUsername, setAccessToken, setRefreshToken } = authSlice.actions;
+export const { setUsername, setAccessToken, setRefreshToken, setIsAuth } = authSlice.actions;

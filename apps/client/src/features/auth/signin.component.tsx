@@ -33,6 +33,7 @@ export const SigninComponent = () => {
             {isLoading && <p>Signing in...</p>}
             {isError && <p>Incorrect credentials</p>}
             <Link to={'/signup'}>Sign up</Link>
+            <Link to={'/workspace'}>To home</Link>
         </>
     );
 };
