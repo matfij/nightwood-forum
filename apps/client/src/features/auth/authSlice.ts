@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { AuthUserDto } from './models';
 
 type AuthState = {
     username: string | null;
@@ -18,6 +19,12 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: initialState,
     reducers: {
+        setSigninData: (state, action: PayloadAction<AuthUserDto>) => {
+            state.isAuth = true;
+            state.username = action.payload.username;
+            state.accessToken = action.payload.accessToken;
+            state.refreshToken = action.payload.refreshToken;
+        },
         setUsername: (state, action: PayloadAction<string | null>) => {
             state.username = action.payload;
         },
@@ -34,4 +41,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setUsername, setAccessToken, setRefreshToken, setIsAuth } = authSlice.actions;
+export const { setSigninData, setUsername, setAccessToken, setRefreshToken, setIsAuth } = authSlice.actions;

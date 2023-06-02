@@ -1,0 +1,9 @@
+.formWrapper {
+    max-width: 20rem;
+    margin: auto;
+    text-align: left;
+}
+
+.submitBtn {
+    margin-top: 1rem;
+}

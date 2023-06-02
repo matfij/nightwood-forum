@@ -1,24 +1,32 @@
-import { Link, useNavigate } from 'react-router-dom';
+import styles from './Signin.module.css';
+import { useNavigate } from 'react-router-dom';
 import { useSigninMutation } from '../../common/apiSlice';
-import { useAppDispatch, useAppSelector } from '../../common/hooks';
-import { setUsername } from './authSlice';
+import { useAppDispatch } from '../../common/hooks';
+import { setSigninData } from './authSlice';
+import { useForm } from 'react-hook-form';
+import { SigninDto } from './models';
 
 export const SigninComponent = () => {
-    const username = useAppSelector((state) => state.auth.username);
     const dispatch = useAppDispatch();
     const [signin, { isLoading, isError }] = useSigninMutation();
     const navigate = useNavigate();
 
-    const onSignin = async () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SigninDto>();
+
+    const onSignin = async (data: SigninDto) => {
         try {
             const res = await signin({
-                username: 'userpro',
-                password: 'secretAA123',
+                username: data.username,
+                password: data.password,
             });
             if (!('data' in res)) {
                 return;
             }
-            dispatch(setUsername(res.data.username));
+            dispatch(setSigninData(res.data));
             navigate('/workspace');
         } catch (err) {
             console.log(err);
@@ -26,14 +34,27 @@ export const SigninComponent = () => {
     };
 
     return (
-        <>
-            <h2>Hello {username}</h2>
-            <button onClick={onSignin}>Login</button>
-            <hr />
-            {isLoading && <p>Signing in...</p>}
-            {isError && <p>Incorrect credentials</p>}
-            <Link to={'/signup'}>Sign up</Link>
-            <Link to={'/workspace'}>To home</Link>
-        </>
+        <main>
+            <h1 className="titleText">NotionGen</h1>
+            <form onSubmit={handleSubmit((data) => onSignin(data))} className={styles.formWrapper}>
+                <h3>Sign in</h3>
+                <fieldset>
+                    <label htmlFor="username">Username</label>
+                    <br />
+                    <input {...register('username', { required: true })} />
+                    {errors.username && <p className="errorText">Username is required.</p>}
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="password">Password</label>
+                    <br />
+                    <input {...register('password', { required: true })} type="password" />
+                    {errors.password && <p className="errorText">Password is required.</p>}
+                </fieldset>
+                {isError && <p className="errorText">Invalid credentials.</p>}
+                <button disabled={isLoading} type="submit" className={styles.submitBtn}>
+                    Signin
+                </button>
+            </form>
+        </main>
     );
 };
