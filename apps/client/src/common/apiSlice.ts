@@ -1,15 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { SigninDto, AuthUserDto } from '../features/auth/models';
+import { Project } from '../features/workspace/models';
+import { RootState } from './store';
 
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:14000/api',
-        // prepareHeaders(headers) {
-        //     const accessToken = 'TODO';
-        //     headers.set('Authentication', `Bearer ${accessToken}`);
-        //     return headers;
-        // },
     }),
     endpoints(build) {
         return {
@@ -24,4 +21,24 @@ export const apiSlice = createApi({
     },
 });
 
+export const authApiSlice = createApi({
+    reducerPath: 'api',
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:14000/api',
+        prepareHeaders(headers, { getState }) {
+            const accessToken = (getState() as RootState).auth.accessToken;
+            headers.set('Authentication', `Bearer ${accessToken}`);
+            return headers;
+        },
+    }),
+    endpoints(build) {
+        return {
+            getProjects: build.query<Project[], string>({
+                query: () => ({ url: '/projects/read' }),
+            }),
+        };
+    },
+});
+
 export const { useSigninMutation } = apiSlice;
+export const { useGetProjectsQuery } = authApiSlice;

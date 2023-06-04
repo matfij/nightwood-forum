@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthUserDto } from './models';
+import { RootState } from '../../common/store';
 
 type AuthState = {
     username: string | null;
@@ -42,3 +43,5 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 export const { setSigninData, setUsername, setAccessToken, setRefreshToken, setIsAuth } = authSlice.actions;
+
+export const currentUser = (state: RootState) => state.auth;

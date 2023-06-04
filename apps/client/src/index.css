@@ -18,7 +18,8 @@ body {
 main {
   width: 90%;
   max-width: 60rem;
-  height: 40rem;
+  height: 45rem;
+  max-height: 90vh;
   margin: 6rem auto;
   border: 2px solid var(--color-secondary);
   border-radius: 4px;

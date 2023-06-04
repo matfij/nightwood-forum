@@ -11,7 +11,6 @@ export const SigninComponent = () => {
     const dispatch = useAppDispatch();
     const [signin, { isLoading, error }] = useSigninMutation();
     const navigate = useNavigate();
-
     const {
         register,
         handleSubmit,
@@ -36,9 +35,7 @@ export const SigninComponent = () => {
 
     return (
         <main>
-            <h1 className="titleText">
-                NotionGen
-            </h1>
+            <h1 className="titleText">NotionGen</h1>
             <form onSubmit={handleSubmit((data) => onSignin(data))} className={styles.formWrapper}>
                 <h3>Sign in</h3>
                 <fieldset>
