@@ -34,7 +34,7 @@ export const authApiSlice = createApi({
     endpoints(build) {
         return {
             getProjects: build.query<Project[], string>({
-                query: () => ({ url: '/projects/read' }),
+                query: () => ({ url: '/generator/projects' }),
             }),
         };
     },
