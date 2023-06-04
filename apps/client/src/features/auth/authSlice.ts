@@ -1,15 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthUserDto } from './models';
 import { RootState } from '../../common/store';
+import { PersistenceService } from '../../common/persistence.service';
 
-type AuthState = {
+export type AuthState = {
     username: string | null;
     accessToken: string | null;
     refreshToken: string | null;
     isAuth: boolean;
 };
 
-const initialState: AuthState = {
+const initialState: AuthState = PersistenceService.getAuthState() || {
     username: null,
     accessToken: null,
     refreshToken: null,

@@ -22,15 +22,16 @@ export const apiSlice = createApi({
 });
 
 export const authApiSlice = createApi({
-    reducerPath: 'api',
+    reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:14000/api',
         prepareHeaders(headers, { getState }) {
             const accessToken = (getState() as RootState).auth.accessToken;
-            headers.set('Authentication', `Bearer ${accessToken}`);
+            headers.set('Authorization', `Bearer ${accessToken}`);
             return headers;
         },
     }),
+    tagTypes: ['Projects'],
     endpoints(build) {
         return {
             getProjects: build.query<Project[], string>({

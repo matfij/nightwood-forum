@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom';
 import { parseError } from '../../common/parse-error';
 
 export const WorkspaceComponent = () => {
-    const { data: projects, isFetching, error } = useGetProjectsQuery('');
+    const { data: projects = [], isFetching, error } = useGetProjectsQuery('');
 
     return (
         <>
             <main>
                 <h1>Workspace Component</h1>
-                {isFetching && <p>...</p>}
+                {isFetching && <p>fetching ...</p>}
                 {error && <p className="errorText">{parseError(error)}</p>}
-                {projects?.map((project) => (
-                    <li key={project.id}>{project.notionName}</li>
+                {projects.map((project) => (
+                    <li key={project.id} className={styles.projectItem}>{project.notionName}</li>
                 ))}
             </main>
             <nav>
