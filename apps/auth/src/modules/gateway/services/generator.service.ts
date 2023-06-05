@@ -27,6 +27,6 @@ export class GeneratorService {
         const res = await axios.post(`${this.BASE_URL}/generator/website`, {
             projectId: projectId,
         });
-        return res;
+        return res.data;
     }
 }

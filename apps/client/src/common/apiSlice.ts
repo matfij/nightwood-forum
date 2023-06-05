@@ -34,12 +34,29 @@ export const authApiSlice = createApi({
     tagTypes: ['Projects'],
     endpoints(build) {
         return {
-            getProjects: build.query<Project[], string>({
+            getProjects: build.query<Project[], void>({
                 query: () => ({ url: '/generator/projects' }),
+            }),
+            generateWebsite: build.query<void, string>({
+                query: (projectId) => ({
+                    url: `/generator/website/${projectId}`,
+                    responseHandler: async (response) => {
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', `${projectId}.html`);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                    },
+                    cache: 'no-cache',
+                }),
             }),
         };
     },
 });
 
 export const { useSigninMutation } = apiSlice;
-export const { useGetProjectsQuery } = authApiSlice;
+export const { useGetProjectsQuery, useGenerateWebsiteQuery } = authApiSlice;

@@ -36,18 +36,22 @@ export const SigninComponent = () => {
     return (
         <main>
             <h1 className="titleText">NotionGen</h1>
-            <form onSubmit={handleSubmit((data) => onSignin(data))} className={styles.formWrapper}>
+            <form onSubmit={handleSubmit((data) => onSignin(data))} className={styles.formWrapper} autoComplete="on">
                 <h3>Sign in</h3>
                 <fieldset>
                     <label htmlFor="username">Username</label>
                     <br />
-                    <input {...register('username', { required: true })} />
+                    <input {...register('username', { required: true })} autoComplete="username" />
                     {errors.username && <p className="errorText">Username is required.</p>}
                 </fieldset>
                 <fieldset>
                     <label htmlFor="password">Password</label>
                     <br />
-                    <input {...register('password', { required: true })} type="password" />
+                    <input
+                        {...register('password', { required: true })}
+                        type="password"
+                        autoComplete="current-password"
+                    />
                     {errors.password && <p className="errorText">Password is required.</p>}
                 </fieldset>
                 {error && <p className="errorText">{parseError(error)}</p>}
