@@ -50,8 +50,9 @@ export const authApiSlice = createApi({
                         link.click();
                         document.body.removeChild(link);
                         window.URL.revokeObjectURL(url);
+                        return true;
                     },
-                    cache: 'no-cache',
+                    cache: 'no-store',
                 }),
             }),
         };

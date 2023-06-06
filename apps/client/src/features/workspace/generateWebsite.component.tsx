@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useGenerateWebsiteQuery } from '../../common/apiSlice';
+import { LoadingComponent } from '../../common/loading.component';
 
 export type GenerateWebsiteComponentProps = {
     projectId: string;
@@ -7,13 +8,13 @@ export type GenerateWebsiteComponentProps = {
 };
 
 export const GenerateWebsiteComponent = (props: GenerateWebsiteComponentProps) => {
-    const { data, error, isLoading } = useGenerateWebsiteQuery(props.projectId);
+    const { data, error, isLoading } = useGenerateWebsiteQuery(props.projectId, { refetchOnMountOrArgChange: true });
 
     useEffect(() => {
         if (data || error) {
             props.onDownloadComplete();
         }
-    }, [data, error]);
+    }, [props, data, error, isLoading]);
 
-    return <>{isLoading && <p>Generating...</p>}</>;
+    return <>{isLoading && <LoadingComponent />}</>;
 };

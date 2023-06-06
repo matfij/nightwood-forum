@@ -19,7 +19,7 @@ main {
   width: 90%;
   max-width: 60rem;
   height: 45rem;
-  max-height: 90vh;
+  max-height: 70vh;
   margin: 6rem auto;
   border: 2px solid var(--color-secondary);
   border-radius: 4px;
