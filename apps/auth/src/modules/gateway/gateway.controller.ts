@@ -6,7 +6,6 @@ import { SigninDto } from '../auth/models/signin.dto';
 import { SignupDto } from '../auth/models/signup.dto';
 import { AuthGuard } from '../auth/utils/auth.guard';
 import { AuthService } from '../auth/service/auth.service';
-import { UsersService } from '../users/services/users.service';
 import { GeneratorService } from './services/generator.service';
 import { ProjectCreateDto } from './models/project-create.dto';
 import { HttpStatusCode } from 'axios';
@@ -14,11 +13,7 @@ import { HttpStatusCode } from 'axios';
 @Controller('api')
 @ApiTags('ApiClient')
 export class GatewayController {
-    constructor(
-        private authService: AuthService,
-        private usersService: UsersService,
-        private generatorService: GeneratorService,
-    ) {}
+    constructor(private authService: AuthService, private generatorService: GeneratorService) {}
 
     @Post('/auth/signup')
     signup(@Body() dto: SignupDto) {
