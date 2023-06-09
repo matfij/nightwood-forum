@@ -87,7 +87,7 @@ export class AuthService {
         return user;
     }
 
-    private async generateTokens(payload: JwtPayload): Promise<[string, string]> {
+    async generateTokens(payload: JwtPayload): Promise<[string, string]> {
         const accessToken = await this.jwtService.signAsync(payload, {
             expiresIn: JWT_ACCESS_TOKEN_EXPIRE_TIME_SECONDS,
         });

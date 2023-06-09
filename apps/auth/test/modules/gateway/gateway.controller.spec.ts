@@ -7,7 +7,7 @@ import { ProjectCreateDto } from 'src/modules/gateway/models/project-create.dto'
 import { AuthorizedRequest } from 'src/modules/auth/models/authorized-request';
 
 describe('GatewayController', () => {
-    let controller: GatewayController;
+    let gatewayController: GatewayController;
     let authService: AuthService;
     let generatorService: GeneratorService;
 
@@ -20,18 +20,18 @@ describe('GatewayController', () => {
             createProject: jest.fn(),
             generate: jest.fn(),
         } as any;
-        controller = new GatewayController(authService, generatorService);
+        gatewayController = new GatewayController(authService, generatorService);
     });
 
     it('should be defined', () => {
-        expect(controller).toBeDefined();
+        expect(gatewayController).toBeDefined();
     });
 
     describe('auth endpoints', () => {
         it('should call signup method', () => {
             const dto: SignupDto = { username: 'test', password: 'test' };
 
-            controller.signup(dto);
+            gatewayController.signup(dto);
 
             expect(authService.signup).toBeCalledWith(dto);
         });
@@ -39,7 +39,7 @@ describe('GatewayController', () => {
         it('should call signin method', () => {
             const dto: SigninDto = { username: 'test', password: 'test' };
 
-            controller.signin(dto);
+            gatewayController.signin(dto);
 
             expect(authService.signin).toBeCalledWith(dto);
         });
@@ -59,7 +59,7 @@ describe('GatewayController', () => {
                 notionName: 'test project',
             };
 
-            controller.generatorCreateProject(req, dto);
+            gatewayController.generatorCreateProject(req, dto);
 
             expect(generatorService.createProject).toBeCalledWith(req.user.id, dto);
         });
@@ -67,7 +67,7 @@ describe('GatewayController', () => {
         it('should call generateProject method', () => {
             const projectId = '02k30k93';
 
-            controller.generatorWebsite(projectId);
+            gatewayController.generatorWebsite(projectId);
 
             expect(generatorService.generate).toHaveBeenCalledWith(projectId);
         });

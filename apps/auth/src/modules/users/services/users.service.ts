@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../models/user.entity';
 import { Repository } from 'typeorm';
 import { UserCreateDto } from '../models/user-create.dto';
-import { EventPattern } from '@nestjs/microservices';
 
 @Injectable()
 export class UsersService {

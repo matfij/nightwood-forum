@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, StreamableFile } from '@nestjs/common';
 import { GENERATOR_APP_URL } from '../../../common/config';
 import { ProjectDto } from '../models/project.dto';
 import { ProjectCreateDto } from '../models/project-create.dto';
@@ -23,10 +23,10 @@ export class GeneratorService {
         return res.data;
     }
 
-    async generate(projectId: string): Promise<any> {
+    async generate(projectId: string): Promise<StreamableFile> {
         const res = await axios.post(`${this.BASE_URL}/generator/website`, {
             projectId: projectId,
         });
-        return res.data;
+        return new StreamableFile(res.data);
     }
 }
