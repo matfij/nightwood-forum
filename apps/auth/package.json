@@ -22,6 +22,7 @@
     "gen:client": "openapi-generator-cli generate -i swagger.json -g typescript-axios -o api-client/"
   },
   "dependencies": {
+    "@nestjs/cache-manager": "^1.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.0.3",
@@ -30,6 +31,7 @@
     "@nestjs/swagger": "^6.3.0",
     "@nestjs/typeorm": "^9.0.1",
     "axios": "^1.4.0",
+    "cache-manager": "^5.2.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "kafkajs": "^2.2.4",

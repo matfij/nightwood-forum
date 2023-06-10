@@ -4,9 +4,10 @@ import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { GeneratorService } from './services/generator.service';
 import { APP_PIPE } from '@nestjs/core';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-    imports: [AuthModule, UsersModule],
+    imports: [CacheModule.register(), AuthModule, UsersModule],
     controllers: [GatewayController],
     providers: [
         GeneratorService,

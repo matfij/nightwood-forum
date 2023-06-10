@@ -1,12 +1,13 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DB_HOST, DB_PASSWORD, DB_PORT, DB_TYPE, DB_USER } from './common/config';
+import { CACHE_MAX_ITEMS, CACHE_TTL_MS, DB_HOST, DB_PASSWORD, DB_PORT, DB_TYPE, DB_USER } from './common/config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
 import { LogConsumer } from './log.consumer';
 import { EventsModule } from './modules/events/events.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
     imports: [
@@ -18,6 +19,10 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
             password: DB_PASSWORD,
             autoLoadEntities: true,
             synchronize: true,
+        }),
+        CacheModule.register({
+            ttl: CACHE_TTL_MS,
+            max: CACHE_MAX_ITEMS,
         }),
         GatewayModule,
         AuthModule,
