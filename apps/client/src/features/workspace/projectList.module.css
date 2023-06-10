@@ -1,0 +1,21 @@
+
+.projectsWrapper {
+    width: 90%;
+    max-width: 100%;
+    margin: auto;
+}
+
+.projectItem {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    overflow: hidden;
+    padding: 0.5rem;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.generateBtn {
+    cursor: pointer;
+}

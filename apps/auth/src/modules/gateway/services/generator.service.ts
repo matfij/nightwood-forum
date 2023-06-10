@@ -27,7 +27,6 @@ export class GeneratorService {
         if (cachedProjects) {
             return cachedProjects;
         }
-        console.log('valling api');
         const res = await axios.post(`${this.BASE_URL}/projects/read`, {
             userId: userId,
         });
