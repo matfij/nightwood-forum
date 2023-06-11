@@ -49,9 +49,15 @@ export class GatewayController {
         return this.generatorService.readProjects(req.user.id);
     }
 
+    @Post('/generator/sync/:projectId')
+    @UseGuards(AuthGuard)
+    generatorSyncProject(@Req() req: AuthorizedRequest, @Param('projectId') projectId: string) {
+        return this.generatorService.syncProjectData(req.user.id, projectId);
+    }
+
     @Get('/generator/website/:projectId')
     @UseGuards(AuthGuard)
     generatorWebsite(@Param('projectId') projectId: string) {
-        return this.generatorService.generate(projectId);
+        return this.generatorService.generateProjectWebsite(projectId);
     }
 }

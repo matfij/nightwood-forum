@@ -71,6 +71,8 @@ services:
       DB_PASSWORD: root
       JWT_SECRET: secret
       GENERATOR_APP_URL: http://generator-app:13000
+      REDIS_HOST: auth-cache
+      REDIS_PORT: 6379
 
   auth-db:
     image: postgres
@@ -79,3 +81,8 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+
+  auth-cache:
+    image: redis
+    ports:
+      - '6379:6379'

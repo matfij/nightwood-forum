@@ -5,12 +5,16 @@ import { UsersModule } from '../users/users.module';
 import { GeneratorService } from './services/generator.service';
 import { APP_PIPE } from '@nestjs/core';
 import { CacheModule } from '@nestjs/cache-manager';
+import { BullModule } from '@nestjs/bull';
+import { QUEUE_NAME_SYNC } from '../../common/config';
+import { ProjectSyncConsumer } from './services/project-sync.consumer';
 
 @Module({
-    imports: [CacheModule.register(), AuthModule, UsersModule],
+    imports: [CacheModule.register(), BullModule.registerQueue({ name: QUEUE_NAME_SYNC }), AuthModule, UsersModule],
     controllers: [GatewayController],
     providers: [
         GeneratorService,
+        ProjectSyncConsumer,
         {
             provide: APP_PIPE,
             useValue: new ValidationPipe({

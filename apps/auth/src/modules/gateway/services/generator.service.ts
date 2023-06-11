@@ -2,16 +2,21 @@ import axios from 'axios';
 import { Cache } from 'cache-manager';
 import { Inject, Injectable, StreamableFile } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { GENERATOR_APP_URL } from '../../../common/config';
+import { GENERATOR_APP_URL, QUEUE_MAX_RETRY_COUNT, QUEUE_NAME_SYNC } from '../../../common/config';
 import { ProjectDto } from '../models/project.dto';
 import { ProjectCreateDto } from '../models/project-create.dto';
+import { Queue } from 'bull';
+import { InjectQueue } from '@nestjs/bull';
 
 @Injectable()
 export class GeneratorService {
     private readonly BASE_URL = GENERATOR_APP_URL;
     private readonly PROJECTS_KEY = (userId: string) => `USER_PROJECTS_${userId}`;
 
-    constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+    constructor(
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        @InjectQueue(QUEUE_NAME_SYNC) private syncQueue: Queue,
+    ) {}
 
     async createProject(userId: string, dto: ProjectCreateDto): Promise<ProjectDto> {
         const res = await axios.post(`${this.BASE_URL}/projects/create`, {
@@ -34,7 +39,16 @@ export class GeneratorService {
         return res.data;
     }
 
-    async generate(projectId: string): Promise<StreamableFile> {
+    async syncProjectData(userId: string, projectId: string): Promise<void> {
+        const payload = JSON.stringify({
+            userId: userId,
+            projectId: projectId,
+        });
+        console.log('syncing', await this.syncQueue.getJobCounts());
+        await this.syncQueue.add({ sync: payload }, { attempts: QUEUE_MAX_RETRY_COUNT });
+    }
+
+    async generateProjectWebsite(projectId: string): Promise<StreamableFile> {
         const res = await axios.post(`${this.BASE_URL}/generator/website`, {
             projectId: projectId,
         });
