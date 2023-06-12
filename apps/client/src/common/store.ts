@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/authSlice';
-import { apiSlice, authApiSlice } from './apiSlice';
+import projectsReducer from '../features/workspace/projectsSlice';
 import { createListenerMiddleware } from '@reduxjs/toolkit';
 import { setSigninData } from '../features/auth/authSlice';
 import { PersistenceService } from './persistence.service';
+import { authApiSlice } from '../features/auth/authApiSlice';
+import { projectsApiSlice } from '../features/workspace/projectsApiSlice';
 
 const persistenceMiddleware = createListenerMiddleware();
 persistenceMiddleware.startListening({
@@ -16,13 +18,14 @@ persistenceMiddleware.startListening({
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-        [apiSlice.reducerPath]: apiSlice.reducer,
+        projects: projectsReducer,
         [authApiSlice.reducerPath]: authApiSlice.reducer,
+        [projectsApiSlice.reducerPath]: projectsApiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat(
-            apiSlice.middleware,
             authApiSlice.middleware,
+            projectsApiSlice.middleware,
             persistenceMiddleware.middleware,
         );
     },

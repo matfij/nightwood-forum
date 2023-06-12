@@ -1,8 +1,17 @@
 import styles from './addProject.module.css';
 import { useForm } from 'react-hook-form';
 import { ProjectCreateDto } from './models';
+import { useAddProjectMutation } from './projectsApiSlice';
+import { parseError } from '../../common/parse-error';
+import { setProjects } from './workspaceSlice';
+import { useAppDispatch, useAppSelector } from '../../common/hooks';
+import { useNavigate } from 'react-router-dom';
 
 export const AddProjectComponent = () => {
+    const projects = useAppSelector((state) => state.projects.projects);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const [createProject, { isLoading, error }] = useAddProjectMutation();
     const {
         register,
         handleSubmit,
@@ -10,7 +19,12 @@ export const AddProjectComponent = () => {
     } = useForm<ProjectCreateDto>();
 
     const onAddProject = async (data: ProjectCreateDto) => {
-        console.log(data);
+        const res = await createProject(data);
+        if (!('data' in res)) {
+            return;
+        }
+        dispatch(setProjects([...projects, res.data]));
+        navigate('/workspace');
     };
 
     return (
@@ -31,7 +45,8 @@ export const AddProjectComponent = () => {
                 <input {...register('notionAccessCode', { required: true })} type="password" />
                 {errors.notionAccessCode && <p className="errorText">Notion access code is required.</p>}
             </fieldset>
-            <button disabled={false} type="submit" className={styles.submitBtn}>
+            {error && <p className="errorText">{parseError(error)}</p>}
+            <button disabled={isLoading} type="submit" className={styles.submitBtn}>
                 Add
             </button>
         </form>

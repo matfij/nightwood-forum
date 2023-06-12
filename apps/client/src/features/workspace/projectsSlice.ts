@@ -1,16 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ProjectDto } from './models';
 
-type WorkspaceState = {
+export type ProjectsState = {
     projects: ProjectDto[];
 };
 
-const initialState: WorkspaceState = {
+const initialState: ProjectsState = {
     projects: [],
 };
 
-const workspaceSlice = createSlice({
-    name: 'workspace',
+const projectsSlice = createSlice({
+    name: 'projects',
     initialState: initialState,
     reducers: {
         setProjects: (state, action: PayloadAction<ProjectDto[]>) => {
@@ -19,5 +19,5 @@ const workspaceSlice = createSlice({
     },
 });
 
-export default workspaceSlice.reducer;
-export const { setProjects } = workspaceSlice.actions;
+export default projectsSlice.reducer;
+export const { setProjects } = projectsSlice.actions;

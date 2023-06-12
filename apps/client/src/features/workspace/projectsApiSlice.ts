@@ -1,28 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { SigninDto, AuthUserDto } from '../features/auth/models';
-import { Project } from '../features/workspace/models';
-import { RootState } from './store';
+import { RootState } from '../../common/store';
+import { ProjectCreateDto, ProjectDto } from './models';
 
-export const apiSlice = createApi({
-    reducerPath: 'api',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:14000/api',
-    }),
-    endpoints(build) {
-        return {
-            signin: build.mutation<AuthUserDto, SigninDto>({
-                query: (user) => ({
-                    url: '/auth/signin',
-                    method: 'POST',
-                    body: user,
-                }),
-            }),
-        };
-    },
-});
-
-export const authApiSlice = createApi({
-    reducerPath: 'authApi',
+export const projectsApiSlice = createApi({
+    reducerPath: 'projectsApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:14000/api',
         prepareHeaders(headers, { getState }) {
@@ -34,7 +15,14 @@ export const authApiSlice = createApi({
     tagTypes: ['Projects'],
     endpoints(build) {
         return {
-            getProjects: build.query<Project[], void>({
+            addProject: build.mutation<ProjectDto, ProjectCreateDto>({
+                query: (body) => ({
+                    url: '/generator/projects',
+                    method: 'POST',
+                    body: body,
+                }),
+            }),
+            getProjects: build.query<ProjectDto[], void>({
                 query: () => ({ url: '/generator/projects' }),
             }),
             generateWebsite: build.query<void, string>({
@@ -59,5 +47,4 @@ export const authApiSlice = createApi({
     },
 });
 
-export const { useSigninMutation } = apiSlice;
-export const { useGetProjectsQuery, useGenerateWebsiteQuery } = authApiSlice;
+export const { useAddProjectMutation, useGetProjectsQuery, useGenerateWebsiteQuery } = projectsApiSlice;

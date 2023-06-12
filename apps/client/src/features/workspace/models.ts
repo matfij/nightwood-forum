@@ -1,4 +1,4 @@
-export interface Project {
+export interface ProjectDto {
     id: string;
     userId: string;
     notionId: string;

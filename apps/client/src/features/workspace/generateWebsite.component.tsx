@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useGenerateWebsiteQuery } from '../../common/apiSlice';
 import { LoadingComponent } from '../../common/loading.component';
+import { useGenerateWebsiteQuery } from './projectsApiSlice';
 
 export type GenerateWebsiteComponentProps = {
     projectId: string;

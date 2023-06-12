@@ -1,11 +1,11 @@
 import styles from './signin.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useSigninMutation } from '../../common/apiSlice';
 import { useAppDispatch } from '../../common/hooks';
 import { setSigninData } from './authSlice';
 import { useForm } from 'react-hook-form';
 import { SigninDto } from './models';
 import { parseError } from '../../common/parse-error';
+import { useSigninMutation } from './authApiSlice';
 
 export const SigninComponent = () => {
     const dispatch = useAppDispatch();
@@ -19,10 +19,7 @@ export const SigninComponent = () => {
 
     const onSignin = async (data: SigninDto) => {
         try {
-            const res = await signin({
-                username: data.username,
-                password: data.password,
-            });
+            const res = await signin(data);
             if (!('data' in res)) {
                 return;
             }

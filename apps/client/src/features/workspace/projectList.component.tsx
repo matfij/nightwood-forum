@@ -1,14 +1,26 @@
 import styles from './projectList.module.css';
-import { useGetProjectsQuery } from '../../common/apiSlice';
-import { useState } from 'react';
-import { Project } from './models';
+import { useEffect, useState } from 'react';
+import { ProjectDto } from './models';
 import { LoadingComponent } from '../../common/loading.component';
 import { parseError } from '../../common/parse-error';
 import { GenerateWebsiteComponent } from './generateWebsite.component';
+import { useGetProjectsQuery } from './projectsApiSlice';
+import { useAppDispatch, useAppSelector } from '../../common/hooks';
+import { setProjects } from './workspaceSlice';
 
 export const ProjectListComponent = () => {
-    const { data: projects = [], isFetching, error } = useGetProjectsQuery();
-    const [activeProject, setActiveProject] = useState<Project | null>();
+    const dispatch = useAppDispatch();
+    const projects = useAppSelector((state) => state.projects.projects);
+    const { data = [], isFetching, error } = useGetProjectsQuery();
+    const [activeProject, setActiveProject] = useState<ProjectDto | null>();
+
+    useEffect(() => {
+        console.log(data, projects)
+        if (!data) {
+            return;
+        }
+        dispatch(setProjects(data));
+    }, [data]);
 
     const handleDownloadComplete = () => {
         setActiveProject(null);
@@ -20,7 +32,7 @@ export const ProjectListComponent = () => {
             {isFetching && <LoadingComponent />}
             {error && <p className="errorText">{parseError(error)}</p>}
             <div className="projectsWrapper">
-                {projects.map((project) => (
+                {data.map((project) => (
                     <li key={project.id} className={styles.projectItem}>
                         {project.notionName}
                         {project.id !== activeProject?.id && (
