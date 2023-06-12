@@ -40,13 +40,11 @@ export const SigninComponent = () => {
                 <h3>Sign in</h3>
                 <fieldset>
                     <label htmlFor="username">Username</label>
-                    <br />
                     <input {...register('username', { required: true })} autoComplete="username" />
                     {errors.username && <p className="errorText">Username is required.</p>}
                 </fieldset>
                 <fieldset>
                     <label htmlFor="password">Password</label>
-                    <br />
                     <input
                         {...register('password', { required: true })}
                         type="password"
