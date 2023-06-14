@@ -15,8 +15,15 @@ export const authApiSlice = createApi({
                     body: body,
                 }),
             }),
+            signup: build.mutation<AuthUserDto, SigninDto>({
+                query: (body) => ({
+                    url: '/auth/signup',
+                    method: 'POST',
+                    body: body
+                })
+            })
         };
     },
 });
 
-export const { useSigninMutation } = authApiSlice;
+export const { useSigninMutation, useSignupMutation } = authApiSlice;
