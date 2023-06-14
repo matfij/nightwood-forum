@@ -68,6 +68,7 @@ export class NotionParserService {
             default: {
                 return {
                     type: ContentBlockType.Unknown,
+                    textContent: block.type,
                 };
             }
         }

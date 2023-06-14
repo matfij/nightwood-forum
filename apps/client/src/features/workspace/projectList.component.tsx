@@ -15,7 +15,6 @@ export const ProjectListComponent = () => {
     const [activeProject, setActiveProject] = useState<ProjectDto | null>();
 
     useEffect(() => {
-        console.log(data, projects)
         if (!data) {
             return;
         }

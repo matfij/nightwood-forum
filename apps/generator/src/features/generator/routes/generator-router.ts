@@ -15,7 +15,7 @@ export class GeneratorRouter {
 
     async generateWebsite(req: Request, res: Response, next: NextFunction) {
         const params = req.body;
-        const stream = (await GeneratorService.generate(params)).pipe(res);
+        const stream = (await GeneratorService.generateWebsite(params)).pipe(res);
         await new Promise<void>((resolve, reject) => {
             stream.on('end', () => {
                 res.end();

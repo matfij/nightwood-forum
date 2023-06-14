@@ -4,17 +4,18 @@ import { GenerateParams } from '../models/generate-params';
 import { ProjectModel } from '../../projects/models/project-model';
 import { NotionClientService } from './notion-client-service';
 import { NotionParserService } from './notion-parser-service';
+import { WebsiteCompilerService } from './website-compiler-service';
 
 export class GeneratorService {
-    static async generate(params: GenerateParams): Promise<Transform> {
+    static async generateWebsite(params: GenerateParams): Promise<Transform> {
         const project = await ProjectModel.findOne({ id: params.projectId });
         if (!project) {
             throw new Error('project not found');
         }
 
         const notionBlocks = await NotionClientService.readPageBlocks(project.notionId, project.notionAccessCode);
-
         const parsedBlocks = await NotionParserService.parseBlocks(notionBlocks);
+        const content = WebsiteCompilerService.compile(parsedBlocks);
 
         const htmlTemplateStream = fs.createReadStream('src/features/generator/services/templates/index.html');
 
@@ -24,7 +25,7 @@ export class GeneratorService {
                     const replaceChunk = chunk
                         .toString()
                         .replace('#project-name#', project.notionName)
-                        .replace('#project-content#', `${parsedBlocks}`);
+                        .replace('#project-content#', content);
                     this.push(replaceChunk);
                     callback();
                 },
