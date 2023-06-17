@@ -1,4 +1,5 @@
 export const APP_PORT = process.env.APP_PORT || 13000;
+export const APP_MAX_FORKS = 2;
 export const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING || '';
 
 export const BUS_URL = 'kafka:9092';

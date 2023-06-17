@@ -14,13 +14,21 @@ export class GeneratorRouter {
     }
 
     async generateWebsite(req: Request, res: Response, next: NextFunction) {
-        const params = req.body;
-        const stream = (await GeneratorService.generateWebsite(params)).pipe(res);
-        await new Promise<void>((resolve, reject) => {
-            stream.on('end', () => {
-                res.end();
-                resolve();
+        try {
+            const params = req.body;
+            const stream = (await GeneratorService.generateWebsite(params)).pipe(res);
+            await new Promise<void>((resolve, reject) => {
+                stream.on('end', () => {
+                    res.end();
+                    resolve();
+                });
+                stream.on('error', (error) => {
+                    res.status(400).json(error);
+                    reject();
+                })
             });
-        });
+        } catch (error) {
+            res.status(400).json({ message: `Failed to generate website: ${error}` });
+        }
     }
 }

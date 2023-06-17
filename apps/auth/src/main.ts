@@ -9,7 +9,7 @@ function setupSwagger(app: INestApplication) {
     const config = new DocumentBuilder().setTitle('NotionGen').build();
     const document = SwaggerModule.createDocument(app, config);
     fs.writeFileSync(APP_API_SCHEMA_PATH, JSON.stringify(document));
-    SwaggerModule.setup('api1', app, document);
+    SwaggerModule.setup('docs', app, document);
 }
 
 async function bootstrap() {

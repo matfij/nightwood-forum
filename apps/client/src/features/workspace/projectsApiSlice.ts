@@ -29,6 +29,9 @@ export const projectsApiSlice = createApi({
                 query: (projectId) => ({
                     url: `/generator/website/${projectId}`,
                     responseHandler: async (response) => {
+                        if (response.status !== 200) {
+                            return true;
+                        }
                         const blob = await response.blob();
                         const url = window.URL.createObjectURL(blob);
                         const link = document.createElement('a');
