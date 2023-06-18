@@ -57,7 +57,7 @@ export class GatewayController {
 
     @Get('/generator/website/:projectId')
     @UseGuards(AuthGuard)
-    generatorWebsite(@Param('projectId') projectId: string) {
-        return this.generatorService.generateProjectWebsite(projectId);
+    generatorWebsite(@Req() req: AuthorizedRequest, @Param('projectId') projectId: string) {
+        return this.generatorService.generateProjectWebsite(req.user.id, projectId);
     }
 }

@@ -7,13 +7,13 @@ import { PersistenceService } from './persistence.service';
 import { authApiSlice } from '../features/auth/authApiSlice';
 import { projectsApiSlice } from '../features/workspace/projectsApiSlice';
 
-// const persistenceMiddleware = createListenerMiddleware();
-// persistenceMiddleware.startListening({
-//     actionCreator: setSigninData,
-//     effect: (_action, { getState }) => {
-//         PersistenceService.setAuthState((getState() as RootState).auth);
-//     },
-// });
+const persistenceMiddleware = createListenerMiddleware();
+persistenceMiddleware.startListening({
+    actionCreator: setSigninData,
+    effect: (_action, { getState }) => {
+        PersistenceService.setAuthState((getState() as RootState).auth);
+    },
+});
 
 export const store = configureStore({
     reducer: {
@@ -26,7 +26,7 @@ export const store = configureStore({
         return getDefaultMiddleware().concat(
             authApiSlice.middleware,
             projectsApiSlice.middleware,
-            // persistenceMiddleware.middleware,
+            persistenceMiddleware.middleware,
         );
     },
 });

@@ -3,14 +3,18 @@ import { NOTION_API_URL, NOTION_API_VERSION } from '../../../common/config';
 import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 export class NotionClientService {
-    static readonly notionClient = new Client({
+    private static readonly notionClient = new Client({
         baseUrl: NOTION_API_URL,
         notionVersion: NOTION_API_VERSION,
     });
 
     static async readPageBlocks(pageId: string, authToken: string): Promise<BlockObjectResponse[]> {
-        const pageBlocks = await this.readNestedBlocks(pageId, authToken);
-        return pageBlocks;
+        try {
+            const pageBlocks = await this.readNestedBlocks(pageId, authToken);
+            return pageBlocks;
+        } catch (error) {
+            throw new Error(`Failed to retrieve data from Notion: ${error}`)
+        }
     }
 
     private static async readNestedBlocks(blockId: string, authToken: string): Promise<BlockObjectResponse[]> {

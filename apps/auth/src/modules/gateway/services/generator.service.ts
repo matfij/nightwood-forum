@@ -48,9 +48,10 @@ export class GeneratorService {
         await this.syncQueue.add(payload, { attempts: QUEUE_MAX_RETRY_COUNT });
     }
 
-    async generateProjectWebsite(projectId: string): Promise<StreamableFile> {
+    async generateProjectWebsite(userId: string, projectId: string): Promise<StreamableFile> {
         try {
             const res = await axios.post(`${this.BASE_URL}/generator/website`, {
+                userId: userId,
                 projectId: projectId,
             });
             return new StreamableFile(Buffer.from(res.data));

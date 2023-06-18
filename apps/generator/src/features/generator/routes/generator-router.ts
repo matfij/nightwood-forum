@@ -1,6 +1,6 @@
 import { Router, NextFunction, Request, Response } from 'express';
 import { GeneratorService } from '../services/generator-service';
-import { SyncService } from '../services/sync-service';
+import { DataSyncService } from '../services/data-sync-service';
 
 export class GeneratorRouter {
     readonly path = '/generator';
@@ -18,8 +18,7 @@ export class GeneratorRouter {
     async syncProjecData(req: Request, res: Response, next: NextFunction) {
         try {
             const params = req.body;
-            console.log('req', req.body)
-            await SyncService.syncProjectData(params);
+            await DataSyncService.syncProjectData(params);
             res.sendStatus(200);
         } catch (error) {
             res.status(400).json({ message: `Failed to sync project data: ${error}` });
