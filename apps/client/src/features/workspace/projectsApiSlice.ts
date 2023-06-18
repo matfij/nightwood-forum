@@ -25,6 +25,12 @@ export const projectsApiSlice = createApi({
             getProjects: build.query<ProjectDto[], void>({
                 query: () => ({ url: '/generator/projects' }),
             }),
+            syncWebsiteData: build.query<void, string>({
+                query: (projectId) => ({
+                    url: `/generator/sync/${projectId}`,
+                    cache: 'no-cache',
+                }),
+            }),
             generateWebsite: build.query<void, string>({
                 query: (projectId) => ({
                     url: `/generator/website/${projectId}`,
@@ -50,4 +56,5 @@ export const projectsApiSlice = createApi({
     },
 });
 
-export const { useAddProjectMutation, useGetProjectsQuery, useGenerateWebsiteQuery } = projectsApiSlice;
+export const { useAddProjectMutation, useGetProjectsQuery, useSyncWebsiteDataQuery, useGenerateWebsiteQuery } =
+    projectsApiSlice;

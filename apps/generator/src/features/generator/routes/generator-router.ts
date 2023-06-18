@@ -1,5 +1,6 @@
 import { Router, NextFunction, Request, Response } from 'express';
 import { GeneratorService } from '../services/generator-service';
+import { SyncService } from '../services/sync-service';
 
 export class GeneratorRouter {
     readonly path = '/generator';
@@ -10,7 +11,19 @@ export class GeneratorRouter {
     }
 
     initializeRoutes() {
+        this.router.post(`${this.path}/sync`, this.syncProjecData);
         this.router.post(`${this.path}/website`, this.generateWebsite);
+    }
+
+    async syncProjecData(req: Request, res: Response, next: NextFunction) {
+        try {
+            const params = req.body;
+            console.log('req', req.body)
+            await SyncService.syncProjectData(params);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(400).json({ message: `Failed to sync project data: ${error}` });
+        }
     }
 
     async generateWebsite(req: Request, res: Response, next: NextFunction) {
@@ -25,7 +38,7 @@ export class GeneratorRouter {
                 stream.on('error', (error) => {
                     res.status(400).json(error);
                     reject();
-                })
+                });
             });
         } catch (error) {
             res.status(400).json({ message: `Failed to generate website: ${error}` });

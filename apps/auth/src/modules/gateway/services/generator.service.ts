@@ -7,6 +7,7 @@ import { ProjectDto } from '../models/project.dto';
 import { ProjectCreateDto } from '../models/project-create.dto';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
+import { ProjectSyncJobPayload } from '../models/project-sync-job-payload';
 
 @Injectable()
 export class GeneratorService {
@@ -40,12 +41,11 @@ export class GeneratorService {
     }
 
     async syncProjectData(userId: string, projectId: string): Promise<void> {
-        const payload = JSON.stringify({
+        const payload: ProjectSyncJobPayload = {
             userId: userId,
             projectId: projectId,
-        });
-        console.log('syncing', await this.syncQueue.getJobCounts());
-        await this.syncQueue.add({ sync: payload }, { attempts: QUEUE_MAX_RETRY_COUNT });
+        };
+        await this.syncQueue.add(payload, { attempts: QUEUE_MAX_RETRY_COUNT });
     }
 
     async generateProjectWebsite(projectId: string): Promise<StreamableFile> {
