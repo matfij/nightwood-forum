@@ -5,11 +5,14 @@ import mongoose from 'mongoose';
 import { APP_MAX_FORKS, APP_PORT, DB_CONNECTION_STRING } from './common/config';
 import { ProjectsRouter } from './features/projects/routes/projects-router';
 import { GeneratorRouter } from './features/generator/routes/generator-router';
+import { DIFactory } from './common/di-factory';
 
 const app = express();
+const di = new DIFactory();
+
 app.use(express.json());
 app.use(new GeneratorRouter().router);
-app.use(new ProjectsRouter().router);
+app.use(di.getProjectsRouter().router);
 
 function connectDb() {
     mongoose.connect(DB_CONNECTION_STRING).then(() => console.log(`generator-db connected (pid: ${process.pid})`));

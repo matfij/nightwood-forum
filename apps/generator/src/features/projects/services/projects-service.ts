@@ -1,15 +1,18 @@
+import { ProjectRepository } from '../data-access/project-repository';
 import { CreateProjectParams } from '../models/create-project-params';
-import { Project, ProjectModel } from '../models/project-model';
+import { Project } from '../models/project-model';
 import { ReadProjectsParams } from '../models/read-projects-params';
 
 export class ProjectsService {
-    static async createProject(params: CreateProjectParams): Promise<Project> {
-        const projectDoc = await ProjectModel.create(params);
+    constructor(private projectRepository: ProjectRepository) {}
+
+    async createProject(params: CreateProjectParams): Promise<Project> {
+        const projectDoc = await this.projectRepository.create(params);
         return projectDoc;
     }
 
-    static async readProjects(params: ReadProjectsParams): Promise<Project[]> {
-        const projects = await ProjectModel.find({ userId: params.userId });
+    async readProjects(params: ReadProjectsParams): Promise<Project[]> {
+        const projects = await this.projectRepository.findMany({ userId: params.userId });
         return projects;
     }
 }

@@ -5,7 +5,7 @@ export class ProjectsRouter {
     readonly path = '/projects';
     readonly router = Router();
 
-    constructor() {
+    constructor(private projectsService: ProjectsService) {
         this.initializeRoutes();
     }
 
@@ -16,13 +16,13 @@ export class ProjectsRouter {
 
     async createProject(req: Request, res: Response, next: NextFunction) {
         const params = req.body;
-        const project = await ProjectsService.createProject(params);
+        const project = this.projectsService.createProject(params);
         res.status(201).json(project);
     }
 
     async readProjects(req: Request, res: Response, next: NextFunction) {
         const params = req.body;
-        const projects = await ProjectsService.readProjects(params);
+        const projects = this.projectsService.readProjects(params);
         res.status(200).json(projects);
     }
 }
