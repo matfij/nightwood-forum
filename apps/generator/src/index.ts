@@ -2,9 +2,7 @@ import os from 'os';
 import cluster from 'cluster';
 import express from 'express';
 import mongoose from 'mongoose';
-import { APP_PORT, DB_CONNECTION_STRING } from './common/config';
-import { ProjectsRouter } from './features/projects/routes/projects-router';
-import { GeneratorRouter } from './features/generator/routes/generator-router';
+import { APP_MAX_FORKS, APP_PORT, DB_CONNECTION_STRING } from './common/config';
 import { DIFactory } from './common/di-factory';
 
 const app = express();
@@ -19,7 +17,7 @@ function connectDb() {
 }
 
 if (cluster.isPrimary) {
-    for (let i = 0; i < Math.min(os.cpus().length, 1); i++) {
+    for (let i = 0; i < Math.min(os.cpus().length, APP_MAX_FORKS); i++) {
         cluster.fork(process.env);
     }
 } else {

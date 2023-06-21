@@ -6,7 +6,7 @@ import { ContentBlock } from '../models/content-block';
 import { ProjectRepository } from '../../projects/data-access/project-repository';
 
 export class DataSyncService {
-    PROJECT_CACHE_PATH = (projectId: string) => `.cache/proj_${projectId}.txt`;
+    PROJECT_CACHE_PATH = (projectId: string) => `.cache/proj_${projectId}.json`;
 
     constructor(private projectRepository: ProjectRepository) {}
 

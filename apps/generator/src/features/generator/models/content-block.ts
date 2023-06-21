@@ -1,6 +1,7 @@
 export interface ContentBlock {
+    id: string;
     type: ContentBlockType;
-    childs?: ContentBlock[];
+    children: ContentBlock[];
     textContent?: string;
     fileUrl?: string;
     checked?: boolean;
