@@ -2,7 +2,7 @@ import os from 'os';
 import cluster from 'cluster';
 import express from 'express';
 import mongoose from 'mongoose';
-import { APP_MAX_FORKS, APP_PORT, DB_CONNECTION_STRING } from './common/config';
+import { APP_PORT, DB_CONNECTION_STRING } from './common/config';
 import { ProjectsRouter } from './features/projects/routes/projects-router';
 import { GeneratorRouter } from './features/generator/routes/generator-router';
 import { DIFactory } from './common/di-factory';
@@ -11,7 +11,7 @@ const app = express();
 const di = new DIFactory();
 
 app.use(express.json());
-app.use(new GeneratorRouter().router);
+app.use(di.getGeneratorRouter().router);
 app.use(di.getProjectsRouter().router);
 
 function connectDb() {
@@ -19,12 +19,12 @@ function connectDb() {
 }
 
 if (cluster.isPrimary) {
-    for (let i = 0; i < Math.min(os.cpus().length, APP_MAX_FORKS); i++) {
+    for (let i = 0; i < Math.min(os.cpus().length, 1); i++) {
         cluster.fork(process.env);
     }
 } else {
     app.listen(APP_PORT, () => {
         connectDb();
-        console.log(`generator-app started (pid: ${process.pid}).`);
+        console.log(`generator-app started (p1d: ${process.pid}).`);
     });
 }

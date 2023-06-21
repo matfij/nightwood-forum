@@ -29,10 +29,10 @@ export class GeneratorService {
     }
 
     async readProjects(userId: string): Promise<ProjectDto[]> {
-        const cachedProjects = await this.cacheManager.get<ProjectDto[] | null>(this.PROJECTS_KEY(userId));
-        if (cachedProjects) {
-            return cachedProjects;
-        }
+        // const cachedProjects = await this.cacheManager.get<ProjectDto[] | null>(this.PROJECTS_KEY(userId));
+        // if (cachedProjects) {
+        //     return cachedProjects;
+        // }
         const res = await axios.post(`${this.BASE_URL}/projects/read`, {
             userId: userId,
         });

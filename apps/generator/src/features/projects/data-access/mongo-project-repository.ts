@@ -8,6 +8,10 @@ export class MongoProjectRepository implements ProjectRepository {
         return await MongoProjectModel.create(params);
     }
 
+    async findOne(params: Partial<Project>): Promise<Project | null> {
+        return await MongoProjectModel.findOne(params);
+    }
+    
     async findMany(params: Partial<Project>): Promise<Project[]> {
         return await MongoProjectModel.find(params);
     }

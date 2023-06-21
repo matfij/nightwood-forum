@@ -6,29 +6,29 @@ export class GeneratorRouter {
     readonly path = '/generator';
     readonly router = Router();
 
-    constructor() {
+    constructor(private dataSyncService: DataSyncService, private generatorService: GeneratorService) {
         this.initializeRoutes();
     }
 
-    initializeRoutes() {
+    initializeRoutes = () => {
         this.router.post(`${this.path}/sync`, this.syncProjecData);
         this.router.post(`${this.path}/website`, this.generateWebsite);
-    }
+    };
 
-    async syncProjecData(req: Request, res: Response, next: NextFunction) {
+    syncProjecData = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const params = req.body;
-            await DataSyncService.syncProjectData(params);
+            await this.dataSyncService.syncProjectData(params);
             res.sendStatus(200);
         } catch (error) {
             res.status(400).json({ message: `Failed to sync project data: ${error}` });
         }
-    }
+    };
 
-    async generateWebsite(req: Request, res: Response, next: NextFunction) {
+    generateWebsite = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const params = req.body;
-            const stream = (await GeneratorService.generateWebsite(params)).pipe(res);
+            const stream = (await this.generatorService.generateWebsite(params)).pipe(res);
             await new Promise<void>((resolve, reject) => {
                 stream.on('end', () => {
                     res.end();
@@ -42,5 +42,5 @@ export class GeneratorRouter {
         } catch (error) {
             res.status(400).json({ message: `Failed to generate website: ${error}` });
         }
-    }
+    };
 }
