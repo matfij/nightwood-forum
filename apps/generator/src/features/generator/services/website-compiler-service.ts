@@ -11,13 +11,14 @@ export class WebsiteCompilerService {
 
     private static compileBlock(block: ContentBlock): string {
         let content = '';
+        let childrenContent = block.children.reduce((prev, curr) => prev + `\n${this.compileBlock(curr)}`, '');
         switch (block.type) {
             case ContentBlockType.Heading: {
                 content += `<h1>${block.textContent}</h1>`;
                 break;
             }
             case ContentBlockType.Paragraph: {
-                content += `<p>${block.textContent}</p>`;
+                content += `<p>${block.textContent}${childrenContent}</p>`;
                 break;
             }
             case ContentBlockType.Divider: {
@@ -25,15 +26,15 @@ export class WebsiteCompilerService {
                 break;
             }
             case ContentBlockType.Callout: {
-                content += `<div>🎉 ${block.textContent}</div>`;
+                content += `<div>🎉 ${block.textContent}${childrenContent}</div>`;
                 break;
             }
             case ContentBlockType.ListItem: {
-                content += `<li>${block.textContent}</li>`;
+                content += `<li>${block.textContent}<ul>${childrenContent}</ul></li>`;
                 break;
             }
             case ContentBlockType.TodoItem: {
-                content += `<p>${block.checked ? '✓' : '☐'} ${block.textContent}</p>`;
+                content += `<p>${block.checked ? '✓' : '☐'} ${block.textContent}${childrenContent}</p>`;
                 break;
             }
             case ContentBlockType.Image: {
