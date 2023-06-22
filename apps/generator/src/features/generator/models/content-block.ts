@@ -3,7 +3,7 @@ export interface ContentBlock {
     type: ContentBlockType;
     children: ContentBlock[];
     textContent?: string;
-    fileUrl?: string;
+    filePath?: string;
     checked?: boolean;
 }
 

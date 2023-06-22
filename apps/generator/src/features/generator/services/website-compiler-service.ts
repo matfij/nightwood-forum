@@ -38,11 +38,11 @@ export class WebsiteCompilerService {
                 break;
             }
             case ContentBlockType.Image: {
-                content += `<img src="${block.fileUrl}">`;
+                content += `<img src="${block.filePath}">`;
                 break;
             }
             case ContentBlockType.File: {
-                content += `<a href="${block.fileUrl}" download>📁</a>`;
+                content += `<a href="${block.filePath}" download>📁</a>`;
                 break;
             }
             default: {
