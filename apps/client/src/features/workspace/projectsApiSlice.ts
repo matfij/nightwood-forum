@@ -42,7 +42,7 @@ export const projectsApiSlice = createApi({
                         const url = window.URL.createObjectURL(blob);
                         const link = document.createElement('a');
                         link.href = url;
-                        link.setAttribute('download', `${projectId}.html`);
+                        link.setAttribute('download', `${projectId}.zip`);
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);

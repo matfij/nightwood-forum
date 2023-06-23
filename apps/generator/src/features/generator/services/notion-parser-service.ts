@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import axios from 'axios';
 import { BlockObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
 import { ContentBlock, ContentBlockType } from '../models/content-block';
@@ -129,16 +129,14 @@ export class NotionParserService {
 
     private static async downloadFile(projectId: string, block: BlockObjectResponse): Promise<string | undefined> {
         let fileUrl = this.getFileUrl(block);
-        console.log('start download', fileUrl);
         if (!fileUrl) {
             return;
         }
         const filePath = `${PROJECT_ASSETS_PATH(projectId)}/${this.getFileName(fileUrl)}`;
-        console.log(filePath);
         const res = await axios.get(fileUrl, { responseType: 'stream' });
         const writeStram = fs.createWriteStream(filePath);
         res.data.pipe(writeStram);
-        return filePath;
+        return `assets/${this.getFileName(fileUrl)}`;
     }
 
     private static getFileUrl(block: BlockObjectResponse): string | undefined {

@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import { SyncProjectDataParams } from '../models/sync-project-data-params';
 import { NotionClientService } from './notion-client-service';
 import { NotionParserService } from './notion-parser-service';
@@ -17,6 +17,7 @@ export class DataSyncService {
         if (project.userId !== params.userId) {
             throw new Error('Access denied');
         }
+        fs.removeSync(PROJECT_CACHE_PATH(project.id));
         if (!fs.existsSync(PROJECT_CACHE_PATH(project.id))) {
             fs.mkdirSync(PROJECT_CACHE_PATH(project.id));
         }
@@ -25,7 +26,7 @@ export class DataSyncService {
         }
         const notionBlocks = await NotionClientService.readPageBlocks(project.notionId, project.notionAccessCode);
         const parsedBlocks = await NotionParserService.parseBlocks(project.id, notionBlocks);
-        fs.writeFileSync(PROJECT_CONTENT_PATH(project.id), JSON.stringify(parsedBlocks), {
+        fs.outputFileSync(PROJECT_CONTENT_PATH(project.id), JSON.stringify(parsedBlocks), {
             encoding: 'utf-8',
         });
     }
