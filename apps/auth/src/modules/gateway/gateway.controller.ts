@@ -4,7 +4,7 @@ import { AuthorizedRequest } from '../auth/models/authorized-request';
 import { RefreshTokenDto } from '../auth/models/refresh-token.dto';
 import { SigninDto } from '../auth/models/signin.dto';
 import { SignupDto } from '../auth/models/signup.dto';
-import { AuthGuard } from '../auth/utils/auth.guard';
+import { AuthGuard } from '../../common/middlewares/auth.guard';
 import { AuthService } from '../auth/service/auth.service';
 import { GeneratorService } from './services/generator.service';
 import { ProjectCreateDto } from './models/project-create.dto';

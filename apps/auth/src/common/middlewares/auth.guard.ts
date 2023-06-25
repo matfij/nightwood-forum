@@ -1,16 +1,17 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
-import { JwtPayload } from '../models/jwt-payload';
+import { GqlExecutionContext } from '@nestjs/graphql';
+import { JwtPayload } from '../../modules/auth/models/jwt-payload';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private jwtService: JwtService, private reflector: Reflector) {}
+    constructor(private jwtService: JwtService) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        const request = context.switchToHttp().getRequest();
-        const token = this.extractTokenFromHeader(request);
+        const gqlContext = GqlExecutionContext.create(context);
+        const { rawHeaders } = gqlContext.getContext().req;
+        const token = this.extractTokenFromHeader(rawHeaders);
         if (!token) {
             throw new UnauthorizedException();
         }
@@ -19,15 +20,15 @@ export class AuthGuard implements CanActivate {
             if (payload.isRefresh) {
                 throw new UnauthorizedException();
             }
-            request['user'] = payload;
+            gqlContext.getContext().user = payload;
         } catch (error) {
             throw new UnauthorizedException();
         }
         return true;
     }
 
-    private extractTokenFromHeader(request: Request): string | undefined {
-        const [type, token] = request.headers.authorization?.split(' ') ?? [];
-        return type === 'Bearer' ? token : undefined;
+    private extractTokenFromHeader(headers: string[]): string | undefined {
+        const token = headers.find((header) => header.includes('Bearer'));
+        return token ? token.replace('Bearer ', '') : undefined;
     }
 }

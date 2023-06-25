@@ -29,7 +29,6 @@ export class GeneratorService {
     }
 
     async readProject(userId: string, projectId: string): Promise<ProjectDto> {
-        console.log(userId, projectId)
         const res = await axios.post(`${this.BASE_URL}/projects/readOne`, {
             userId: userId,
             projectId: projectId,

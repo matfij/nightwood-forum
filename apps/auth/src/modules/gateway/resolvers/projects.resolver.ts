@@ -1,17 +1,18 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ProjectDto } from '../models/project.dto';
 import { GeneratorService } from '../services/generator.service';
-import { AuthorizedRequest } from 'src/modules/auth/models/authorized-request';
-import { Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../../auth/utils/auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../../../common/middlewares/auth.guard';
+import { CurrentUser } from 'src/common/utils/current-user.decorator';
+import { UserDto } from 'src/modules/users/models/user.dto';
 
 @Resolver(ProjectDto)
 export class ProjectsResolver {
     constructor(private generatorService: GeneratorService) {}
 
-    @Query((returns) => ProjectDto)
+    @Query(() => ProjectDto)
     @UseGuards(AuthGuard)
-    async project(@Req() req: AuthorizedRequest, @Args('id') id: string) {
-        return this.generatorService.readProject(req.user.id, id);
+    async project(@CurrentUser() user: UserDto, @Args('id') id: string) {
+        return this.generatorService.readProject(user.id, id);
     }
 }
