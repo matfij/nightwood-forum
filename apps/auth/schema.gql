@@ -1,0 +1,24 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ProjectDto {
+  id: String!
+  userId: String!
+  notionId: String!
+  notionName: String!
+  notionAccessCode: String!
+  createdAt: Int
+  user: UserDto
+}
+
+type UserDto {
+  id: String!
+  username: String!
+  password: String!
+  projects: [ProjectDto!]!
+}
+
+type Query {
+  project(id: String!): ProjectDto!
+}

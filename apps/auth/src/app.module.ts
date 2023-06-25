@@ -22,6 +22,8 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { BullModule } from '@nestjs/bull';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './common/middlewares/logging.interceptor';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
     imports: [
@@ -33,6 +35,11 @@ import { LoggingInterceptor } from './common/middlewares/logging.interceptor';
             password: DB_PASSWORD,
             autoLoadEntities: true,
             synchronize: true,
+        }),
+        GraphQLModule.forRoot<ApolloDriverConfig>({
+            driver: ApolloDriver,
+            include: [GatewayModule],
+            autoSchemaFile: 'schema.gql',
         }),
         CacheModule.register({
             ttl: CACHE_TTL_MS,

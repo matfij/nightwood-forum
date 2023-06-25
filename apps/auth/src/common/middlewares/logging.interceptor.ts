@@ -7,6 +7,7 @@ import { APP_HTTP_LOG_PATH } from '../config';
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler) {
+        return next.handle();
         const { ip, headers, method, originalUrl, body } = context.switchToHttp().getRequest<Request>();
         const date = new Date().toISOString();
         return next.handle().pipe(

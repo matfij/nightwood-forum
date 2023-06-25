@@ -28,12 +28,21 @@ export class GeneratorService {
         return res.data;
     }
 
+    async readProject(userId: string, projectId: string): Promise<ProjectDto> {
+        console.log(userId, projectId)
+        const res = await axios.post(`${this.BASE_URL}/projects/readOne`, {
+            userId: userId,
+            projectId: projectId,
+        });
+        return res.data;
+    }
+
     async readProjects(userId: string): Promise<ProjectDto[]> {
-        // const cachedProjects = await this.cacheManager.get<ProjectDto[] | null>(this.PROJECTS_KEY(userId));
-        // if (cachedProjects) {
-        //     return cachedProjects;
-        // }
-        const res = await axios.post(`${this.BASE_URL}/projects/read`, {
+        const cachedProjects = await this.cacheManager.get<ProjectDto[] | null>(this.PROJECTS_KEY(userId));
+        if (cachedProjects) {
+            return cachedProjects;
+        }
+        const res = await axios.post(`${this.BASE_URL}/projects/readAll`, {
             userId: userId,
         });
         await this.cacheManager.set(this.PROJECTS_KEY(userId), res.data);

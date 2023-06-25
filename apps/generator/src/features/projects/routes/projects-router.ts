@@ -10,19 +10,26 @@ export class ProjectsRouter {
     }
 
     initializeRoutes = () => {
-        this.router.post(`${this.path}/create`, this.createProject);
-        this.router.post(`${this.path}/read`, this.readProjects);
+        this.router.post(`${this.path}/create`, this.create);
+        this.router.post(`${this.path}/readOne`, this.readOne);
+        this.router.post(`${this.path}/readAll`, this.readAll);
     }
 
-    createProject = async (req: Request, res: Response, next: NextFunction) => {
+    create = async (req: Request, res: Response, next: NextFunction) => {
         const params = req.body;
-        const project = await this.projectsService.createProject(params);
+        const project = await this.projectsService.create(params);
         res.status(201).json(project);
     };
 
-    readProjects = async (req: Request, res: Response, next: NextFunction) => {
+    readOne = async (req: Request, res: Response, next: NextFunction) => {
         const params = req.body;
-        const projects = await this.projectsService.readProjects(params);
+        const projects = await this.projectsService.readOne(params);
+        res.status(200).json(projects);
+    };
+
+    readAll = async (req: Request, res: Response, next: NextFunction) => {
+        const params = req.body;
+        const projects = await this.projectsService.readAll(params);
         res.status(200).json(projects);
     };
 }
