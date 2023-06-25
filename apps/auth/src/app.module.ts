@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
     CACHE_MAX_ITEMS,
@@ -18,9 +18,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
 import { LogConsumer } from './log.consumer';
 import { EventsModule } from './modules/events/events.module';
-import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { CacheModule } from '@nestjs/cache-manager';
 import { BullModule } from '@nestjs/bull';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './common/middlewares/logging.interceptor';
 
 @Module({
     imports: [
@@ -52,10 +53,6 @@ import { BullModule } from '@nestjs/bull';
         UsersModule,
         EventsModule,
     ],
-    providers: [LogConsumer],
+    providers: [LogConsumer, { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor }],
 })
-export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(LoggerMiddleware).forRoutes('/api');
-    }
-}
+export class AppModule {}
