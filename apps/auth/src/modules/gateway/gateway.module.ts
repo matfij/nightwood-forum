@@ -9,6 +9,7 @@ import { BullModule } from '@nestjs/bull';
 import { QUEUE_NAME_SYNC } from '../../common/config';
 import { ProjectSyncConsumer } from './services/project-sync.consumer';
 import { ProjectsResolver } from './resolvers/projects.resolver';
+import { AuthResolver } from './resolvers/auth.resolver';
 
 @Module({
     imports: [CacheModule.register(), BullModule.registerQueue({ name: QUEUE_NAME_SYNC }), AuthModule, UsersModule],
@@ -16,6 +17,7 @@ import { ProjectsResolver } from './resolvers/projects.resolver';
     providers: [
         GeneratorService,
         ProjectSyncConsumer,
+        AuthResolver,
         ProjectsResolver,
         {
             provide: APP_PIPE,

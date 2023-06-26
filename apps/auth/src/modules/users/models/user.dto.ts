@@ -12,6 +12,6 @@ export class UserDto {
     @Field()
     password: string;
 
-    @Field((type) => [ProjectDto])
+    @Field(() => [ProjectDto])
     projects?: ProjectDto[];
 }

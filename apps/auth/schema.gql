@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthUserDto {
+  id: String!
+  username: String!
+  accessToken: String!
+  refreshToken: String!
+}
+
+type AccessTokenDto {
+  token: String!
+}
+
 type ProjectDto {
   id: String!
   userId: String!
@@ -20,5 +31,26 @@ type UserDto {
 }
 
 type Query {
+  me: UserDto!
   project(id: String!): ProjectDto!
+}
+
+type Mutation {
+  signup(signupDto: SignupDto!): AuthUserDto!
+  signin(signinDto: SigninDto!): AuthUserDto!
+  refreshToken(refreshTokenDto: RefreshTokenDto!): AccessTokenDto!
+}
+
+input SignupDto {
+  username: String!
+  password: String!
+}
+
+input SigninDto {
+  username: String!
+  password: String!
+}
+
+input RefreshTokenDto {
+  token: String!
 }

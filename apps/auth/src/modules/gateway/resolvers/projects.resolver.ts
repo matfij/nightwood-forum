@@ -1,12 +1,12 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { ProjectDto } from '../models/project.dto';
 import { GeneratorService } from '../services/generator.service';
-import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../../common/middlewares/auth.guard';
-import { CurrentUser } from 'src/common/utils/current-user.decorator';
-import { UserDto } from 'src/modules/users/models/user.dto';
+import { CurrentUser } from '../../../common/utils/current-user.decorator';
+import { UserDto } from '../../users/models/user.dto';
 
-@Resolver(ProjectDto)
+@Resolver()
 export class ProjectsResolver {
     constructor(private generatorService: GeneratorService) {}
 
