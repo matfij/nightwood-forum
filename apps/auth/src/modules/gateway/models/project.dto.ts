@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserDto } from 'src/modules/users/models/user.dto';
+import { UserDto } from '../../users/models/user.dto';
 
 @ObjectType()
 export class ProjectDto {

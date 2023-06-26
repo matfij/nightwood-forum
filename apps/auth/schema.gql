@@ -26,8 +26,8 @@ type ProjectDto {
 type UserDto {
   id: String!
   username: String!
-  password: String!
-  projects: [ProjectDto!]!
+  password: String
+  projects: [ProjectDto!]
 }
 
 type Query {
