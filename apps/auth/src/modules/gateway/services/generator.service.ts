@@ -48,12 +48,13 @@ export class GeneratorService {
         return res.data;
     }
 
-    async syncProjectData(userId: string, projectId: string): Promise<void> {
+    async syncProjectData(userId: string, projectId: string): Promise<string> {
         const payload: ProjectSyncJobPayload = {
             userId: userId,
             projectId: projectId,
         };
         await this.syncQueue.add(payload, { attempts: QUEUE_MAX_RETRY_COUNT });
+        return projectId;
     }
 
     async generateProjectWebsite(userId: string, projectId: string): Promise<StreamableFile> {

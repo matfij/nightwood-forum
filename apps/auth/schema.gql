@@ -32,6 +32,7 @@ type UserDto {
 
 type Query {
   me: UserDto!
+  projects: [ProjectDto!]!
   project(id: String!): ProjectDto!
 }
 
@@ -39,6 +40,9 @@ type Mutation {
   signup(signupDto: SignupDto!): AuthUserDto!
   signin(signinDto: SigninDto!): AuthUserDto!
   refreshToken(refreshTokenDto: RefreshTokenDto!): AccessTokenDto!
+  createProject(projectCreateDto: ProjectCreateDto!): ProjectDto!
+  sync(id: String!): String!
+  generateWebsite(id: String!): String!
 }
 
 input SignupDto {
@@ -53,4 +57,10 @@ input SigninDto {
 
 input RefreshTokenDto {
   token: String!
+}
+
+input ProjectCreateDto {
+  notionId: String!
+  notionName: String!
+  notionAccessCode: String!
 }

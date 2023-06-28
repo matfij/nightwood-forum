@@ -17,7 +17,7 @@ export class ProjectsService {
         if (!project) {
             throw new Error('Project not found');
         }
-        if (project.id !== params.userId) {
+        if (project.userId !== params.userId) {
             throw new Error('Project not owned');
         }
         return project;
