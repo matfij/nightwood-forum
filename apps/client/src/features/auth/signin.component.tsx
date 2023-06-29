@@ -5,11 +5,11 @@ import { setSigninData } from './authSlice';
 import { useForm } from 'react-hook-form';
 import { SigninDto } from './models';
 import { parseError } from '../../common/parse-error';
-import { useSigninMutation } from './authApiSlice';
+import { useSigninMutation } from '../../common/gql-client';
 
 export const SigninComponent = () => {
     const dispatch = useAppDispatch();
-    const [signin, { isLoading, error }] = useSigninMutation();
+    const [signinMutation, { loading, error }] = useSigninMutation();
     const navigate = useNavigate();
     const {
         register,
@@ -19,11 +19,15 @@ export const SigninComponent = () => {
 
     const onSignin = async (data: SigninDto) => {
         try {
-            const res = await signin(data);
-            if (!('data' in res)) {
+            const res = await signinMutation({
+                variables: {
+                    signinDto: data,
+                },
+            });
+            if (!res.data) {
                 return;
             }
-            dispatch(setSigninData(res.data));
+            dispatch(setSigninData(res.data.signin));
             navigate('/workspace');
         } catch (err) {
             console.log(err);
@@ -50,11 +54,11 @@ export const SigninComponent = () => {
                     {errors.password && <p className="errorText">Password is required.</p>}
                 </fieldset>
                 {error && <p className="errorText">{parseError(error)}</p>}
-                <button disabled={isLoading} type="submit" className={styles.submitBtn}>
+                <button disabled={loading} type="submit" className={styles.submitBtn}>
                     Signin
                 </button>
             </form>
-            <button disabled={isLoading} onClick={() => navigate('/signup')} className={styles.navigateBtn}>
+            <button disabled={loading} onClick={() => navigate('/signup')} className={styles.navigateBtn}>
                 Signup
             </button>
         </main>

@@ -55,7 +55,7 @@ export const SignupComponent = () => {
                 </button>
             </form>
             <button disabled={isLoading} onClick={() => navigate('/')} className={styles.navigateBtn}>
-                Signup
+                Signin
             </button>
         </main>
     );
