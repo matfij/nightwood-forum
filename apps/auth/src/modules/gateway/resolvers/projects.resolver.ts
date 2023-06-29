@@ -6,6 +6,7 @@ import { AuthGuard } from '../../../common/middlewares/auth.guard';
 import { CurrentUser } from '../../../common/utils/current-user.decorator';
 import { UserDto } from '../../users/models/user.dto';
 import { ProjectCreateDto } from '../models/project-create.dto';
+import { FileScalar } from '../utils/file-scalar';
 
 @Resolver()
 export class ProjectsResolver {
@@ -35,7 +36,7 @@ export class ProjectsResolver {
         return this.generatorService.syncProjectData(user.id, id);
     }
 
-    @Mutation(() => String)
+    @Mutation(() => FileScalar)
     @UseGuards(AuthGuard)
     generateWebsite(@CurrentUser() user: UserDto, @Args('id') id: string) {
         return this.generatorService.generateProjectWebsite(user.id, id);

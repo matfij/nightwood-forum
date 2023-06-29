@@ -42,7 +42,7 @@ type Mutation {
   refreshToken(refreshTokenDto: RefreshTokenDto!): AccessTokenDto!
   createProject(projectCreateDto: ProjectCreateDto!): ProjectDto!
   sync(id: String!): String!
-  generateWebsite(id: String!): String!
+  generateWebsite(id: String!): File!
 }
 
 input SignupDto {
@@ -64,3 +64,6 @@ input ProjectCreateDto {
   notionName: String!
   notionAccessCode: String!
 }
+
+"""Downloadable file"""
+scalar File
