@@ -1,9 +1,5 @@
-import { SerializedError } from '@reduxjs/toolkit';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { ApolloError } from '@apollo/client/errors';
 
-export const parseError = (error: FetchBaseQueryError | SerializedError): string => {
-    if ('data' in error && 'message' && typeof error.data === 'object' && error.data && 'message' in error.data) {
-        return error.data.message as string;
-    }
-    return 'Unknown error format';
+export const parseError = (error: ApolloError): string => {
+    return error.message ?? 'Unknown error format';
 };

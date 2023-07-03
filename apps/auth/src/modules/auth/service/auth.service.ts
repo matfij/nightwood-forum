@@ -24,7 +24,7 @@ export class AuthService {
     async signup(dto: SignupDto): Promise<AuthUserDto> {
         const user = await this.usersService.readByUsername(dto.username);
         if (user) {
-            throw new HttpException('Username must be unique', HttpStatus.BAD_REQUEST);
+            throw new Error('Username must be unique');
         }
         const newUser = await this.usersService.create(dto);
         const [accessToken, refeshToken] = await this.generateTokens({ id: newUser.id, username: newUser.username });
@@ -46,10 +46,10 @@ export class AuthService {
     async signin(dto: SigninDto): Promise<AuthUserDto> {
         const user = await this.usersService.readByUsername(dto.username);
         if (!user) {
-            throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+            throw new Error('User not found');
         }
         if (dto.password !== user.password) {
-            throw new HttpException('Incorrect password', HttpStatus.BAD_REQUEST);
+            throw new Error('Incorrect password');
         }
         const [accessToken, refeshToken] = await this.generateTokens({ id: user.id, username: user.username });
         await this.producerService.produce<SigninEvent>({
@@ -82,7 +82,7 @@ export class AuthService {
     async me(id: string): Promise<UserDto> {
         const user = await this.usersService.readById(id);
         if (!user) {
-            throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+            throw new Error('User not found');
         }
         return user;
     }
