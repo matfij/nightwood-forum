@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ProjectDto } from './models';
+import { ProjectDto } from '../../common/gql-client';
 
 export type ProjectsState = {
     projects: ProjectDto[];
@@ -14,6 +14,7 @@ const projectsSlice = createSlice({
     initialState: initialState,
     reducers: {
         setProjects: (state, action: PayloadAction<ProjectDto[]>) => {
+            console.log('set')
             state.projects = action.payload;
         },
     },

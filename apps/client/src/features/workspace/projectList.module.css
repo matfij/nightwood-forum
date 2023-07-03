@@ -17,5 +17,7 @@
 }
 
 .generateBtn {
+    width: 1rem;
     cursor: pointer;
+    background: none;
 }

@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { UserDto } from '../../users/models/user.dto';
 
 @ObjectType()
@@ -18,7 +18,7 @@ export class ProjectDto {
     @Field()
     notionAccessCode: string;
 
-    @Field((type) => Int, { nullable: true })
+    @Field((type) => Float, { nullable: true })
     createdAt?: number;
 
     @Field((type) => UserDto, { nullable: true })

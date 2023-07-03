@@ -1,12 +1,12 @@
 import styles from './signup.module.css';
 import { useForm } from 'react-hook-form';
-import { useSignupMutation } from './authApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { SignupFormData } from './models';
 import { parseError } from '../../common/parse-error';
+import { useSignupMutation } from '../../common/gql-client';
 
 export const SignupComponent = () => {
-    const [signup, { isLoading, error }] = useSignupMutation();
+    const [signup, { loading, error }] = useSignupMutation();
     const navigate = useNavigate();
     const {
         register,
@@ -16,8 +16,15 @@ export const SignupComponent = () => {
     } = useForm<SignupFormData>();
 
     const onSignup = async (data: SignupFormData) => {
-        const res = await signup(data);
-        if (!('data' in res)) {
+        const res = await signup({
+            variables: {
+                signupDto: {
+                    username: data.username,
+                    password: data.password,
+                },
+            },
+        });
+        if (!res.data) {
             return;
         }
         navigate('/');
@@ -50,11 +57,11 @@ export const SignupComponent = () => {
                     {errors.repeatPassword && <p className="errorText">Password does not match</p>}
                 </fieldset>
                 {error && <p className="errorText">{parseError(error)}</p>}
-                <button disabled={isLoading} type="submit" className={styles.submitBtn}>
+                <button disabled={loading} type="submit" className={styles.submitBtn}>
                     Create
                 </button>
             </form>
-            <button disabled={isLoading} onClick={() => navigate('/')} className={styles.navigateBtn}>
+            <button disabled={loading} onClick={() => navigate('/')} className={styles.navigateBtn}>
                 Signin
             </button>
         </main>

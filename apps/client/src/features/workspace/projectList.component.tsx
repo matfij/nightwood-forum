@@ -1,78 +1,70 @@
 import styles from './projectList.module.css';
-import { useEffect, useState } from 'react';
-import { ProjectDto } from './models';
+import { useEffect } from 'react';
 import { LoadingComponent } from '../../common/loading.component';
 import { parseError } from '../../common/parse-error';
-import { GenerateWebsiteComponent } from './generateWebsite.component';
-import { useGetProjectsQuery } from './projectsApiSlice';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
-import { setProjects } from './workspaceSlice';
-import { SyncWebsiteDataComponent } from './syncWebsiteData.component';
-
-enum OperationMode {
-    Sync,
-    Generate,
-}
+import { useGenerateWebsiteMutation, useProjectsQuery, useSyncMutation } from '../../common/gql-client';
+import { setProjects } from './projectsSlice';
 
 export const ProjectListComponent = () => {
     const dispatch = useAppDispatch();
     const projects = useAppSelector((state) => state.projects.projects);
-    const { data = [], isFetching, error } = useGetProjectsQuery();
-    const [operationMode, setOperationMode] = useState<OperationMode | null>();
-    const [activeProject, setActiveProject] = useState<ProjectDto | null>();
+    const { data, loading, error } = useProjectsQuery();
+    const [sync, { loading: syncLoading, error: syncError }] = useSyncMutation();
+    const [generate, { loading: generateLoading, error: generateError }] = useGenerateWebsiteMutation();
 
     useEffect(() => {
         if (!data) {
             return;
         }
-        dispatch(setProjects(data));
-    }, [data]);
+        dispatch(setProjects(data.projects));
+    }, [dispatch, data, error, loading]);
 
-    const handleOperationComplete = () => {
-        setOperationMode(null);
-        setActiveProject(null);
+    const onSync = async (id: string) => {
+        await sync({ variables: { id: id } });
+    };
+
+    const onGenerateWebsite = async (id: string) => {
+        const response = await generate({ variables: { id: id } });
+        if (!response.data || !response.data.generateWebsite) {
+            return;
+        }
+        const blob = new Blob([response.data.generateWebsite.stream._readableState.buffer.head.data.data], {
+            type: 'application/zip',
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'website.zip');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     };
 
     return (
         <>
             <h2>My Projects</h2>
-            {isFetching && <LoadingComponent />}
+            {loading && <LoadingComponent />}
             {error && <p className="errorText">{parseError(error)}</p>}
             <div className="projectsWrapper">
-                {data.map((project) => (
+                {projects.map((project) => (
                     <li key={project.id} className={styles.projectItem}>
                         {project.notionName}
-                        {project.id !== activeProject?.id && (
-                            <>
-                                <div
-                                    onClick={() => {
-                                        setActiveProject(project);
-                                        setOperationMode(OperationMode.Sync);
-                                    }}
-                                    className={styles.generateBtn}
-                                >
-                                    🔄
-                                </div>
-                                <div
-                                    onClick={() => {
-                                        setActiveProject(project);
-                                        setOperationMode(OperationMode.Generate);
-                                    }}
-                                    className={styles.generateBtn}
-                                >
-                                    🚀
-                                </div>
-                            </>
-                        )}
-                        {project.id === activeProject?.id && operationMode === OperationMode.Sync && (
-                            <SyncWebsiteDataComponent projectId={project.id} onSyncComplete={handleOperationComplete} />
-                        )}
-                        {project.id === activeProject?.id && operationMode === OperationMode.Generate && (
-                            <GenerateWebsiteComponent
-                                projectId={project.id}
-                                onDownloadComplete={handleOperationComplete}
-                            />
-                        )}
+                        <button
+                            onClick={() => onSync(project.id)}
+                            disabled={syncLoading}
+                            className={styles.generateBtn}
+                        >
+                            🔄
+                        </button>
+                        <button
+                            onClick={() => onGenerateWebsite(project.id)}
+                            disabled={generateLoading}
+                            className={styles.generateBtn}
+                        >
+                            🚀
+                        </button>
                     </li>
                 ))}
             </div>

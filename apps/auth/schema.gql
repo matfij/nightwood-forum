@@ -19,7 +19,7 @@ type ProjectDto {
   notionId: String!
   notionName: String!
   notionAccessCode: String!
-  createdAt: Int
+  createdAt: Float
   user: UserDto
 }
 

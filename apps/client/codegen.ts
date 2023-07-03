@@ -10,12 +10,6 @@ const config: CodegenConfig = {
                 'typescript',
                 'typescript-operations',
                 'typescript-react-apollo',
-                // {
-                //     'typescript-rtk-query': {
-                //         importBaseApiFrom: 'src\\features\\auth\\authApiSlice',
-                //         exportHooks: true,
-                //     },
-                // },
             ],
             config: {
                 withHooks: true,

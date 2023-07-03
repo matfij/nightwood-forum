@@ -4,15 +4,13 @@ import { SignupComponent } from './features/auth/signup.component';
 import { WorkspaceComponent } from './features/workspace/workspace.component';
 import { AddProjectComponent } from './features/workspace/addProject.component';
 import { ProjectListComponent } from './features/workspace/projectList.component';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+import { gqlClient } from './common/gql-auth';
+
 
 export const App = () => {
-    const client = new ApolloClient({
-        uri: 'http://localhost:14000/graphql',
-        cache: new InMemoryCache(),
-    });
     return (
-        <ApolloProvider client={client}>
+        <ApolloProvider client={gqlClient}>
             <Routes>
                 <Route path="/" element={<SigninComponent />} />
                 <Route path="/signup" element={<SignupComponent />} />
