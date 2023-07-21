@@ -29,8 +29,8 @@ export class GeneratorRouter {
     generateWebsite = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const params = req.body;
-            const zipPath = await this.generatorService.generateWebsite(params);
-            res.set('Content-Type', 'application/zip').sendFile(path.resolve(zipPath));
+            const downloadUrl = await this.generatorService.generateWebsite(params);
+            res.status(200).send(downloadUrl);
         } catch (error) {
             res.status(400).json({ message: `Failed to generate website: ${error}` });
         }

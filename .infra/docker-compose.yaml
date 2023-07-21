@@ -44,6 +44,8 @@ services:
     environment:
       APP_PORT: 13000
       DB_CONNECTION_STRING: mongodb://root:root@generator-db:27017
+    env_file:
+      - .env
   
   generator-db:
     image: mongo 

@@ -7,3 +7,8 @@ export const BUS_CLIENT_ID = 'generator-app';
 
 export const NOTION_API_URL = 'https://api.notion.com';
 export const NOTION_API_VERSION = '2022-02-22';
+
+export const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || '';
+export const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || '';
+export const AWS_S3_BUCKET_ID = process.env.AWS_S3_BUCKET_ID || '';
+export const AWS_DOWNLOAD_LINK_MAX_AGE_SECONDS = 3600;

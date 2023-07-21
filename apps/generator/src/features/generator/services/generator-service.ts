@@ -6,17 +6,23 @@ import { WebsiteCompilerService } from './website-compiler-service';
 import { DataSyncService } from './data-sync-service';
 import { ProjectRepository } from '../../projects/data-access/project-repository';
 import {
+    PROJECT_ARCHIEVE_FILENAME,
     PROJECT_ARCHIEVE_PATH,
     PROJECT_ASSETS_PATH,
     PROJECT_DIST_ASSETS_PATH,
     PROJECT_DIST_PATH,
     PROJECT_DIST_TEMPLATE_PATH,
 } from '../utils/cache-paths';
+import { FileUploadService } from '../../../common/file-upload/file-upload-service';
 
 export class GeneratorService {
     private readonly HTML_TEMPLATE_PATH = 'src/features/generator/services/templates/index.html';
 
-    constructor(private projectRepository: ProjectRepository, private dataSyncService: DataSyncService) {}
+    constructor(
+        private projectRepository: ProjectRepository,
+        private dataSyncService: DataSyncService,
+        private fileUploadService: FileUploadService,
+    ) {}
 
     async generateWebsite(params: GenerateParams): Promise<string> {
         const project = await this.projectRepository.findOne({ id: params.projectId });
@@ -53,6 +59,13 @@ export class GeneratorService {
         archieveStream.directory(PROJECT_DIST_PATH(project.id), false);
         await archieveStream.finalize();
 
-        return PROJECT_ARCHIEVE_PATH(project.id);
+        const downloadUrl = await this.fileUploadService.upload(
+            PROJECT_ARCHIEVE_FILENAME(project.id),
+            fs.createReadStream(PROJECT_ARCHIEVE_PATH(project.id)),
+        );
+
+        console.log(downloadUrl)
+
+        return downloadUrl;
     }
 }

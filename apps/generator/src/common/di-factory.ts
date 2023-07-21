@@ -5,6 +5,8 @@ import { MongoProjectRepository } from '../features/projects/data-access/mongo-p
 import { ProjectRepository } from '../features/projects/data-access/project-repository';
 import { ProjectsRouter } from '../features/projects/routes/projects-router';
 import { ProjectsService } from '../features/projects/services/projects-service';
+import { AwsFileUploadService } from './file-upload/aws-file-upload-service';
+import { FileUploadService } from './file-upload/file-upload-service';
 
 export class DIFactory {
     private projectsRepository: ProjectRepository;
@@ -13,13 +15,19 @@ export class DIFactory {
     private generatorService: GeneratorService;
     private dataSyncService: DataSyncService;
     private generatorRouter: GeneratorRouter;
+    private fileUploadService: FileUploadService;
 
     constructor() {
         this.projectsRepository = new MongoProjectRepository();
         this.projectsService = new ProjectsService(this.projectsRepository);
         this.projectsRouter = new ProjectsRouter(this.projectsService);
         this.dataSyncService = new DataSyncService(this.projectsRepository);
-        this.generatorService = new GeneratorService(this.projectsRepository, this.dataSyncService);
+        this.fileUploadService = new AwsFileUploadService();
+        this.generatorService = new GeneratorService(
+            this.projectsRepository,
+            this.dataSyncService,
+            this.fileUploadService,
+        );
         this.generatorRouter = new GeneratorRouter(this.dataSyncService, this.generatorService);
     }
 
