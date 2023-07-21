@@ -24,7 +24,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './common/middlewares/logging.interceptor';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { FileScalar } from './modules/gateway/utils/file-scalar';
 import { formatError } from './common/utils/format-error';
 
 @Module({
@@ -42,9 +41,6 @@ import { formatError } from './common/utils/format-error';
             driver: ApolloDriver,
             include: [GatewayModule],
             autoSchemaFile: 'schema.gql',
-            resolvers: {
-                File: FileScalar,
-            },
             formatError: formatError,
         }),
         CacheModule.register({

@@ -1,5 +1,4 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { GatewayController } from './gateway.controller';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { GeneratorService } from './services/generator.service';
@@ -13,7 +12,6 @@ import { AuthResolver } from './resolvers/auth.resolver';
 
 @Module({
     imports: [CacheModule.register(), BullModule.registerQueue({ name: QUEUE_NAME_SYNC }), AuthModule, UsersModule],
-    controllers: [GatewayController],
     providers: [
         GeneratorService,
         ProjectSyncConsumer,

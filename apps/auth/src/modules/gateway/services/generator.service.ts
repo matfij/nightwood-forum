@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Cache } from 'cache-manager';
-import { Inject, Injectable, StreamableFile } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { GENERATOR_APP_URL, QUEUE_MAX_RETRY_COUNT, QUEUE_NAME_SYNC } from '../../../common/config';
 import { ProjectDto } from '../models/project.dto';
@@ -57,15 +57,11 @@ export class GeneratorService {
         return projectId;
     }
 
-    async generateProjectWebsite(userId: string, projectId: string): Promise<StreamableFile> {
-        try {
-            const res = await axios.post(`${this.BASE_URL}/generator/website`, {
-                userId: userId,
-                projectId: projectId,
-            });
-            return new StreamableFile(Buffer.from(res.data));
-        } catch (error) {
-            throw new Error(error?.response?.data?.message || 'Failed to generate webiste');
-        }
+    async generateProjectWebsite(userId: string, projectId: string): Promise<string> {
+        const res = await axios.post(`${this.BASE_URL}/generator/website`, {
+            userId: userId,
+            projectId: projectId,
+        });
+        return res.data;
     }
 }

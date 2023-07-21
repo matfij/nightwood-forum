@@ -29,17 +29,7 @@ export const ProjectListComponent = () => {
         if (!response.data || !response.data.generateWebsite) {
             return;
         }
-        const blob = new Blob([response.data.generateWebsite.stream._readableState.buffer.head.data.data], {
-            type: 'application/zip',
-        });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'website.zip');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        window.open(response.data.generateWebsite, '_blank');
     };
 
     return (

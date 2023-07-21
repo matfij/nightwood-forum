@@ -64,8 +64,6 @@ export class GeneratorService {
             fs.createReadStream(PROJECT_ARCHIEVE_PATH(project.id)),
         );
 
-        console.log(downloadUrl)
-
         return downloadUrl;
     }
 }

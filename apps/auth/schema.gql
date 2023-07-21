@@ -2,15 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthUserDto {
+type UserDto {
   id: String!
   username: String!
-  accessToken: String!
-  refreshToken: String!
-}
-
-type AccessTokenDto {
-  token: String!
+  password: String
+  projects: [ProjectDto!]
 }
 
 type ProjectDto {
@@ -23,11 +19,15 @@ type ProjectDto {
   user: UserDto
 }
 
-type UserDto {
+type AccessTokenDto {
+  token: String!
+}
+
+type AuthUserDto {
   id: String!
   username: String!
-  password: String
-  projects: [ProjectDto!]
+  accessToken: String!
+  refreshToken: String!
 }
 
 type Query {
@@ -42,7 +42,7 @@ type Mutation {
   refreshToken(refreshTokenDto: RefreshTokenDto!): AccessTokenDto!
   createProject(projectCreateDto: ProjectCreateDto!): ProjectDto!
   sync(id: String!): String!
-  generateWebsite(id: String!): File!
+  generateWebsite(id: String!): String!
 }
 
 input SignupDto {
@@ -64,6 +64,3 @@ input ProjectCreateDto {
   notionName: String!
   notionAccessCode: String!
 }
-
-"""Downloadable file"""
-scalar File
