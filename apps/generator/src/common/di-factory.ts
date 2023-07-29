@@ -1,5 +1,5 @@
 import { GeneratorRouter } from '../features/generator/routes/generator-router';
-import { DataSyncService } from '../features/generator/services/data-sync-service';
+import { DataSyncService } from '../features/data-sync/services/data-sync-service';
 import { GeneratorService } from '../features/generator/services/generator-service';
 import { MongoProjectRepository } from '../features/projects/data-access/mongo-project-repository';
 import { ProjectRepository } from '../features/projects/data-access/project-repository';
@@ -7,6 +7,7 @@ import { ProjectsRouter } from '../features/projects/routes/projects-router';
 import { ProjectsService } from '../features/projects/services/projects-service';
 import { AwsFileUploadService } from './file-upload/aws-file-upload-service';
 import { FileUploadService } from './file-upload/file-upload-service';
+import { DataSyncRouter } from '../features/data-sync/routes/data-sync-router';
 
 export class DIFactory {
     private projectsRepository: ProjectRepository;
@@ -16,6 +17,7 @@ export class DIFactory {
     private dataSyncService: DataSyncService;
     private generatorRouter: GeneratorRouter;
     private fileUploadService: FileUploadService;
+    private dataSyncRouter: DataSyncRouter;
 
     constructor() {
         this.projectsRepository = new MongoProjectRepository();
@@ -28,7 +30,8 @@ export class DIFactory {
             this.dataSyncService,
             this.fileUploadService,
         );
-        this.generatorRouter = new GeneratorRouter(this.dataSyncService, this.generatorService);
+        this.generatorRouter = new GeneratorRouter(this.generatorService);
+        this.dataSyncRouter = new DataSyncRouter(this.dataSyncService);
     }
 
     getProjectsRouter(): ProjectsRouter {
@@ -37,5 +40,9 @@ export class DIFactory {
 
     getGeneratorRouter(): GeneratorRouter {
         return this.generatorRouter;
+    }
+
+    getDataSyncRouter(): DataSyncRouter {
+        return this.dataSyncRouter;
     }
 }

@@ -2,9 +2,9 @@ import fs from 'fs-extra';
 import { SyncProjectDataParams } from '../models/sync-project-data-params';
 import { NotionClientService } from './notion-client-service';
 import { NotionParserService } from './notion-parser-service';
-import { ContentBlock } from '../models/content-block';
+import { ContentBlock } from '../../generator/models/content-block';
 import { ProjectRepository } from '../../projects/data-access/project-repository';
-import { PROJECT_ASSETS_PATH, PROJECT_CACHE_PATH, PROJECT_CONTENT_PATH } from '../utils/cache-paths';
+import { PROJECT_ASSETS_PATH, PROJECT_CACHE_PATH, PROJECT_CONTENT_PATH } from '../../generator/utils/cache-paths';
 
 export class DataSyncService {
     constructor(private projectRepository: ProjectRepository) {}

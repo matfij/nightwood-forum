@@ -3,7 +3,7 @@ import archiver from 'archiver';
 import { Transform } from 'stream';
 import { GenerateParams } from '../models/generate-params';
 import { WebsiteCompilerService } from './website-compiler-service';
-import { DataSyncService } from './data-sync-service';
+import { DataSyncService } from '../../data-sync/services/data-sync-service';
 import { ProjectRepository } from '../../projects/data-access/project-repository';
 import {
     PROJECT_ARCHIEVE_FILENAME,

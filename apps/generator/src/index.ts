@@ -11,6 +11,7 @@ const di = new DIFactory();
 app.use(express.json());
 app.use(di.getGeneratorRouter().router);
 app.use(di.getProjectsRouter().router);
+app.use(di.getDataSyncRouter().router);
 
 function connectDb() {
     mongoose.connect(DB_CONNECTION_STRING).then(() => console.log(`generator-db connected (pid: ${process.pid})`));

@@ -1,8 +1,8 @@
 import fs from 'fs-extra';
 import axios from 'axios';
 import { BlockObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
-import { ContentBlock, ContentBlockType } from '../models/content-block';
-import { PROJECT_ASSETS_PATH } from '../utils/cache-paths';
+import { ContentBlock, ContentBlockType } from '../../generator/models/content-block';
+import { PROJECT_ASSETS_PATH } from '../../generator/utils/cache-paths';
 
 export class NotionParserService {
     static async parseBlocks(projectId: string, notionBlocks: BlockObjectResponse[]): Promise<ContentBlock[]> {
