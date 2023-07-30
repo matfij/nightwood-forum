@@ -8,6 +8,7 @@ import { ProjectCreateDto } from '../models/project-create.dto';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
 import { ProjectSyncJobPayload } from '../models/project-sync-job-payload';
+import { ProjectUpdateDto } from '../models/project-update.dto';
 
 @Injectable()
 export class GeneratorService {
@@ -45,6 +46,14 @@ export class GeneratorService {
             userId: userId,
         });
         await this.cacheManager.set(this.PROJECTS_KEY(userId), res.data);
+        return res.data;
+    }
+
+    async updateProject(userId: string, dto: ProjectUpdateDto): Promise<ProjectDto> {
+        const res = await axios.post(`${this.BASE_URL}/projects/update`, {
+            userId: userId,
+            ...dto,
+        });
         return res.data;
     }
 

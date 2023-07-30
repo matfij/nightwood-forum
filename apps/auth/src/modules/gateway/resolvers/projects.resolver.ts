@@ -6,6 +6,7 @@ import { AuthGuard } from '../../../common/middlewares/auth.guard';
 import { CurrentUser } from '../../../common/utils/current-user.decorator';
 import { UserDto } from '../../users/models/user.dto';
 import { ProjectCreateDto } from '../models/project-create.dto';
+import { ProjectUpdateDto } from '../models/project-update.dto';
 
 @Resolver()
 export class ProjectsResolver {
@@ -27,6 +28,12 @@ export class ProjectsResolver {
     @UseGuards(AuthGuard)
     project(@CurrentUser() user: UserDto, @Args('id') id: string) {
         return this.generatorService.readProject(user.id, id);
+    }
+
+    @Mutation(() => ProjectDto)
+    @UseGuards(AuthGuard)
+    updateProject(@CurrentUser() user: UserDto, @Args('projectUpdateDto') dto: ProjectUpdateDto) {
+        return this.generatorService.updateProject(user.id, dto);
     }
 
     @Mutation(() => String)

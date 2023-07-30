@@ -41,6 +41,7 @@ type Mutation {
   signin(signinDto: SigninDto!): AuthUserDto!
   refreshToken(refreshTokenDto: RefreshTokenDto!): AccessTokenDto!
   createProject(projectCreateDto: ProjectCreateDto!): ProjectDto!
+  updateProject(projectUpdateDto: ProjectUpdateDto!): ProjectDto!
   sync(id: String!): String!
   generateWebsite(id: String!): String!
 }
@@ -63,4 +64,10 @@ input ProjectCreateDto {
   notionId: String!
   notionName: String!
   notionAccessCode: String!
+}
+
+input ProjectUpdateDto {
+  notionId: String
+  notionName: String
+  notionAccessCode: String
 }
