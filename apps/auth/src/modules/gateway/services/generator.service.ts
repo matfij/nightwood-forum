@@ -13,7 +13,7 @@ import { ProjectUpdateDto } from '../models/project-update.dto';
 @Injectable()
 export class GeneratorService {
     private readonly BASE_URL = GENERATOR_APP_URL;
-    private readonly PROJECTS_KEY = (userId: string) => `USER_PROJECTS_${userId}`;
+    private readonly PROJECTS_CACHE_KEY = (userId: string) => `USER_PROJECTS_${userId}`;
 
     constructor(
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
@@ -25,7 +25,7 @@ export class GeneratorService {
             userId: userId,
             ...dto,
         });
-        await this.cacheManager.del(this.PROJECTS_KEY(userId));
+        await this.cacheManager.del(this.PROJECTS_CACHE_KEY(userId));
         return res.data;
     }
 
@@ -38,14 +38,14 @@ export class GeneratorService {
     }
 
     async readProjects(userId: string): Promise<ProjectDto[]> {
-        const cachedProjects = await this.cacheManager.get<ProjectDto[] | null>(this.PROJECTS_KEY(userId));
+        const cachedProjects = await this.cacheManager.get<ProjectDto[] | null>(this.PROJECTS_CACHE_KEY(userId));
         if (cachedProjects) {
             return cachedProjects;
         }
         const res = await axios.post(`${this.BASE_URL}/projects/readAll`, {
             userId: userId,
         });
-        await this.cacheManager.set(this.PROJECTS_KEY(userId), res.data);
+        await this.cacheManager.set(this.PROJECTS_CACHE_KEY(userId), res.data);
         return res.data;
     }
 
@@ -54,6 +54,7 @@ export class GeneratorService {
             userId: userId,
             ...dto,
         });
+        await this.cacheManager.del(this.PROJECTS_CACHE_KEY(userId));
         return res.data;
     }
 

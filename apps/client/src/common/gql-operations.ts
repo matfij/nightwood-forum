@@ -90,6 +90,23 @@ export const CREATE_PROJECT_MUTATION = gql`
     }
 `;
 
+export const UPDATE_PROJECT_MUTATION = gql`
+    mutation UpdateProject($projectUpdateDto: ProjectUpdateDto!) {
+        updateProject(projectUpdateDto: $projectUpdateDto) {
+            id
+            userId
+            notionId
+            notionName
+            notionAccessCode
+            createdAt
+            user {
+                id
+                username
+            }
+        }
+    }
+`;
+
 export const SYNC_MUTATION = gql`
     mutation Sync($id: String!) {
         sync(id: $id)

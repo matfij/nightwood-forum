@@ -15,7 +15,6 @@ export type Scalars = {
     Boolean: { input: boolean; output: boolean };
     Int: { input: number; output: number };
     Float: { input: number; output: number };
-    File: { input: any; output: any };
 };
 
 export type AccessTokenDto = {
@@ -34,11 +33,12 @@ export type AuthUserDto = {
 export type Mutation = {
     __typename?: 'Mutation';
     createProject: ProjectDto;
-    generateWebsite: Scalars['File']['output'];
+    generateWebsite: Scalars['String']['output'];
     refreshToken: AccessTokenDto;
     signin: AuthUserDto;
     signup: AuthUserDto;
     sync: Scalars['String']['output'];
+    updateProject: ProjectDto;
 };
 
 export type MutationCreateProjectArgs = {
@@ -65,6 +65,10 @@ export type MutationSyncArgs = {
     id: Scalars['String']['input'];
 };
 
+export type MutationUpdateProjectArgs = {
+    projectUpdateDto: ProjectUpdateDto;
+};
+
 export type ProjectCreateDto = {
     notionAccessCode: Scalars['String']['input'];
     notionId: Scalars['String']['input'];
@@ -73,13 +77,20 @@ export type ProjectCreateDto = {
 
 export type ProjectDto = {
     __typename?: 'ProjectDto';
-    createdAt?: Maybe<Scalars['Int']['output']>;
+    createdAt?: Maybe<Scalars['Float']['output']>;
     id: Scalars['String']['output'];
     notionAccessCode: Scalars['String']['output'];
     notionId: Scalars['String']['output'];
     notionName: Scalars['String']['output'];
     user?: Maybe<UserDto>;
     userId: Scalars['String']['output'];
+};
+
+export type ProjectUpdateDto = {
+    notionAccessCode?: InputMaybe<Scalars['String']['input']>;
+    notionId?: InputMaybe<Scalars['String']['input']>;
+    notionName?: InputMaybe<Scalars['String']['input']>;
+    projectId: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -198,6 +209,24 @@ export type CreateProjectMutation = {
     };
 };
 
+export type UpdateProjectMutationVariables = Exact<{
+    projectUpdateDto: ProjectUpdateDto;
+}>;
+
+export type UpdateProjectMutation = {
+    __typename?: 'Mutation';
+    updateProject: {
+        __typename?: 'ProjectDto';
+        id: string;
+        userId: string;
+        notionId: string;
+        notionName: string;
+        notionAccessCode: string;
+        createdAt?: number | null;
+        user?: { __typename?: 'UserDto'; id: string; username: string } | null;
+    };
+};
+
 export type SyncMutationVariables = Exact<{
     id: Scalars['String']['input'];
 }>;
@@ -208,7 +237,7 @@ export type GenerateWebsiteMutationVariables = Exact<{
     id: Scalars['String']['input'];
 }>;
 
-export type GenerateWebsiteMutation = { __typename?: 'Mutation'; generateWebsite: any };
+export type GenerateWebsiteMutation = { __typename?: 'Mutation'; generateWebsite: string };
 
 export const MeDocument = gql`
     query Me {
@@ -488,6 +517,53 @@ export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMut
 export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<
     CreateProjectMutation,
     CreateProjectMutationVariables
+>;
+export const UpdateProjectDocument = gql`
+    mutation UpdateProject($projectUpdateDto: ProjectUpdateDto!) {
+        updateProject(projectUpdateDto: $projectUpdateDto) {
+            id
+            userId
+            notionId
+            notionName
+            notionAccessCode
+            createdAt
+            user {
+                id
+                username
+            }
+        }
+    }
+`;
+export type UpdateProjectMutationFn = Apollo.MutationFunction<UpdateProjectMutation, UpdateProjectMutationVariables>;
+
+/**
+ * __useUpdateProjectMutation__
+ *
+ * To run a mutation, you first call `useUpdateProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProjectMutation, { data, loading, error }] = useUpdateProjectMutation({
+ *   variables: {
+ *      projectUpdateDto: // value for 'projectUpdateDto'
+ *   },
+ * });
+ */
+export function useUpdateProjectMutation(
+    baseOptions?: Apollo.MutationHookOptions<UpdateProjectMutation, UpdateProjectMutationVariables>,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<UpdateProjectMutation, UpdateProjectMutationVariables>(UpdateProjectDocument, options);
+}
+export type UpdateProjectMutationHookResult = ReturnType<typeof useUpdateProjectMutation>;
+export type UpdateProjectMutationResult = Apollo.MutationResult<UpdateProjectMutation>;
+export type UpdateProjectMutationOptions = Apollo.BaseMutationOptions<
+    UpdateProjectMutation,
+    UpdateProjectMutationVariables
 >;
 export const SyncDocument = gql`
     mutation Sync($id: String!) {

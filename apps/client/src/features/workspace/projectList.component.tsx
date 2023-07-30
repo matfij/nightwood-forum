@@ -1,10 +1,11 @@
 import styles from './projectList.module.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { LoadingComponent } from '../../common/loading.component';
 import { parseError } from '../../common/parse-error';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
-import { useGenerateWebsiteMutation, useProjectsQuery, useSyncMutation } from '../../common/gql-client';
+import { ProjectDto, useGenerateWebsiteMutation, useProjectsQuery, useSyncMutation } from '../../common/gql-client';
 import { setProjects } from './projectsSlice';
+import { UpdateProjectComponent } from './updateProject.component';
 
 export const ProjectListComponent = () => {
     const dispatch = useAppDispatch();
@@ -12,6 +13,7 @@ export const ProjectListComponent = () => {
     const { data, loading, error } = useProjectsQuery();
     const [sync, { loading: syncLoading, error: syncError }] = useSyncMutation();
     const [generate, { loading: generateLoading, error: generateError }] = useGenerateWebsiteMutation();
+    const [activeProject, setActiveProject] = useState<ProjectDto>();
 
     useEffect(() => {
         if (!data) {
@@ -40,24 +42,34 @@ export const ProjectListComponent = () => {
             <div className="projectsWrapper">
                 {projects.map((project) => (
                     <li key={project.id} className={styles.projectItem}>
-                        {project.notionName}
+                        <span className={styles.projectNameText}>{project.notionName}</span>
                         <button
                             onClick={() => onSync(project.id)}
                             disabled={syncLoading}
-                            className={styles.generateBtn}
+                            className={styles.projectActionBtn}
                         >
-                            🔄
+                            🔄 Sync
                         </button>
                         <button
                             onClick={() => onGenerateWebsite(project.id)}
                             disabled={generateLoading}
-                            className={styles.generateBtn}
+                            className={styles.projectActionBtn}
                         >
-                            🚀
+                            🚀 Gen
+                        </button>
+                        <button
+                            onClick={() => setActiveProject(project)}
+                            disabled={syncLoading || generateLoading}
+                            className={styles.projectActionBtn}
+                        >
+                            ✏️ Edit
                         </button>
                     </li>
                 ))}
             </div>
+            {activeProject && (
+                <UpdateProjectComponent project={activeProject} onHide={() => setActiveProject(undefined)} />
+            )}
         </>
     );
 };

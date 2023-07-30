@@ -13,7 +13,7 @@ export class ProjectsRouter {
         this.router.post(`${this.path}/create`, this.create);
         this.router.post(`${this.path}/readOne`, this.readOne);
         this.router.post(`${this.path}/readAll`, this.readAll);
-        this.router.post(`${this.path}/edit`, this.edit);
+        this.router.post(`${this.path}/update`, this.update);
     }
 
     create = async (req: Request, res: Response, next: NextFunction) => {
@@ -34,7 +34,7 @@ export class ProjectsRouter {
         res.status(200).json(projects);
     };
 
-    edit = async (req: Request, res: Response, next: NextFunction) => {
+    update = async (req: Request, res: Response, next: NextFunction) => {
         const params = req.body;
         const project = await this.projectsService.update(params);
         res.status(200).json(project);

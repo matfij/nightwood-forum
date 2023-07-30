@@ -3,6 +3,10 @@ import { IsString } from 'class-validator';
 
 @InputType()
 export class ProjectUpdateDto {
+    @Field()
+    @IsString()
+    projectId: string;
+
     @Field({ nullable: true })
     @IsString()
     notionId: string;

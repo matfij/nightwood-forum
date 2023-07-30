@@ -107,3 +107,26 @@ fieldset {
     font-size: 0.9rem;
     color: var(--color-error);
 }
+
+.modalWrapper {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10;
+}
+
+.modalContent {
+    width: 90%;
+    max-width: 600px;
+    background: var(--color-light-1);
+    padding: 1rem;
+    border-radius: 4px;
+    opacity: 1;
+    z-index: 20;
+}

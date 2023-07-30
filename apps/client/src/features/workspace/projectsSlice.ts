@@ -14,7 +14,6 @@ const projectsSlice = createSlice({
     initialState: initialState,
     reducers: {
         setProjects: (state, action: PayloadAction<ProjectDto[]>) => {
-            console.log('set')
             state.projects = action.payload;
         },
     },

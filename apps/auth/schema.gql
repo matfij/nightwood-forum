@@ -67,6 +67,7 @@ input ProjectCreateDto {
 }
 
 input ProjectUpdateDto {
+  projectId: String!
   notionId: String
   notionName: String
   notionAccessCode: String

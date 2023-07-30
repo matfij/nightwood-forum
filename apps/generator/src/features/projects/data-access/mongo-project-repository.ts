@@ -16,11 +16,11 @@ export class MongoProjectRepository implements ProjectRepository {
         return await MongoProjectModel.find(params);
     }
 
-    async update(params: Partial<Project>): Promise<Project> {
+    async update(projectId: string, params: Partial<Project>): Promise<Project> {
         return (await MongoProjectModel.findOneAndUpdate(
-            { id: params.id },
+            { id: projectId },
             { $set: params },
             { new: true },
-        )) as Project;
+        ) as Project);
     }
 }

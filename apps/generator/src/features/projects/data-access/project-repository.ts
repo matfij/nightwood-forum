@@ -5,5 +5,5 @@ export interface ProjectRepository {
     create(params: CreateProjectParams): Promise<Project>;
     findOne(params: Partial<Project>): Promise<Project | null>;
     findMany(params: Partial<Project>): Promise<Project[]>;
-    update(params: Partial<Project>): Promise<Project>;
+    update(projectId: string, params: Partial<Project>): Promise<Project>;
 }

@@ -16,7 +16,11 @@
     font-weight: 500;
 }
 
-.generateBtn {
+.projectNameText {
+    width: 10rem;
+}
+
+.projectActionBtn {
     width: 1rem;
     cursor: pointer;
     background: none;

@@ -35,10 +35,10 @@ export class ProjectsService {
             throw new Error('Project not found');
         }
         if (project.userId !== params.userId) {
-            throw new Error('Project not owned')
+            throw new Error('Project not owned');
         }
         project = { ...project, ...params };
-        const updatedProject = this.projectRepository.update(params);
+        const updatedProject = await this.projectRepository.update(params.projectId, params);
         return updatedProject;
     }
 }
