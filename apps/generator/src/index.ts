@@ -5,15 +5,19 @@ import mongoose from 'mongoose';
 import { APP_MAX_FORKS, APP_PORT, DB_CONNECTION_STRING } from './common/config';
 import { DIFactory } from './common/di-factory';
 import { logger } from './common/middlewares/logger';
+import { errorHandler } from './common/middlewares/error-handler';
 
 const app = express();
 const di = new DIFactory();
 
 app.use(express.json());
 app.use(logger);
+
 app.use(di.getGeneratorRouter().router);
 app.use(di.getProjectsRouter().router);
 app.use(di.getDataSyncRouter().router);
+
+app.use(errorHandler);
 
 function connectDb() {
     mongoose.connect(DB_CONNECTION_STRING).then(() => console.log(`generator-db connected (pid: ${process.pid})`));
