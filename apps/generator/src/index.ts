@@ -4,11 +4,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { APP_MAX_FORKS, APP_PORT, DB_CONNECTION_STRING } from './common/config';
 import { DIFactory } from './common/di-factory';
+import { logger } from './common/middlewares/logger';
 
 const app = express();
 const di = new DIFactory();
 
 app.use(express.json());
+app.use(logger);
 app.use(di.getGeneratorRouter().router);
 app.use(di.getProjectsRouter().router);
 app.use(di.getDataSyncRouter().router);
