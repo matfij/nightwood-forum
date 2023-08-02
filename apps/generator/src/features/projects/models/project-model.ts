@@ -1,8 +1,22 @@
-export interface Project {
+import { IsOptional, IsString } from 'class-validator';
+
+export class Project {
+    @IsString()
+    @IsOptional()
     id?: string;
-    userId: string;
-    notionId: string;
-    notionName: string;
-    notionAccessCode: string;
-    createdAt?: number;
+
+    @IsString()
+    userId!: string;
+
+    @IsString()
+    notionId!: string;
+
+    @IsString()
+    notionName!: string;
+
+    @IsString()
+    notionAccessCode!: string;
+
+    @IsString()
+    createdAt!: number;
 }

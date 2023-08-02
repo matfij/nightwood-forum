@@ -1,6 +1,6 @@
 import { ProjectRepository } from '../data-access/project-repository';
 import { CreateProjectParams } from '../models/create-project-params';
-import { EditProjectParams } from '../models/edit-project-params';
+import { UpdateProjectParams } from '../models/edit-project-params';
 import { Project } from '../models/project-model';
 import { ReadAllProjectsParams } from '../models/read-all-projects-params';
 import { ReadOneProjectParams } from '../models/read-one-project-params';
@@ -29,7 +29,7 @@ export class ProjectsService {
         return projects;
     }
 
-    async update(params: EditProjectParams): Promise<Project> {
+    async update(params: UpdateProjectParams): Promise<Project> {
         let project = await this.projectRepository.findOne({ id: params.projectId });
         if (!project) {
             throw new Error('Project not found');

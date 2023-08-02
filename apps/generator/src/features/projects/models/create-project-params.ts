@@ -1,6 +1,15 @@
-export interface CreateProjectParams {
-    userId: string;
-    notionId: string;
-    notionName: string;
-    notionAccessCode: string;
+import { IsString } from "class-validator";
+
+export class CreateProjectParams {
+    @IsString()
+    userId!: string;
+
+    @IsString()
+    notionId!: string;
+
+    @IsString()
+    notionName!: string;
+
+    @IsString()
+    notionAccessCode!: string;
 }

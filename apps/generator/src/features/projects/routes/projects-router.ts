@@ -1,5 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ProjectsService } from '../services/projects-service';
+import { bodyValidator } from '../../../common/middlewares/body-validator';
+import { CreateProjectParams } from '../models/create-project-params';
+import { UpdateProjectParams } from '../models/edit-project-params';
+import { ReadOneProjectParams } from '../models/read-one-project-params';
+import { ReadAllProjectsParams } from '../models/read-all-projects-params';
 
 export class ProjectsRouter {
     readonly path = '/projects';
@@ -10,10 +15,10 @@ export class ProjectsRouter {
     }
 
     initializeRoutes = () => {
-        this.router.post(`${this.path}/create`, this.create);
-        this.router.post(`${this.path}/readOne`, this.readOne);
-        this.router.post(`${this.path}/readAll`, this.readAll);
-        this.router.post(`${this.path}/update`, this.update);
+        this.router.post(`${this.path}/create`, bodyValidator(CreateProjectParams), this.create);
+        this.router.post(`${this.path}/readOne`, bodyValidator(ReadOneProjectParams), this.readOne);
+        this.router.post(`${this.path}/readAll`, bodyValidator(ReadAllProjectsParams), this.readAll);
+        this.router.post(`${this.path}/update`, bodyValidator(UpdateProjectParams), this.update);
     }
 
     create = async (req: Request, res: Response, next: NextFunction) => {
