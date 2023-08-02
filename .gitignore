@@ -133,4 +133,4 @@ dist
 .build
 
 # logs
-http.logs
+*.logs
