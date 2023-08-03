@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AuthUserDto, SigninDto } from './models';
+import { AuthUserDto, SigninDto } from '../../../common/gql/gql-client';
 
 export const authApiSlice = createApi({
     reducerPath: 'authApi',

@@ -1,15 +1,20 @@
 import styles from './projectList.module.css';
 import { useEffect, useState } from 'react';
-import { LoadingComponent } from '../../common/loading.component';
-import { parseError } from '../../common/parse-error';
-import { useAppDispatch, useAppSelector } from '../../common/hooks';
-import { ProjectDto, useGenerateWebsiteMutation, useProjectsQuery, useSyncMutation } from '../../common/gql-client';
-import { setProjects } from './projectsSlice';
 import { UpdateProjectComponent } from './updateProject.component';
+import { useAppDispatch, useAppSelector } from '../../../common/state/hooks';
+import { LoadingComponent } from '../../../common/components/loading.component';
+import { parseError } from '../../../common/utils/parse-error';
+import { setProjects } from '../state/projectsSlice';
+import {
+    ProjectDto,
+    useProjectsQuery,
+    useSyncMutation,
+    useGenerateWebsiteMutation,
+} from '../../../common/gql/gql-client';
 
 export const ProjectListComponent = () => {
     const dispatch = useAppDispatch();
-    const projects = useAppSelector((state) => state.projects.projects);
+    const projects = useAppSelector<Array<ProjectDto>>((state) => state.projects.projects);
     const { data, loading, error } = useProjectsQuery();
     const [sync, { loading: syncLoading, error: syncError }] = useSyncMutation();
     const [generate, { loading: generateLoading, error: generateError }] = useGenerateWebsiteMutation();

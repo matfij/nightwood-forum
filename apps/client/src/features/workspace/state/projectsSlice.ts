@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ProjectDto } from '../../common/gql-client';
+import { ProjectDto } from '../../../common/gql/gql-client';
 
 export type ProjectsState = {
     projects: ProjectDto[];

@@ -1,6 +1,6 @@
 import { setContext } from '@apollo/client/link/context';
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client';
-import { PersistenceService } from './persistence.service';
+import { PersistenceService } from '../state/persistence.service';
 
 const setAuthorizationLink = setContext((request, previousContext) => {
     const accessToken = PersistenceService.getAuthState()?.accessToken;

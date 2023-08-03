@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AuthUserDto } from './models';
-import { RootState } from '../../common/store';
-import { PersistenceService } from '../../common/persistence.service';
+import { AuthUserDto } from '../../../common/gql/gql-client';
+import { PersistenceService } from '../../../common/state/persistence.service';
+import { RootState } from '../../../common/state/store';
 
 export type AuthState = {
     username: string | null;

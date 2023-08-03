@@ -1,8 +1,8 @@
 import styles from './workspace.module.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { PersistenceService } from '../../common/persistence.service';
-import { useAppSelector } from '../../common/hooks';
 import { useEffect } from 'react';
+import { useAppSelector } from '../../../common/state/hooks';
+import { PersistenceService } from '../../../common/state/persistence.service';
 
 export const WorkspaceComponent = () => {
     const navigate = useNavigate();

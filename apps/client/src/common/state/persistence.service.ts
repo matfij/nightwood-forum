@@ -1,4 +1,4 @@
-import { AuthState } from '../features/auth/authSlice';
+import { AuthState } from "../../features/auth/state/authSlice";
 
 export class PersistenceService {
     static readonly AUTH_STATE_KEY = 'auth-state';

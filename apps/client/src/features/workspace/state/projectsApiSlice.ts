@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '../../common/store';
-import { ProjectCreateDto, ProjectDto } from './models';
+import { ProjectCreateDto, ProjectDto } from '../../../common/gql/gql-client';
+import { RootState } from '../../../common/state/store';
 
 export const projectsApiSlice = createApi({
     reducerPath: 'projectsApi',

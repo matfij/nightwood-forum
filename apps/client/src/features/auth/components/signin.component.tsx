@@ -1,11 +1,10 @@
 import styles from './signin.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../common/hooks';
-import { setSigninData } from './authSlice';
+import { useAppDispatch } from '../../../common/state/hooks';
 import { useForm } from 'react-hook-form';
-import { SigninDto } from './models';
-import { parseError } from '../../common/parse-error';
-import { useSigninMutation } from '../../common/gql-client';
+import { parseError } from '../../../common/utils/parse-error';
+import { SigninDto, useSigninMutation } from '../../../common/gql/gql-client';
+import { setSigninData } from '../state/authSlice';
 
 export const SigninComponent = () => {
     const dispatch = useAppDispatch();

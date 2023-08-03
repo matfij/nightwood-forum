@@ -1,11 +1,11 @@
-import { Route, Routes } from 'react-router-dom';
-import { SigninComponent } from './features/auth/signin.component';
-import { SignupComponent } from './features/auth/signup.component';
-import { WorkspaceComponent } from './features/workspace/workspace.component';
-import { AddProjectComponent } from './features/workspace/addProject.component';
-import { ProjectListComponent } from './features/workspace/projectList.component';
 import { ApolloProvider } from '@apollo/client';
-import { gqlClient } from './common/gql-auth';
+import { Route, Routes } from 'react-router-dom';
+import { SigninComponent } from './features/auth/components/signin.component';
+import { AddProjectComponent } from './features/workspace/components/addProject.component';
+import { gqlClient } from './common/gql/gql-auth';
+import { SignupComponent } from './features/auth/components/signup.component';
+import { ProjectListComponent } from './features/workspace/components/projectList.component';
+import { WorkspaceComponent } from './features/workspace/components/workspace.component';
 
 
 export const App = () => {

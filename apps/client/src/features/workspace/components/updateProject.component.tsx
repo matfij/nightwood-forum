@@ -1,7 +1,7 @@
+import { ProjectDto, ProjectUpdateDto, useUpdateProjectMutation } from '../../../common/gql/gql-client';
+import { parseError } from '../../../common/utils/parse-error';
 import style from './updateProject.module.css';
 import { useForm } from 'react-hook-form';
-import { ProjectDto, ProjectUpdateDto, useUpdateProjectMutation } from '../../common/gql-client';
-import { parseError } from '../../common/parse-error';
 
 export type UpdateProjectProps = {
     project: ProjectDto;

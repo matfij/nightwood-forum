@@ -1,10 +1,10 @@
 import styles from './addProject.module.css';
 import { useForm } from 'react-hook-form';
-import { parseError } from '../../common/parse-error';
-import { useAppDispatch, useAppSelector } from '../../common/hooks';
+import { parseError } from '../../../common/utils/parse-error';
+import { useAppDispatch, useAppSelector } from '../../../common/state/hooks';
 import { useNavigate } from 'react-router-dom';
-import { ProjectCreateDto, useCreateProjectMutation } from '../../common/gql-client';
-import { setProjects } from './projectsSlice';
+import { ProjectCreateDto, useCreateProjectMutation } from '../../../common/gql/gql-client';
+import { setProjects } from '../state/projectsSlice';
 
 export const AddProjectComponent = () => {
     const projects = useAppSelector((state) => state.projects.projects);

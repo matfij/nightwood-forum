@@ -1,9 +1,8 @@
 import styles from './signup.module.css';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { SignupFormData } from './models';
-import { parseError } from '../../common/parse-error';
-import { useSignupMutation } from '../../common/gql-client';
+import { parseError } from '../../../common/utils/parse-error';
+import { useSignupMutation } from '../../../common/gql/gql-client';
 
 export const SignupComponent = () => {
     const [signup, { loading, error }] = useSignupMutation();
@@ -67,3 +66,9 @@ export const SignupComponent = () => {
         </main>
     );
 };
+
+interface SignupFormData {
+    username: string;
+    password: string;
+    repeatPassword: string;
+}
