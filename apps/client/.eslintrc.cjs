@@ -10,6 +10,6 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
-    'max-len': ['error', { 'code': 120 }],
+    'max-len': ['error', { 'code': 120 , ignoreStrings: true, ignoreComments: true }],
   },
 }
