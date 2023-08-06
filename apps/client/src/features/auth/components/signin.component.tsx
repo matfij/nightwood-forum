@@ -35,12 +35,18 @@ export const SigninComponent = () => {
 
     return (
         <main>
-            <h1 className="titleText" data-testid="test-app-name">NotionGen</h1>
+            <h1 className="titleText" data-testid="test-app-name">
+                NotionGen
+            </h1>
             <form onSubmit={handleSubmit((data) => onSignin(data))} className={styles.formWrapper} autoComplete="on">
                 <h3>Sign in</h3>
                 <fieldset>
                     <label htmlFor="username">Username</label>
-                    <input {...register('username', { required: true })} autoComplete="username" />
+                    <input
+                        {...register('username', { required: true })}
+                        autoComplete="username"
+                        data-testid="test-username-input"
+                    />
                     {errors.username && <p className="errorText">Username is required.</p>}
                 </fieldset>
                 <fieldset>
@@ -49,15 +55,21 @@ export const SigninComponent = () => {
                         {...register('password', { required: true })}
                         type="password"
                         autoComplete="current-password"
+                        data-testid="test-password-input"
                     />
                     {errors.password && <p className="errorText">Password is required.</p>}
                 </fieldset>
                 {error && <p className="errorText">{parseError(error)}</p>}
-                <button disabled={loading} type="submit" className={styles.submitBtn}>
+                <button disabled={loading} type="submit" className={styles.submitBtn} data-testid="test-submit-btn">
                     Signin
                 </button>
             </form>
-            <button disabled={loading} onClick={() => navigate('/signup')} className={styles.navigateBtn}>
+            <button
+                disabled={loading}
+                onClick={() => navigate('/signup')}
+                className={styles.navigateBtn}
+                data-testid="test-nav-btn"
+            >
                 Signup
             </button>
         </main>
