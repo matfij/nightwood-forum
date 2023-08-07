@@ -3,7 +3,8 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { SigninComponent } from '../../../../../../src/features/auth/components/signin.component';
 import { renderWithProviders } from '../../../../utils';
-import { navigateMock } from '../../../../setup';
+import { dispatchMock, navigateMock } from '../../../../setup';
+import { signinErrorMock, signinSuccessMock } from '../../../../../mocks/gql';
 
 describe('Signin Component', () => {
     it('renders component', () => {
@@ -11,26 +12,32 @@ describe('Signin Component', () => {
         expect(screen.getByTestId('test-app-name')).toHaveTextContent('NotionGen');
     });
 
-    it('submits form correctly', async () => {
-        const signinMock = vi
-            .fn()
-            .mockResolvedValue({ data: { username: 'test', accessToken: 'token', refreshToken: 'token' } });
-        vi.mock('../../../common/gql/gql-client', () => ({
-            useSigninMutation: signinMock,
-        }));
-        renderWithProviders(<SigninComponent />);
+    it('signs in correctly', async () => {
+        const singinMock = signinSuccessMock('test', '1234');
+        renderWithProviders(<SigninComponent />, [singinMock]);
 
         fireEvent.change(screen.getByTestId('test-username-input'), { target: { value: 'test' } });
         fireEvent.change(screen.getByTestId('test-password-input'), { target: { value: '1234' } });
         fireEvent.click(screen.getByTestId('test-submit-btn'));
 
         await waitFor(() => {
-            expect(signinMock).toHaveBeenCalledWith({
-                variables: {
-                    signinDto: { username: 'test', password: '1234' },
-                },
-            });
-            expect(navigateMock).toHaveBeenCalledWith('/workspace');
+            // expect(dispatchMock).toHaveBeenCalledWith(singinMock.result.data.signin);
+            expect(navigateMock).toHaveBeenCalledWith('/workspace'); // todo - state leak?
+        });
+    });
+
+    it('encounter error while signing in', async () => {
+        const singinMock = signinErrorMock('test', '1234', 'signin error');
+        renderWithProviders(<SigninComponent />, [singinMock]);
+
+        fireEvent.change(screen.getByTestId('test-username-input'), { target: { value: 'test' } });
+        fireEvent.change(screen.getByTestId('test-password-input'), { target: { value: '1234' } });
+        fireEvent.click(screen.getByTestId('test-submit-btn'));
+
+        await waitFor(() => {
+            expect(screen.getByTestId('test-error-text')).toHaveTextContent('signin error');
+            // expect(dispatchMock).not.toHaveBeenCalled();
+            expect(navigateMock).not.toHaveBeenCalled();
         });
     });
 

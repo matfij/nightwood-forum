@@ -23,7 +23,7 @@ export const SigninComponent = () => {
                     signinDto: data,
                 },
             });
-            if (!res.data) {
+            if (!res.data || error) {
                 return;
             }
             dispatch(setSigninData(res.data.signin));
@@ -59,7 +59,11 @@ export const SigninComponent = () => {
                     />
                     {errors.password && <p className="errorText">Password is required.</p>}
                 </fieldset>
-                {error && <p className="errorText">{parseError(error)}</p>}
+                {error && (
+                    <p className="errorText" data-testid="test-error-text">
+                        {parseError(error)}
+                    </p>
+                )}
                 <button disabled={loading} type="submit" className={styles.submitBtn} data-testid="test-submit-btn">
                     Signin
                 </button>
