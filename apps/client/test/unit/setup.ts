@@ -13,8 +13,8 @@ vi.mock('react-router-dom', async () => {
 });
 
 export const dispatchMock = vi.fn((data) => console.log(data));
-vi.mock('../../../../../../src/common/state/hooks', () => {
-    const hooks = vi.importActual('../../../../../../src/common/state/hooks');
+vi.mock('../../src/common/state/hooks', () => {
+    const hooks = vi.importActual('../../src/common/state/hooks');
     return {
         ...hooks,
         useAppDispatch: vi.fn().mockReturnValue(dispatchMock),

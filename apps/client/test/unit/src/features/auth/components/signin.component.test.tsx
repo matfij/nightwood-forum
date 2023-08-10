@@ -1,12 +1,16 @@
 import React from 'react';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SigninComponent } from '../../../../../../src/features/auth/components/signin.component';
 import { renderWithProviders } from '../../../../utils';
 import { dispatchMock, navigateMock } from '../../../../setup';
 import { signinErrorMock, signinSuccessMock } from '../../../../../mocks/gql';
 
 describe('Signin Component', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
     it('renders component', () => {
         renderWithProviders(<SigninComponent />);
         expect(screen.getByTestId('test-app-name')).toHaveTextContent('NotionGen');
@@ -21,8 +25,11 @@ describe('Signin Component', () => {
         fireEvent.click(screen.getByTestId('test-submit-btn'));
 
         await waitFor(() => {
-            // expect(dispatchMock).toHaveBeenCalledWith(singinMock.result.data.signin);
-            expect(navigateMock).toHaveBeenCalledWith('/workspace'); // todo - state leak?
+            expect(dispatchMock).toHaveBeenCalledWith({
+                payload: singinMock.result.data.signin,
+                type: 'auth/setSigninData',
+            });
+            expect(navigateMock).toHaveBeenCalledWith('/workspace');
         });
     });
 
@@ -36,7 +43,7 @@ describe('Signin Component', () => {
 
         await waitFor(() => {
             expect(screen.getByTestId('test-error-text')).toHaveTextContent('signin error');
-            // expect(dispatchMock).not.toHaveBeenCalled();
+            expect(dispatchMock).not.toHaveBeenCalled();
             expect(navigateMock).not.toHaveBeenCalled();
         });
     });
