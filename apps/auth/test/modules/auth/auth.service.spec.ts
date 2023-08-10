@@ -50,7 +50,7 @@ describe('AuthService', () => {
 
         usersService.readByUsername = jest.fn().mockResolvedValue({ username: 'existingUser' });
 
-        await expect(authService.signup(dto)).rejects.toThrowError('username must be unique');
+        await expect(authService.signup(dto)).rejects.toThrowError('Username must be unique');
         expect(usersService.readByUsername).toHaveBeenCalledWith(dto.username);
     });
 

@@ -4,6 +4,8 @@ import { Test } from '@nestjs/testing';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { GeneratorService } from '../../../src/modules/gateway/services/generator.service';
 import { getProjectCreateDtoStub, getProjectDtoStub } from '../../common/stubs';
+import { Queue } from 'bull';
+import { QUEUE_NAME_SYNC } from '../../../src/common/config';
 
 describe('GeneratorService', () => {
     let generatorService: GeneratorService;
@@ -14,6 +16,9 @@ describe('GeneratorService', () => {
         reset: jest.fn(),
         wrap: jest.fn(),
     };
+    const syncQueue: Pick<Queue, 'add'> = {
+        add: jest.fn(),
+    };
 
     beforeEach(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -23,9 +28,14 @@ describe('GeneratorService', () => {
                     provide: CACHE_MANAGER,
                     useValue: cacheManager,
                 },
+                {
+                    provide: QUEUE_NAME_SYNC,
+                    useValue: syncQueue,
+                },
             ],
         }).compile();
         generatorService = moduleRef.get(GeneratorService);
+        jest.clearAllMocks();
     });
 
     it('should be defined', () => {
@@ -45,7 +55,7 @@ describe('GeneratorService', () => {
     });
 
     it('should read user projects from cache', async () => {
-        const userId = 'k1e023k0ek12o3';
+        const userId = '095k64it0d';
         const cachedProjects = [getProjectDtoStub(userId)];
         cacheManager.get = jest.fn().mockResolvedValue(cachedProjects);
         const axiosPostSpy = jest.spyOn(axios, 'post').mockRejectedValue(undefined);
@@ -59,13 +69,13 @@ describe('GeneratorService', () => {
 
     it('should read user projects from other service', async () => {
         const userId = 'k1e023k0ek12o3';
-        const cachedProjects = [getProjectDtoStub(userId)];
+        const fetchedProjects = [getProjectDtoStub(userId)];
         cacheManager.get = jest.fn().mockResolvedValue(undefined);
-        const axiosPostMock = jest.spyOn(axios, 'post').mockResolvedValue({ data: cachedProjects });
+        const axiosPostMock = jest.spyOn(axios, 'post').mockResolvedValue({ data: fetchedProjects });
 
         const projects = await generatorService.readProjects(userId);
 
-        expect(projects).toEqual(cachedProjects);
+        expect(projects).toEqual(fetchedProjects);
         expect(cacheManager.get).toBeCalledWith(`USER_PROJECTS_${userId}`);
         expect(axiosPostMock).toHaveBeenCalled();
     });

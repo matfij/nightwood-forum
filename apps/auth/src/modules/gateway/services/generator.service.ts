@@ -17,7 +17,7 @@ export class GeneratorService {
 
     constructor(
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
-        @InjectQueue(QUEUE_NAME_SYNC) private syncQueue: Queue,
+        @Inject(QUEUE_NAME_SYNC) @InjectQueue(QUEUE_NAME_SYNC) private syncQueue: Queue,
     ) {}
 
     async createProject(userId: string, dto: ProjectCreateDto): Promise<ProjectDto> {
