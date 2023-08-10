@@ -14,37 +14,37 @@ export class ProjectsResolver {
 
     @Mutation(() => ProjectDto)
     @UseGuards(AuthGuard)
-    createProject(@CurrentUser() user: UserDto, @Args('projectCreateDto') dto: ProjectCreateDto) {
+    createProject(@CurrentUser() user: Omit<UserDto, 'password'>, @Args('projectCreateDto') dto: ProjectCreateDto) {
         return this.generatorService.createProject(user.id, dto);
     }
 
     @Query(() => [ProjectDto])
     @UseGuards(AuthGuard)
-    projects(@CurrentUser() user: UserDto) {
+    projects(@CurrentUser() user: Omit<UserDto, 'password'>) {
         return this.generatorService.readProjects(user.id);
     }
 
     @Query(() => ProjectDto)
     @UseGuards(AuthGuard)
-    project(@CurrentUser() user: UserDto, @Args('id') id: string) {
+    project(@CurrentUser() user: Omit<UserDto, 'password'>, @Args('id') id: string) {
         return this.generatorService.readProject(user.id, id);
     }
 
     @Mutation(() => ProjectDto)
     @UseGuards(AuthGuard)
-    updateProject(@CurrentUser() user: UserDto, @Args('projectUpdateDto') dto: ProjectUpdateDto) {
+    updateProject(@CurrentUser() user: Omit<UserDto, 'password'>, @Args('projectUpdateDto') dto: ProjectUpdateDto) {
         return this.generatorService.updateProject(user.id, dto);
     }
 
     @Mutation(() => String)
     @UseGuards(AuthGuard)
-    sync(@CurrentUser() user: UserDto, @Args('id') id: string) {
+    sync(@CurrentUser() user: Omit<UserDto, 'password'>, @Args('id') id: string) {
         return this.generatorService.syncProjectData(user.id, id);
     }
 
     @Mutation(() => String)
     @UseGuards(AuthGuard)
-    generateWebsite(@CurrentUser() user: UserDto, @Args('id') id: string) {
+    generateWebsite(@CurrentUser() user: Omit<UserDto, 'password'>, @Args('id') id: string) {
         return this.generatorService.generateProjectWebsite(user.id, id);
     }
 }
