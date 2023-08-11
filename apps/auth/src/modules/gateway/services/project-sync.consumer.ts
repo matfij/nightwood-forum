@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { Job } from 'bull';
 import { Processor, Process } from '@nestjs/bull';
-import { GENERATOR_APP_URL, QUEUE_MAX_CONCURRENT_JOBS, QUEUE_NAME_SYNC } from '../../../common/config';
+import { GENERATOR_APP_URL, QUEUE_MAX_CONCURRENT_JOBS, QUEUE_SYNC } from '../../../common/config';
 import { ProjectSyncJobPayload } from '../models/project-sync-job-payload';
 
-@Processor(QUEUE_NAME_SYNC)
+@Processor(QUEUE_SYNC)
 export class ProjectSyncConsumer {
     @Process({ concurrency: QUEUE_MAX_CONCURRENT_JOBS })
     async syncData(job: Job<ProjectSyncJobPayload>) {

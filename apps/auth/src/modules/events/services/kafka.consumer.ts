@@ -1,5 +1,5 @@
 import { Consumer, Kafka, ConsumerSubscribeTopics, ConsumerConfig, KafkaMessage } from 'kafkajs';
-import { sleep } from 'src/common/utils/sleep';
+import { sleep } from '../../../common/utils/sleep';
 import { EventConsumer } from '../models/event-consumer.interface';
 
 export class KafkaConsumer implements EventConsumer {

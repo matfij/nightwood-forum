@@ -25,6 +25,6 @@ export const QUEUE_MAX_EXECUTED_JOBS = Infinity;
 export const QUEUE_MAX_CONCURRENT_JOBS = 4;
 export const QUEUE_MAX_RETRY_COUNT = 3;
 export const QUEUE_MAX_JOB_TIME_MS = 15 * 60 * 1000;
-export const QUEUE_NAME_SYNC = 'sync-job';
+export const QUEUE_SYNC = 'sync-job';
 
 export const GENERATOR_APP_URL = process.env.GENERATOR_APP_URL;

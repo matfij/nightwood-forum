@@ -5,7 +5,9 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { GeneratorService } from '../../../src/modules/gateway/services/generator.service';
 import { getProjectCreateDtoStub, getProjectDtoStub } from '../../common/stubs';
 import { Queue } from 'bull';
-import { QUEUE_NAME_SYNC } from '../../../src/common/config';
+import { QUEUE_SYNC } from '../../../src/common/config';
+import { ProjectSyncProducer } from '../../../src/modules/gateway/services/project-sync.producer';
+import { ProjectSyncJobPayload } from '../../../src/modules/gateway/models/project-sync-job-payload';
 
 describe('GeneratorService', () => {
     let generatorService: GeneratorService;
@@ -16,8 +18,8 @@ describe('GeneratorService', () => {
         reset: jest.fn(),
         wrap: jest.fn(),
     };
-    const syncQueue: Pick<Queue, 'add'> = {
-        add: jest.fn(),
+    const projectSyncProducer: Omit<ProjectSyncProducer, 'syncQueue'> = {
+        addToQueue: jest.fn(),
     };
 
     beforeEach(async () => {
@@ -29,8 +31,8 @@ describe('GeneratorService', () => {
                     useValue: cacheManager,
                 },
                 {
-                    provide: QUEUE_NAME_SYNC,
-                    useValue: syncQueue,
+                    provide: ProjectSyncProducer,
+                    useValue: projectSyncProducer,
                 },
             ],
         }).compile();
@@ -78,5 +80,17 @@ describe('GeneratorService', () => {
         expect(projects).toEqual(fetchedProjects);
         expect(cacheManager.get).toBeCalledWith(`USER_PROJECTS_${userId}`);
         expect(axiosPostMock).toHaveBeenCalled();
+    });
+
+    it('should add project sync job to queue', async () => {
+        const userId = '929eie00192e';
+        const projectId = 'kd209d1d09d2';
+
+        await generatorService.syncProjectData(userId, projectId);
+
+        expect(projectSyncProducer.addToQueue).toHaveBeenCalledWith({
+            userId: userId,
+            projectId: projectId,
+        });
     });
 });
