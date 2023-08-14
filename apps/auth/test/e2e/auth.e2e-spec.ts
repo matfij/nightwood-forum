@@ -21,6 +21,7 @@ describe('Auth Resolver', () => {
     let httpServer: ReturnType<INestApplication['getHttpServer']>;
     let jwtService: JwtService;
     let usersRepository: Repository<User>;
+    const produceMock = jest.fn();
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -43,27 +44,10 @@ describe('Auth Resolver', () => {
                     nodeEnv: 'development',
                 }),
             ],
-            providers: [
-                JwtService,
-                { provide: getRepositoryToken(User), useClass: Repository },
-                {
-                    provide: ProducerService,
-                    useValue: { produce: jest.fn().mockResolvedValue(true) },
-                },
-                {
-                    provide: KafkaProducer,
-                    useValue: { produce: jest.fn().mockResolvedValue(true) },
-                },
-            ],
+            providers: [{ provide: getRepositoryToken(User), useClass: Repository }],
         })
-            .useMocker((token) => {
-                if (token === ProducerService) {
-                    return { produce: jest.fn().mockResolvedValue(true) };
-                }
-                if (token === KafkaProducer) {
-                    return { produce: jest.fn().mockResolvedValue(true) };
-                }
-            })
+            .overrideProvider(ProducerService)
+            .useValue({ produce: produceMock })
             .compile();
         app = moduleFixture.createNestApplication();
         httpServer = app.getHttpServer();
@@ -72,55 +56,60 @@ describe('Auth Resolver', () => {
         await app.init();
     });
 
-    xit('should fail to sign up with invalid dto (invalid password pattern)', async () => {
-        const query = `{
-            "operationName":"Signup",
-            "variables":{
-                "signupDto":{}},
-                "query":"mutation Signup($signupDto: SignupDto!) {
-                    signup(signupDto: $signupDto) {
-                        id
-                        username
-                        accessToken
-                        refreshToken
-                        __typename
-                    }
-                }"
-            }`;
-
-        await request(httpServer).post('/graphql').send({ query: query }).expect(400);
-    });
-
-    it('should sign up successfully', async () => {
-        const query = `mutation {signup(signupDto:{username:"userpro", password:"secretAA77"}){id}}`;
+    it('should fail to sign up with invalid dto (invalid password pattern)', async () => {
+        const query = `
+            mutation {signup(signupDto:{username:"userpro", password:"secret"}){ id }}
+        `;
 
         const res = await request(httpServer).post('/graphql').send({ query }).expect(200);
 
-        console.log(res);
+        expect(res.body.errors).toBeDefined();
+        expect(produceMock).not.toHaveBeenCalled();
     });
 
-    xit('should fail to refresh token with invalid refresh token', async () => {
-        const dto: RefreshTokenDto = {
-            token: 'invalidToken',
-        };
+    it('should sign up successfully', async () => {
+        const query = `
+            mutation {signup(signupDto:{username:"userpro", password:"secretAA77"}){ id username accessToken }}
+        `;
 
-        await request(httpServer).post('/api/auth/refreshToken').send(dto).expect(401);
+        const res = await request(httpServer).post('/graphql').send({ query }).expect(200);
+
+        expect(res.body.data.signup.id).toBeDefined();
+        expect(res.body.data.signup.username).toEqual('userpro');
+        expect(res.body.data.signup.accessToken).toBeDefined();
+        expect(produceMock).toHaveBeenCalledWith({
+            data: { id: res.body.data.signup.id, username: res.body.data.signup.username },
+            topic: 'signup',
+        });
     });
 
-    xit('should successfully refresh token', async () => {
+    it('should fail to refresh token with invalid refresh token', async () => {
+        const query = `
+            mutation {refreshToken(refreshTokenDto:{token:"token"}){ token }}
+        `;
+
+        const res = await request(httpServer).post('/graphql').send({ query }).expect(200);
+
+        expect(res.body.errors.toBeDefined);
+    });
+
+    it('should successfully refresh token', async () => {
         const payload: JwtPayload = {
             id: 'id',
             username: 'root',
             isRefresh: true,
         };
-        const dto: RefreshTokenDto = {
-            token: jwtService.sign(payload),
-        };
+        const token = jwtService.sign(payload);
+        const query = `
+            mutation {refreshToken(refreshTokenDto:{token:"${token}"}){ token }}
+        `;
 
-        await request(httpServer).post('/api/auth/refreshToken').send(dto).expect(200);
+        const res = await request(httpServer).post('/graphql').send({ query }).expect(200);
+
+        expect(res.body.data.refreshToken).toBeDefined();
     });
 
-    xit('should fail to read user data with invalid authorization header (refresh instead of access)', async () => {
+    it('should fail to read user data with invalid authorization header (refresh instead of access)', async () => {
         const user = usersRepository.create({ username: 'root', password: 'ValidPattern50' });
         await usersRepository.save(user);
         const payload: JwtPayload = {
@@ -129,11 +118,18 @@ describe('Auth Resolver', () => {
             isRefresh: true,
         };
         const token = jwtService.sign(payload);
+        const query = `query {me {username}}`;
 
-        await request(httpServer).get('/api/auth/me').set('Authorization', `Bearer ${token}`).expect(401);
+        const res = await request(httpServer)
+            .post('/graphql')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ query })
+            .expect(200);
+
+        expect(res.body.errors).toBeDefined();
     });
 
-    xit('should read authorized user data successfully', async () => {
+    it('should read authorized user data successfully', async () => {
         const user = usersRepository.create({ username: 'root', password: 'ValidPattern50' });
         await usersRepository.save(user);
         const payload: JwtPayload = {
@@ -142,10 +138,14 @@ describe('Auth Resolver', () => {
             isRefresh: false,
         };
         const token = jwtService.sign(payload);
+        const query = `query {me {username}}`;
 
-        const res = await request(httpServer).get('/api/auth/me').set('Authorization', `Bearer ${token}`).expect(200);
+        const res = await request(httpServer)
+            .post('/graphql')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ query })
+            .expect(200);
 
-        expect(res.body['id']).toEqual(user.id);
-        expect(res.body['username']).toEqual(user.username);
+        expect(res.body.data.me.username).toEqual(user.username);
     });
 });
