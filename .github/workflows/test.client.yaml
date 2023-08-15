@@ -1,4 +1,4 @@
-name: Test Auth App
+name: Test Client App
 
 on:
     push:
@@ -8,10 +8,10 @@ on:
 
 defaults:
     run:
-        working-directory: ./apps/auth
+        working-directory: ./apps/client
 
 jobs:
-    test-auth:
+    test-client:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
