@@ -13,7 +13,7 @@ export class DataSyncService {
     async syncProjectData(params: SyncProjectDataParams): Promise<void> {
         const project = await this.projectRepository.findOne({ id: params.projectId });
         if (!project || !project.id) {
-            throw new ApiError(ApiErrorName.NotFound, ApiErrorCode.BadRequest, 'Project not found', true);
+            throw new ApiError(ApiErrorName.NotFound, ApiErrorCode.BadRequest, 'Project not found', false);
         }
         if (project.userId !== params.userId) {
             throw new ApiError(ApiErrorName.PermissionDenied, ApiErrorCode.BadRequest, 'Project not owned', true);

@@ -1,15 +1,19 @@
 import { NextFunction, Response, Request } from 'express';
-import { saveError } from '../utils/save-error';
+import { saveApiError } from '../utils/save-error';
+import { ApiError } from '../errors/api-error';
 
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(err)
+        if (err instanceof ApiError && !err.isOperational) {
+            saveApiError(req, err.message);
+            process.exit(1);
+        }
         const status = err.code || 500;
         const message = err.message || 'Something went wrong';
-        saveError(req, message);
+        saveApiError(req, message);
         res.status(status).send({ message });
     } catch (error) {
-        saveError(req, JSON.stringify(error));
+        saveApiError(req, JSON.stringify(error));
         next(error);
     }
 };
