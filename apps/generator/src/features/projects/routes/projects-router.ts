@@ -19,29 +19,45 @@ export class ProjectsRouter {
         this.router.post(`${this.path}/readOne`, bodyValidator(ReadOneProjectParams), this.readOne);
         this.router.post(`${this.path}/readAll`, bodyValidator(ReadAllProjectsParams), this.readAll);
         this.router.post(`${this.path}/update`, bodyValidator(UpdateProjectParams), this.update);
-    }
+    };
 
     create = async (req: Request, res: Response, next: NextFunction) => {
-        const params = req.body;
-        const project = await this.projectsService.create(params);
-        res.status(201).json(project);
+        try {
+            const params = req.body;
+            const project = await this.projectsService.create(params);
+            res.status(201).json(project);
+        } catch (err) {
+            next(err);
+        }
     };
 
     readOne = async (req: Request, res: Response, next: NextFunction) => {
-        const params = req.body;
-        const projects = await this.projectsService.readOne(params);
-        res.status(200).json(projects);
+        try {
+            const params = req.body;
+            const projects = await this.projectsService.readOne(params);
+            res.status(200).json(projects);
+        } catch (err) {
+            next(err);
+        }
     };
 
     readAll = async (req: Request, res: Response, next: NextFunction) => {
-        const params = req.body;
-        const projects = await this.projectsService.readAll(params);
-        res.status(200).json(projects);
+        try {
+            const params = req.body;
+            const projects = await this.projectsService.readAll(params);
+            res.status(200).json(projects);
+        } catch (err) {
+            next(err);
+        }
     };
 
     update = async (req: Request, res: Response, next: NextFunction) => {
-        const params = req.body;
-        const project = await this.projectsService.update(params);
-        res.status(200).json(project);
-    }
+        try {
+            const params = req.body;
+            const project = await this.projectsService.update(params);
+            res.status(200).json(project);
+        } catch (err) {
+            next(err);
+        }
+    };
 }

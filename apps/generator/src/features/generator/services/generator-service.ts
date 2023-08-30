@@ -14,6 +14,7 @@ import {
     PROJECT_DIST_TEMPLATE_PATH,
 } from '../utils/cache-paths';
 import { FileUploadService } from '../../../common/file-upload/file-upload-service';
+import { ApiError, ApiErrorName, ApiErrorCode } from '../../../common/errors/api-error';
 
 export class GeneratorService {
     private readonly HTML_TEMPLATE_PATH = 'src/features/generator/services/templates/index.html';
@@ -27,10 +28,10 @@ export class GeneratorService {
     async generateWebsite(params: GenerateParams): Promise<string> {
         const project = await this.projectRepository.findOne({ id: params.projectId });
         if (!project || !project.id) {
-            throw new Error('Project not found');
+            throw new ApiError(ApiErrorName.NotFound, ApiErrorCode.BadRequest, 'Project not found', true);
         }
         if (project.userId !== params.userId) {
-            throw new Error('Access denied');
+            throw new ApiError(ApiErrorName.PermissionDenied, ApiErrorCode.BadRequest, 'Project not owned', true);
         }
         const projectBlocks = await this.dataSyncService.getSyncedProjectData(params.projectId);
         const content = WebsiteCompilerService.compile(projectBlocks);

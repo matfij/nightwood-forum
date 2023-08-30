@@ -19,7 +19,7 @@ export class GeneratorRouter {
             const downloadUrl = await this.generatorService.generateWebsite(params);
             res.status(200).send(downloadUrl);
         } catch (error) {
-            res.status(400).json({ message: `Failed to generate website: ${error}` });
+            next(error);
         }
     };
 }

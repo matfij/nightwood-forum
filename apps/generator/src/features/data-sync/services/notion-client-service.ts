@@ -1,6 +1,7 @@
 import { Client, isFullBlock } from '@notionhq/client';
 import { NOTION_API_URL, NOTION_API_VERSION } from '../../../common/config';
 import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { ApiError, ApiErrorCode, ApiErrorName } from '../../../common/errors/api-error';
 
 export class NotionClientService {
     private static readonly notionClient = new Client({
@@ -13,7 +14,12 @@ export class NotionClientService {
             const pageBlocks = await this.readNestedBlocks(pageId, authToken);
             return pageBlocks;
         } catch (error) {
-            throw new Error(`Failed to retrieve data from Notion: ${error}`)
+            throw new ApiError(
+                ApiErrorName.NotionConnectionFailed,
+                ApiErrorCode.BadRequest,
+                `Failed to retrieve data from Notion: ${error}`,
+                true,
+            );
         }
     }
 
