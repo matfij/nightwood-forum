@@ -19,7 +19,7 @@ export class DataSyncRouter {
             await this.dataSyncService.syncProjectData(params);
             res.sendStatus(200);
         } catch (error) {
-            res.status(400).json({ message: `Failed to sync project data: ${error}` });
+            next(error);
         }
     };
 }
