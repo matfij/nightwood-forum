@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WebsiteCompilerService should compile a simple website 1`] = `
+"
+<h1>A Big Title</h1>
+<p>Identify the Purpose: Understand the purpose of the database and the specific requirements it needs to fulfill.</p>
+<img src="./assets/paint.jpg">
+<div>🎉 undefined
+<h1>A Nested Title</h1>
+<img src="./assets/drawing.jpg"></div>"
+`;
