@@ -38,7 +38,9 @@ export class GeneratorService {
 
         fs.removeSync(PROJECT_DIST_PATH(project.id));
         fs.copySync(this.HTML_TEMPLATE_PATH, PROJECT_DIST_TEMPLATE_PATH(project.id));
-        fs.copySync(PROJECT_ASSETS_PATH(project.id), PROJECT_DIST_ASSETS_PATH(project.id));
+        if (fs.existsSync(PROJECT_ASSETS_PATH(project.id))) {
+            fs.copySync(PROJECT_ASSETS_PATH(project.id), PROJECT_DIST_ASSETS_PATH(project.id));
+        }
 
         const readStream = fs.createReadStream(PROJECT_DIST_TEMPLATE_PATH(project.id));
         const writeStream = fs.createWriteStream(PROJECT_DIST_TEMPLATE_PATH(project.id));

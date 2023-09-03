@@ -55,7 +55,6 @@ describe('ProjectsRouter', () => {
         const res = await request(app).post('/projects/readOne').send(params);
 
         expect(res.status).toEqual(400);
-        console.log(res.body)
         expect(res.body.message).toContain('not found');
     });
 });

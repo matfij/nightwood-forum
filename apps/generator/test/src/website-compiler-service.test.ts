@@ -7,6 +7,6 @@ describe('WebsiteCompilerService', () => {
 
         const html = WebsiteCompilerService.compile(blocks);
 
-        expect(html).toMatchSnapshot()
+        expect(html).toMatchSnapshot();
     });
 });

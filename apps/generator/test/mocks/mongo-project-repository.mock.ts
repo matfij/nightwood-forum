@@ -2,7 +2,7 @@ import { ProjectRepository } from '../../src/features/projects/data-access/proje
 import { CreateProjectParams } from '../../src/features/projects/models/create-project-params';
 import { Project } from '../../src/features/projects/models/project-model';
 
-export const mockMongoProjectRepository: Partial<ProjectRepository> = {
+export const mongoProjectRepositoryMock: Partial<ProjectRepository> = {
     async create(params: CreateProjectParams) {
         const project: Project = {
             id: 'p-1',
