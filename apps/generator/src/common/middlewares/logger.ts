@@ -6,6 +6,7 @@ export const logger = (req: Request, res: Response, next: NextFunction) => {
     fs.promises
         .access(LOGS_DIR)
         .catch(() => fs.promises.mkdir(LOGS_DIR))
+        .catch((err) => console.log('Could not access log file:', err))
         .finally(() => {
             res.on('finish', () => {
                 const date = new Date();

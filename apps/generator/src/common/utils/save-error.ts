@@ -12,6 +12,7 @@ export const saveError = (description: string) => {
     fs.promises
         .access(LOGS_DIR)
         .catch(() => fs.promises.mkdir(LOGS_DIR))
+        .catch((err) => console.log('Could not access log file:', err))
         .finally(() => {
             const date = new Date();
             const logFile = `${LOGS_DIR}/${date.getFullYear()}_${date.getMonth()}_error.logs`;
