@@ -16,8 +16,19 @@ const projectsSlice = createSlice({
         setProjects: (state, action: PayloadAction<ProjectDto[]>) => {
             state.projects = action.payload;
         },
+        appendProject: (state, action: PayloadAction<ProjectDto>) => {
+            state.projects = [...state.projects, action.payload];
+        },
+        updateProject: (state, action: PayloadAction<ProjectDto>) => {
+            state.projects = state.projects.map((project) => {
+                if (project.id === action.payload.id) {
+                    return action.payload;
+                }
+                return project;
+            });
+        },
     },
 });
 
 export default projectsSlice.reducer;
-export const { setProjects } = projectsSlice.actions;
+export const { setProjects, appendProject, updateProject } = projectsSlice.actions;

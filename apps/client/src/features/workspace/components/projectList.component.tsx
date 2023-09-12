@@ -15,17 +15,17 @@ import {
 export const ProjectListComponent = () => {
     const dispatch = useAppDispatch();
     const projects = useAppSelector<Array<ProjectDto>>((state) => state.projects.projects);
-    const { data, loading, error } = useProjectsQuery();
+    const { data, loading, error } = useProjectsQuery({ fetchPolicy: 'no-cache' });
     const [sync, { loading: syncLoading, error: syncError }] = useSyncMutation();
     const [generate, { loading: generateLoading, error: generateError }] = useGenerateWebsiteMutation();
     const [activeProject, setActiveProject] = useState<ProjectDto>();
 
     useEffect(() => {
-        if (!data) {
+        if (!data || projects.length) {
             return;
         }
         dispatch(setProjects(data.projects));
-    }, [dispatch, data, error, loading]);
+    }, [projects, data]);
 
     const onSync = async (id: string) => {
         await sync({ variables: { id: id } });

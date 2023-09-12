@@ -1,12 +1,14 @@
 import styles from './workspace.module.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useAppSelector } from '../../../common/state/hooks';
+import { useAppDispatch, useAppSelector } from '../../../common/state/hooks';
 import { PersistenceService } from '../../../common/state/persistence.service';
+import { setProjects } from '../state/projectsSlice';
 
 export const WorkspaceComponent = () => {
     const navigate = useNavigate();
     const isAuth = useAppSelector((state) => state.auth.isAuth);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (!isAuth) {
@@ -16,6 +18,7 @@ export const WorkspaceComponent = () => {
 
     const onSignout = () => {
         PersistenceService.clearAuthState();
+        dispatch(setProjects([]));
         navigate('/');
     };
 

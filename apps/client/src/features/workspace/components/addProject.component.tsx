@@ -1,13 +1,12 @@
 import styles from './addProject.module.css';
 import { useForm } from 'react-hook-form';
 import { parseError } from '../../../common/utils/parse-error';
-import { useAppDispatch, useAppSelector } from '../../../common/state/hooks';
+import { useAppDispatch } from '../../../common/state/hooks';
 import { useNavigate } from 'react-router-dom';
 import { ProjectCreateDto, useCreateProjectMutation } from '../../../common/gql/gql-client';
-import { setProjects } from '../state/projectsSlice';
+import { appendProject } from '../state/projectsSlice';
 
 export const AddProjectComponent = () => {
-    const projects = useAppSelector((state) => state.projects.projects);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [createProject, { loading, error }] = useCreateProjectMutation();
@@ -22,7 +21,7 @@ export const AddProjectComponent = () => {
         if (!res.data) {
             return;
         }
-        dispatch(setProjects([...projects, res.data.createProject]));
+        dispatch(appendProject(res.data.createProject));
         navigate('/workspace');
     };
 
