@@ -1,4 +1,5 @@
 import { IsOptional, IsString } from 'class-validator';
+import { ProjectConfig } from './project-config';
 
 export class Project {
     @IsString()
@@ -16,6 +17,9 @@ export class Project {
 
     @IsString()
     notionAccessCode!: string;
+
+    @IsString()
+    config!: ProjectConfig;
 
     @IsString()
     createdAt!: number;

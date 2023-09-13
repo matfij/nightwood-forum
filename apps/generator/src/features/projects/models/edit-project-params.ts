@@ -1,4 +1,5 @@
 import { IsOptional, IsString } from "class-validator";
+import { ProjectConfig } from "./project-config";
 
 export class UpdateProjectParams {
     @IsString()
@@ -18,4 +19,8 @@ export class UpdateProjectParams {
     @IsString()
     @IsOptional()
     notionAccessCode?: string;
+
+    @IsString()
+    @IsOptional()
+    config?: ProjectConfig;
 }

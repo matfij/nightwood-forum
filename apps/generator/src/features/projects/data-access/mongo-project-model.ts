@@ -1,5 +1,7 @@
 import { Schema, Types, model } from 'mongoose';
 import { Project } from '../models/project-model';
+import { ProjectConfigDefault } from '../data/project-config-default';
+import { ProjectConfigSchema } from './mongo-project-config-model';
 
 const ProjectSchema = new Schema<Project>(
     {
@@ -8,6 +10,11 @@ const ProjectSchema = new Schema<Project>(
         notionId: String,
         notionName: String,
         notionAccessCode: String,
+        config: {
+            type: ProjectConfigSchema,
+            ref: 'ProjectConfig',
+            default: ProjectConfigDefault,
+        },
         createdAt: {
             type: Number,
             default: () => Date.now(),
