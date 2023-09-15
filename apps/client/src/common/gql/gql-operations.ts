@@ -17,6 +17,22 @@ export const PROJECTS_QUERY = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id
@@ -34,6 +50,22 @@ export const PROJECT_QUERY = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id
@@ -81,6 +113,22 @@ export const CREATE_PROJECT_MUTATION = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id
@@ -98,6 +146,22 @@ export const UPDATE_PROJECT_MUTATION = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id

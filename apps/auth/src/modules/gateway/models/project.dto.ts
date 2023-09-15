@@ -1,5 +1,6 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { UserDto } from '../../users/models/user.dto';
+import { ProjectConfig } from './project-config.dto';
 
 @ObjectType()
 export class ProjectDto {
@@ -17,6 +18,9 @@ export class ProjectDto {
 
     @Field()
     notionAccessCode: string;
+
+    @Field((type) => ProjectConfig, { nullable: true })
+    config?: ProjectConfig;
 
     @Field((type) => Float, { nullable: true })
     createdAt?: number;

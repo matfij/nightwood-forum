@@ -69,6 +69,23 @@ export type MutationUpdateProjectArgs = {
     projectUpdateDto: ProjectUpdateDto;
 };
 
+export type ProjectConfig = {
+    __typename?: 'ProjectConfig';
+    backgroundColor: Scalars['String']['output'];
+    fontColor: Scalars['String']['output'];
+    fontFamily: Scalars['String']['output'];
+    fontUrl: Scalars['String']['output'];
+    heading: ProjectConfigBlock;
+    paragraph: ProjectConfigBlock;
+};
+
+export type ProjectConfigBlock = {
+    __typename?: 'ProjectConfigBlock';
+    fontSize: Scalars['String']['output'];
+    fontWeight: Scalars['String']['output'];
+    margin: Scalars['String']['output'];
+};
+
 export type ProjectCreateDto = {
     notionAccessCode: Scalars['String']['input'];
     notionId: Scalars['String']['input'];
@@ -77,6 +94,7 @@ export type ProjectCreateDto = {
 
 export type ProjectDto = {
     __typename?: 'ProjectDto';
+    config?: Maybe<ProjectConfig>;
     createdAt?: Maybe<Scalars['Float']['output']>;
     id: Scalars['String']['output'];
     notionAccessCode: Scalars['String']['output'];
@@ -142,6 +160,15 @@ export type ProjectsQuery = {
         notionName: string;
         notionAccessCode: string;
         createdAt?: number | null;
+        config?: {
+            __typename?: 'ProjectConfig';
+            fontUrl: string;
+            fontColor: string;
+            fontFamily: string;
+            backgroundColor: string;
+            heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+        } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     }>;
 };
@@ -160,6 +187,15 @@ export type ProjectQuery = {
         notionName: string;
         notionAccessCode: string;
         createdAt?: number | null;
+        config?: {
+            __typename?: 'ProjectConfig';
+            fontUrl: string;
+            fontColor: string;
+            fontFamily: string;
+            backgroundColor: string;
+            heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+        } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     };
 };
@@ -205,6 +241,15 @@ export type CreateProjectMutation = {
         notionName: string;
         notionAccessCode: string;
         createdAt?: number | null;
+        config?: {
+            __typename?: 'ProjectConfig';
+            fontUrl: string;
+            fontColor: string;
+            fontFamily: string;
+            backgroundColor: string;
+            heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+        } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     };
 };
@@ -223,6 +268,15 @@ export type UpdateProjectMutation = {
         notionName: string;
         notionAccessCode: string;
         createdAt?: number | null;
+        config?: {
+            __typename?: 'ProjectConfig';
+            fontUrl: string;
+            fontColor: string;
+            fontFamily: string;
+            backgroundColor: string;
+            heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+        } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     };
 };
@@ -282,6 +336,22 @@ export const ProjectsDocument = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id
@@ -325,6 +395,22 @@ export const ProjectDocument = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id
@@ -479,6 +565,22 @@ export const CreateProjectDocument = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id
@@ -526,6 +628,22 @@ export const UpdateProjectDocument = gql`
             notionId
             notionName
             notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
             createdAt
             user {
                 id

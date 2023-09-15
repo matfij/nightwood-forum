@@ -9,12 +9,28 @@ type UserDto {
   projects: [ProjectDto!]
 }
 
+type ProjectConfigBlock {
+  fontSize: String!
+  fontWeight: String!
+  margin: String!
+}
+
+type ProjectConfig {
+  fontUrl: String!
+  fontColor: String!
+  fontFamily: String!
+  backgroundColor: String!
+  heading: ProjectConfigBlock!
+  paragraph: ProjectConfigBlock!
+}
+
 type ProjectDto {
   id: String!
   userId: String!
   notionId: String!
   notionName: String!
   notionAccessCode: String!
+  config: ProjectConfig
   createdAt: Float
   user: UserDto
 }
