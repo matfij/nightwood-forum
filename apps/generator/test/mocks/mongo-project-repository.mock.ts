@@ -1,4 +1,5 @@
 import { ProjectRepository } from '../../src/features/projects/data-access/project-repository';
+import { ProjectConfigDefault } from '../../src/features/projects/data/project-config-default';
 import { CreateProjectParams } from '../../src/features/projects/models/create-project-params';
 import { Project } from '../../src/features/projects/models/project-model';
 
@@ -8,6 +9,7 @@ export const mongoProjectRepositoryMock: Partial<ProjectRepository> = {
             id: 'p-1',
             createdAt: new Date().getTime(),
             ...params,
+            config: ProjectConfigDefault,
         };
         return project;
     },
@@ -23,6 +25,7 @@ export const mongoProjectRepositoryMock: Partial<ProjectRepository> = {
             notionId: 'n-1',
             notionAccessCode: 'nac-1',
             notionName: 'Status Anxiety',
+            config: ProjectConfigDefault,
         };
         return project;
     },
@@ -35,6 +38,7 @@ export const mongoProjectRepositoryMock: Partial<ProjectRepository> = {
             notionId: 'n-1',
             notionAccessCode: 'nac-1',
             notionName: 'Steppenwolf',
+            config: ProjectConfigDefault,
         };
         return [project, project];
     },
@@ -48,6 +52,7 @@ export const mongoProjectRepositoryMock: Partial<ProjectRepository> = {
             notionAccessCode: 'nac-1',
             notionName: 'Stand Alone Complex',
             ...params,
+            config: ProjectConfigDefault,
         };
         return project;
     },
