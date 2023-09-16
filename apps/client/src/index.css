@@ -124,6 +124,9 @@ fieldset {
 .modalContent {
     width: 90%;
     max-width: 600px;
+    height: 90%;
+    max-height: 500px;
+    overflow-y: auto;
     background: var(--color-light-1);
     padding: 1rem;
     border-radius: 4px;

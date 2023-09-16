@@ -11,6 +11,7 @@ import {
     useSyncMutation,
     useGenerateWebsiteMutation,
 } from '../../../common/gql/gql-client';
+import { ProjectConfigComponent } from './projectConfig.component';
 
 export const ProjectListComponent = () => {
     const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ export const ProjectListComponent = () => {
     const [sync, { loading: syncLoading, error: syncError }] = useSyncMutation();
     const [generate, { loading: generateLoading, error: generateError }] = useGenerateWebsiteMutation();
     const [activeProject, setActiveProject] = useState<ProjectDto>();
+    const [activeProjectConfig, setActiveProjectConfig] = useState<ProjectDto>();
 
     useEffect(() => {
         if (!data || projects.length) {
@@ -69,11 +71,24 @@ export const ProjectListComponent = () => {
                         >
                             ✏️ Edit
                         </button>
+                        <button
+                            onClick={() => setActiveProjectConfig(project)}
+                            disabled={generateLoading}
+                            className={styles.projectActionBtn}
+                        >
+                            ⚙️ Config
+                        </button>
                     </li>
                 ))}
             </div>
             {activeProject && (
                 <UpdateProjectComponent project={activeProject} onHide={() => setActiveProject(undefined)} />
+            )}
+            {activeProjectConfig && (
+                <ProjectConfigComponent
+                    project={activeProjectConfig}
+                    onHide={() => setActiveProjectConfig(undefined)}
+                />
             )}
         </>
     );

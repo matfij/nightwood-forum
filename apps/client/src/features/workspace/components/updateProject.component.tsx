@@ -1,8 +1,8 @@
+import style from './updateProject.module.css';
 import { ProjectDto, ProjectUpdateDto, useUpdateProjectMutation } from '../../../common/gql/gql-client';
 import { useAppDispatch } from '../../../common/state/hooks';
 import { parseError } from '../../../common/utils/parse-error';
 import { updateProject as updateProjectState } from '../state/projectsSlice';
-import style from './updateProject.module.css';
 import { useForm } from 'react-hook-form';
 
 export type UpdateProjectProps = {
