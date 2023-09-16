@@ -39,6 +39,7 @@ export type Mutation = {
     signup: AuthUserDto;
     sync: Scalars['String']['output'];
     updateProject: ProjectDto;
+    updateProjectConfig: ProjectDto;
 };
 
 export type MutationCreateProjectArgs = {
@@ -69,6 +70,10 @@ export type MutationUpdateProjectArgs = {
     projectUpdateDto: ProjectUpdateDto;
 };
 
+export type MutationUpdateProjectConfigArgs = {
+    projectConfigUpdateDto: ProjectConfigUpdateDto;
+};
+
 export type ProjectConfig = {
     __typename?: 'ProjectConfig';
     backgroundColor: Scalars['String']['output'];
@@ -84,6 +89,26 @@ export type ProjectConfigBlock = {
     fontSize: Scalars['String']['output'];
     fontWeight: Scalars['String']['output'];
     margin: Scalars['String']['output'];
+};
+
+export type ProjectConfigBlockInput = {
+    fontSize: Scalars['String']['input'];
+    fontWeight: Scalars['String']['input'];
+    margin: Scalars['String']['input'];
+};
+
+export type ProjectConfigInput = {
+    backgroundColor: Scalars['String']['input'];
+    fontColor: Scalars['String']['input'];
+    fontFamily: Scalars['String']['input'];
+    fontUrl: Scalars['String']['input'];
+    heading: ProjectConfigBlockInput;
+    paragraph: ProjectConfigBlockInput;
+};
+
+export type ProjectConfigUpdateDto = {
+    config: ProjectConfigInput;
+    projectId: Scalars['String']['input'];
 };
 
 export type ProjectCreateDto = {
@@ -261,6 +286,33 @@ export type UpdateProjectMutationVariables = Exact<{
 export type UpdateProjectMutation = {
     __typename?: 'Mutation';
     updateProject: {
+        __typename?: 'ProjectDto';
+        id: string;
+        userId: string;
+        notionId: string;
+        notionName: string;
+        notionAccessCode: string;
+        createdAt?: number | null;
+        config?: {
+            __typename?: 'ProjectConfig';
+            fontUrl: string;
+            fontColor: string;
+            fontFamily: string;
+            backgroundColor: string;
+            heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+        } | null;
+        user?: { __typename?: 'UserDto'; id: string; username: string } | null;
+    };
+};
+
+export type UpdateProjectConfigMutationVariables = Exact<{
+    projectConfigUpdateDto: ProjectConfigUpdateDto;
+}>;
+
+export type UpdateProjectConfigMutation = {
+    __typename?: 'Mutation';
+    updateProjectConfig: {
         __typename?: 'ProjectDto';
         id: string;
         userId: string;
@@ -682,6 +734,75 @@ export type UpdateProjectMutationResult = Apollo.MutationResult<UpdateProjectMut
 export type UpdateProjectMutationOptions = Apollo.BaseMutationOptions<
     UpdateProjectMutation,
     UpdateProjectMutationVariables
+>;
+export const UpdateProjectConfigDocument = gql`
+    mutation UpdateProjectConfig($projectConfigUpdateDto: ProjectConfigUpdateDto!) {
+        updateProjectConfig(projectConfigUpdateDto: $projectConfigUpdateDto) {
+            id
+            userId
+            notionId
+            notionName
+            notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
+            createdAt
+            user {
+                id
+                username
+            }
+        }
+    }
+`;
+export type UpdateProjectConfigMutationFn = Apollo.MutationFunction<
+    UpdateProjectConfigMutation,
+    UpdateProjectConfigMutationVariables
+>;
+
+/**
+ * __useUpdateProjectConfigMutation__
+ *
+ * To run a mutation, you first call `useUpdateProjectConfigMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProjectConfigMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProjectConfigMutation, { data, loading, error }] = useUpdateProjectConfigMutation({
+ *   variables: {
+ *      projectConfigUpdateDto: // value for 'projectConfigUpdateDto'
+ *   },
+ * });
+ */
+export function useUpdateProjectConfigMutation(
+    baseOptions?: Apollo.MutationHookOptions<UpdateProjectConfigMutation, UpdateProjectConfigMutationVariables>,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<UpdateProjectConfigMutation, UpdateProjectConfigMutationVariables>(
+        UpdateProjectConfigDocument,
+        options,
+    );
+}
+export type UpdateProjectConfigMutationHookResult = ReturnType<typeof useUpdateProjectConfigMutation>;
+export type UpdateProjectConfigMutationResult = Apollo.MutationResult<UpdateProjectConfigMutation>;
+export type UpdateProjectConfigMutationOptions = Apollo.BaseMutationOptions<
+    UpdateProjectConfigMutation,
+    UpdateProjectConfigMutationVariables
 >;
 export const SyncDocument = gql`
     mutation Sync($id: String!) {

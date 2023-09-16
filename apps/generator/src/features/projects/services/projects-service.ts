@@ -1,10 +1,11 @@
 import { ApiError, ApiErrorName, ApiErrorCode } from '../../../common/errors/api-error';
 import { ProjectRepository } from '../data-access/project-repository';
 import { CreateProjectParams } from '../models/create-project-params';
-import { UpdateProjectParams } from '../models/edit-project-params';
+import { UpdateProjectParams } from '../models/update-project-params';
 import { Project } from '../models/project-model';
 import { ReadAllProjectsParams } from '../models/read-all-projects-params';
 import { ReadOneProjectParams } from '../models/read-one-project-params';
+import { UpdateProjectConfigParams } from '../models/update-project-config-params';
 
 export class ProjectsService {
     constructor(private projectRepository: ProjectRepository) {}
@@ -40,6 +41,19 @@ export class ProjectsService {
         }
         project = { ...project, ...params };
         const updatedProject = await this.projectRepository.update(params.projectId, params);
+        return updatedProject;
+    }
+
+    async updateConfig(params: UpdateProjectConfigParams): Promise<Project> {
+        let project = await this.projectRepository.findOne({ id: params.projectId });
+        if (!project) {
+            throw new ApiError(ApiErrorName.NotFound, ApiErrorCode.BadRequest, 'Project not found', true);
+        }
+        if (project.userId !== params.userId) {
+            throw new ApiError(ApiErrorName.PermissionDenied, ApiErrorCode.BadRequest, 'Project not owned', true);
+        }
+        project.config = { ...project.config, ...params.config };
+        const updatedProject = await this.projectRepository.update(params.projectId, project);
         return updatedProject;
     }
 }

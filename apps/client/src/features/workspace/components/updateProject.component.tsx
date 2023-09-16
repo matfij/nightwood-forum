@@ -12,6 +12,7 @@ export type UpdateProjectProps = {
 
 export const UpdateProjectComponent = ({ project, onHide }: UpdateProjectProps) => {
     const [updateProject, { loading, error }] = useUpdateProjectMutation();
+    const dispatch = useAppDispatch();
     const {
         register,
         handleSubmit,
@@ -24,7 +25,6 @@ export const UpdateProjectComponent = ({ project, onHide }: UpdateProjectProps) 
             notionAccessCode: project.notionAccessCode,
         },
     });
-    const dispatch = useAppDispatch();
 
     const onUpdateProject = async (data: ProjectUpdateDto) => {
         const res = await updateProject({ variables: { projectUpdateDto: { ...data } } });

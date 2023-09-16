@@ -1,3 +1,18 @@
+.formWrapper {
+    width: 80%;
+    margin: auto;
+}
+
+.mainField {
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.nestedField {
+    max-width: 100%;
+    padding-left: 1rem;
+}
+
 .btnSave {
     margin-top: 1rem;
 }

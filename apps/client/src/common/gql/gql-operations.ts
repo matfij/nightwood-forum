@@ -171,6 +171,39 @@ export const UPDATE_PROJECT_MUTATION = gql`
     }
 `;
 
+export const UPDATE_PROJECT_CONFIG_MUTATION = gql`
+    mutation UpdateProjectConfig($projectConfigUpdateDto: ProjectConfigUpdateDto!) {
+        updateProjectConfig(projectConfigUpdateDto: $projectConfigUpdateDto) {
+            id
+            userId
+            notionId
+            notionName
+            notionAccessCode
+            config {
+                fontUrl
+                fontColor
+                fontFamily
+                backgroundColor
+                heading {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+            }
+            createdAt
+            user {
+                id
+                username
+            }
+        }
+    }
+`;
+
 export const SYNC_MUTATION = gql`
     mutation Sync($id: String!) {
         sync(id: $id)

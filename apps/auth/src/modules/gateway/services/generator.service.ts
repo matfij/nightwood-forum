@@ -8,6 +8,7 @@ import { ProjectCreateDto } from '../models/project-create.dto';
 import { ProjectSyncJobPayload } from '../models/project-sync-job-payload';
 import { ProjectUpdateDto } from '../models/project-update.dto';
 import { ProjectSyncProducer } from './project-sync.producer';
+import { ProjectConfigUpdateDto } from '../models/project-config-update.dto';
 
 @Injectable()
 export class GeneratorService {
@@ -47,6 +48,15 @@ export class GeneratorService {
 
     async updateProject(userId: string, dto: ProjectUpdateDto): Promise<ProjectDto> {
         const res = await axios.post(`${this.BASE_URL}/projects/update`, {
+            userId: userId,
+            ...dto,
+        });
+        await this.cacheManager.del(this.PROJECTS_CACHE_KEY(userId));
+        return res.data;
+    }
+
+    async updateProjectConfig(userId: string, dto: ProjectConfigUpdateDto): Promise<ProjectDto> {
+        const res = await axios.post(`${this.BASE_URL}/projects/updateConfig`, {
             userId: userId,
             ...dto,
         });

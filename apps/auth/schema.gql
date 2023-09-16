@@ -58,6 +58,7 @@ type Mutation {
   refreshToken(refreshTokenDto: RefreshTokenDto!): AccessTokenDto!
   createProject(projectCreateDto: ProjectCreateDto!): ProjectDto!
   updateProject(projectUpdateDto: ProjectUpdateDto!): ProjectDto!
+  updateProjectConfig(projectConfigUpdateDto: ProjectConfigUpdateDto!): ProjectDto!
   sync(id: String!): String!
   generateWebsite(id: String!): String!
 }
@@ -87,4 +88,24 @@ input ProjectUpdateDto {
   notionId: String
   notionName: String
   notionAccessCode: String
+}
+
+input ProjectConfigUpdateDto {
+  projectId: String!
+  config: ProjectConfigInput!
+}
+
+input ProjectConfigInput {
+  fontUrl: String!
+  fontColor: String!
+  fontFamily: String!
+  backgroundColor: String!
+  heading: ProjectConfigBlockInput!
+  paragraph: ProjectConfigBlockInput!
+}
+
+input ProjectConfigBlockInput {
+  fontSize: String!
+  fontWeight: String!
+  margin: String!
 }
