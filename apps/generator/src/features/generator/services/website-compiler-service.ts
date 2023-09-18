@@ -14,35 +14,35 @@ export class WebsiteCompilerService {
         let childrenContent = block.children.reduce((prev, curr) => prev + `\n${this.compileBlock(curr)}`, '');
         switch (block.type) {
             case ContentBlockType.Heading: {
-                content += `<h1>${block.textContent}</h1>`;
+                content += `<h1 class="heading-block">${block.textContent}</h1>`;
                 break;
             }
             case ContentBlockType.Paragraph: {
-                content += `<p>${block.textContent}${childrenContent}</p>`;
+                content += `<p class="paragraph-block">${block.textContent}${childrenContent}</p>`;
                 break;
             }
             case ContentBlockType.Divider: {
-                content += `<hr />`;
+                content += `<hr class="divider-block" />`;
                 break;
             }
             case ContentBlockType.Callout: {
-                content += `<div>🎉 ${block.textContent}${childrenContent}</div>`;
+                content += `<div class="callout-block">🎉 ${block.textContent}${childrenContent}</div>`;
                 break;
             }
             case ContentBlockType.ListItem: {
-                content += `<li>${block.textContent}<ul>${childrenContent}</ul></li>`;
+                content += `<li class="list-item-block">${block.textContent}<ul>${childrenContent}</ul></li>`;
                 break;
             }
             case ContentBlockType.TodoItem: {
-                content += `<p>${block.checked ? '✓' : '☐'} ${block.textContent}${childrenContent}</p>`;
+                content += `<p class="todo-block">${block.checked ? '✓' : '☐'} ${block.textContent}${childrenContent}</p>`;
                 break;
             }
             case ContentBlockType.Image: {
-                content += `<img src="${block.filePath}">`;
+                content += `<img class="image-block" src="${block.filePath}">`;
                 break;
             }
             case ContentBlockType.File: {
-                content += `<a href="${block.filePath}" download>📁</a>`;
+                content += `<a class="file-block" href="${block.filePath}" download>📁</a>`;
                 break;
             }
             default: {

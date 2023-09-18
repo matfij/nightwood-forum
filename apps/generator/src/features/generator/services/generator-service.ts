@@ -11,13 +11,15 @@ import {
     PROJECT_ASSETS_PATH,
     PROJECT_DIST_ASSETS_PATH,
     PROJECT_DIST_PATH,
-    PROJECT_DIST_TEMPLATE_PATH,
+    PROJECT_DIST_HTML_PATH,
+    PROJECT_DIST_CSS_PATH,
 } from '../utils/cache-paths';
 import { FileUploadService } from '../../../common/file-upload/file-upload-service';
 import { ApiError, ApiErrorName, ApiErrorCode } from '../../../common/errors/api-error';
 
 export class GeneratorService {
     private readonly HTML_TEMPLATE_PATH = 'src/features/generator/services/templates/index.html';
+    private readonly CSS_TEMPLATE_PATH = 'src/features/generator/services/templates/index.css';
 
     constructor(
         private projectRepository: ProjectRepository,
@@ -37,13 +39,14 @@ export class GeneratorService {
         const content = WebsiteCompilerService.compile(projectBlocks);
 
         fs.removeSync(PROJECT_DIST_PATH(project.id));
-        fs.copySync(this.HTML_TEMPLATE_PATH, PROJECT_DIST_TEMPLATE_PATH(project.id));
+        fs.copySync(this.HTML_TEMPLATE_PATH, PROJECT_DIST_HTML_PATH(project.id));
+        fs.copySync(this.CSS_TEMPLATE_PATH, PROJECT_DIST_CSS_PATH(project.id));
         if (fs.existsSync(PROJECT_ASSETS_PATH(project.id))) {
             fs.copySync(PROJECT_ASSETS_PATH(project.id), PROJECT_DIST_ASSETS_PATH(project.id));
         }
 
-        const readStream = fs.createReadStream(PROJECT_DIST_TEMPLATE_PATH(project.id));
-        const writeStream = fs.createWriteStream(PROJECT_DIST_TEMPLATE_PATH(project.id));
+        const readStream = fs.createReadStream(PROJECT_DIST_HTML_PATH(project.id));
+        const writeStream = fs.createWriteStream(PROJECT_DIST_HTML_PATH(project.id));
         const transformStream = new Transform({
             transform(chunk, encoding, callback) {
                 const replaceChunk = chunk

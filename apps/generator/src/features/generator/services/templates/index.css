@@ -1,0 +1,44 @@
+.heading-block {
+    width: 100%;
+    margin: auto;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.paragraph-block {
+    width: 100%;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.divider-block {
+    width: 1rem 100%;
+    margin: auto;
+}
+
+.callout-block {
+    width: 100%;
+    margin: auto;
+    background: yellow;
+}
+
+.list-item-block {
+    width: 100%;
+    margin: auto;
+}
+
+.todo-block {
+    width: 100%;
+    margin: auto;
+}
+
+.image-block {
+    width: 100%;
+    margin: auto;
+}
+
+.file-block {
+    width: 100%;
+    margin: auto;
+}
