@@ -1,6 +1,6 @@
 import { ContentBlock, ContentBlockType } from '../models/content-block';
 
-export class WebsiteCompilerService {
+export class HtmlCompilerService {
     static compile(blocks: ContentBlock[]): string {
         let content = '';
         blocks.forEach((block) => {

@@ -1,6 +1,6 @@
 import { Schema, Types, model } from 'mongoose';
 import { Project } from '../models/project-model';
-import { ProjectConfigDefault } from '../data/project-config-default';
+import { PROJECT_CONFIG_DEFAULT } from '../data/project-config-default';
 import { ProjectConfigSchema } from './mongo-project-config-model';
 
 const ProjectSchema = new Schema<Project>(
@@ -13,7 +13,7 @@ const ProjectSchema = new Schema<Project>(
         config: {
             type: ProjectConfigSchema,
             ref: 'ProjectConfig',
-            default: ProjectConfigDefault,
+            default: PROJECT_CONFIG_DEFAULT,
         },
         createdAt: {
             type: Number,

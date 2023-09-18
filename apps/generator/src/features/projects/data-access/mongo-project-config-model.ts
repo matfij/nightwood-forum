@@ -1,32 +1,32 @@
 import { Schema, model } from 'mongoose';
 import { ProjectConfig, ProjectConfigBlock } from '../models/project-config';
-import { ProjectConfigDefault } from '../data/project-config-default';
+import { PROJECT_CONFIG_DEFAULT } from '../data/project-config-default';
 
 export const ProjectConfigSchema = new Schema<ProjectConfig>(
     {
         fontUrl: {
             type: String,
-            default: ProjectConfigDefault.fontUrl,
+            default: PROJECT_CONFIG_DEFAULT.fontUrl,
         },
         fontFamily: {
             type: String,
-            default: ProjectConfigDefault.fontFamily,
+            default: PROJECT_CONFIG_DEFAULT.fontFamily,
         },
         fontColor: {
             type: String,
-            default: ProjectConfigDefault.fontColor,
+            default: PROJECT_CONFIG_DEFAULT.fontColor,
         },
         backgroundColor: {
             type: String,
-            default: ProjectConfigDefault.backgroundColor,
+            default: PROJECT_CONFIG_DEFAULT.backgroundColor,
         },
         heading: {
             type: Object,
-            default: ProjectConfigDefault.heading,
+            default: PROJECT_CONFIG_DEFAULT.heading,
         },
         paragraph: {
             type: Object,
-            default: ProjectConfigDefault.paragraph,
+            default: PROJECT_CONFIG_DEFAULT.paragraph,
         },
     },
     {
