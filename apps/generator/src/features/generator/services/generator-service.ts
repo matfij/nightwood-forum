@@ -46,8 +46,8 @@ export class GeneratorService {
             fs.copySync(PROJECT_ASSETS_PATH(project.id), PROJECT_DIST_ASSETS_PATH(project.id));
         }
 
-        this.populateHtml(project);
-        this.populateStyles(project);
+        await this.populateHtml(project);
+        await this.populateStyles(project);
 
         const outputStream = fs.createWriteStream(PROJECT_ARCHIEVE_PATH(project.id));
         const archieveStream = archiver('zip');

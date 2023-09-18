@@ -22,7 +22,7 @@ describe('GeneratorRouter', () => {
         };
 
         const res = await request(app).post('/generator/website').send(params);
-
+        console.log(res)
         expect(res.status).toEqual(400);
         expect(res.body.message).toContain('not synced');
     });
