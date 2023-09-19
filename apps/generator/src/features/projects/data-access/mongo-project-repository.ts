@@ -5,22 +5,22 @@ import { ProjectRepository } from './project-repository';
 
 export class MongoProjectRepository implements ProjectRepository {
     async create(params: CreateProjectParams): Promise<Project> {
-        return await MongoProjectModel.create(params);
+        const project = await MongoProjectModel.create(params);
+        return project.toObject();
     }
 
     async findOne(params: Partial<Project>): Promise<Project | null> {
-        return await MongoProjectModel.findOne(params);
+        const project = await MongoProjectModel.findOne(params);
+        return project?.toObject() || null;
     }
 
     async findMany(params: Partial<Project>): Promise<Project[]> {
-        return await MongoProjectModel.find(params);
+        const projects = await MongoProjectModel.find(params);
+        return projects.map((x) => x.toObject());
     }
 
     async update(projectId: string, params: Partial<Project>): Promise<Project> {
-        return (await MongoProjectModel.findOneAndUpdate(
-            { id: projectId },
-            { $set: params },
-            { new: true },
-        ) as Project);
+        const project = await MongoProjectModel.findOneAndUpdate({ id: projectId }, { $set: params }, { new: true });
+        return project!.toObject();
     }
 }

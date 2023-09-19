@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { ProjectConfig, ProjectConfigBlock } from '../models/project-config';
+import { ProjectConfig } from '../models/project-config';
 import { PROJECT_CONFIG_DEFAULT } from '../data/project-config-default';
 
 export const ProjectConfigSchema = new Schema<ProjectConfig>(
