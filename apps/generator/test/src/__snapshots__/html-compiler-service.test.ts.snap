@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WebsiteCompilerService should compile a simple website 1`] = `
+exports[`HtmlCompilerService should compile a simple website 1`] = `
 "
 <h1 class="heading-block">A Big Title</h1>
 <p class="paragraph-block">Identify the Purpose: Understand the purpose of the database and the specific requirements it needs to fulfill.</p>

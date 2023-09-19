@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CssCompilerService should compile a valid project config 1`] = `
+"
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+body {
+    background: #eed;
+    font-family: 'Roboto', sans-serif;;
+    color: #111;
+}
+.heading-block {
+    width: 100%;
+    margin: 12px auto;
+    font-size: 24px;
+    font-weight: bold;
+}
+.paragraph-block {
+    width: 100%;
+    margin: 0px auto;
+    font-size: 14px;
+    font-weight: regular;
+}
+"
+`;
+
+exports[`CssCompilerService should not replace unsupported tags 1`] = `
+"
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+body {
+    background: #eed;
+    font-family: 'Roboto', sans-serif;;
+    color: #111;
+}
+.unsupported-block {
+    width: 100%;
+    margin: #unsupported.margin;
+    font-size: #unsupported.fontSize;
+    font-weight: #unsupported.fontWeight;
+}
+"
+`;
