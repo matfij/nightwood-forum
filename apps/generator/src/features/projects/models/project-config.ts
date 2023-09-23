@@ -5,6 +5,12 @@ export class ProjectConfig {
     backgroundColor!: string;
     heading!: ProjectConfigBlock;
     paragraph!: ProjectConfigBlock;
+    divider!: ProjectConfigBlock;
+    callout!: ProjectConfigBlock;
+    listItem!: ProjectConfigBlock;
+    todoItem!: ProjectConfigBlock;
+    image!: ProjectConfigBlock;
+    file!: ProjectConfigBlock;
 }
 
 export class ProjectConfigBlock {

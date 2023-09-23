@@ -21,32 +21,42 @@ body {
 }
 
 .divider-block {
-    width: 1rem 100%;
-    margin: auto;
+    width: 100%;
+    margin: #divider.margin;
 }
 
 .callout-block {
     width: 100%;
-    margin: auto;
+    margin: #callout.margin;
+    font-size: #callout.fontSize;
+    font-weight: #callout.fontWeight;
     background: yellow;
 }
 
 .list-item-block {
     width: 100%;
-    margin: auto;
+    margin: #listItem.margin;
+    font-size: #listItem.fontSize;
+    font-weight: #listItem.fontWeight;
 }
 
 .todo-block {
     width: 100%;
-    margin: auto;
+    margin: #todoItem.margin;
+    font-size: #todoItem.fontSize;
+    font-weight: #todoItem.fontWeight;
 }
 
 .image-block {
     width: 100%;
-    margin: auto;
+    margin: #image.margin;
+    font-size: #image.fontSize;
+    font-weight: #image.fontWeight;
 }
 
 .file-block {
     width: 100%;
-    margin: auto;
+    margin: #file.margin;
+    font-size: #file.fontSize;
+    font-weight: #file.fontWeight;
 }

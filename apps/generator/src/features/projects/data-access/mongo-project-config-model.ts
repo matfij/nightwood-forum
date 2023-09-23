@@ -28,6 +28,30 @@ export const ProjectConfigSchema = new Schema<ProjectConfig>(
             type: Object,
             default: PROJECT_CONFIG_DEFAULT.paragraph,
         },
+        divider: {
+            type: Object,
+            default: PROJECT_CONFIG_DEFAULT.divider,
+        },
+        callout: {
+            type: Object,
+            default: PROJECT_CONFIG_DEFAULT.callout,
+        },
+        listItem: {
+            type: Object,
+            default: PROJECT_CONFIG_DEFAULT.listItem,
+        },
+        todoItem: {
+            type: Object,
+            default: PROJECT_CONFIG_DEFAULT.todoItem,
+        },
+        image: {
+            type: Object,
+            default: PROJECT_CONFIG_DEFAULT.image,
+        },
+        file: {
+            type: Object,
+            default: PROJECT_CONFIG_DEFAULT.file,
+        },
     },
     {
         toJSON: {

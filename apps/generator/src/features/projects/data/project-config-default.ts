@@ -12,7 +12,37 @@ export const PROJECT_CONFIG_DEFAULT: ProjectConfig = {
     },
     paragraph: {
         fontSize: '14px',
-        fontWeight: 'regular',
+        fontWeight: '400',
         margin: '0px auto',
+    },
+    divider: {
+        fontSize: '',
+        fontWeight: '',
+        margin: '1rem 0',
+    },
+    callout: {
+        fontSize: '14px',
+        fontWeight: '400',
+        margin: '1rem',
+    },
+    listItem: {
+        fontSize: '14px',
+        fontWeight: '400',
+        margin: '1rem 0',
+    },
+    todoItem: {
+        fontSize: '14px',
+        fontWeight: '400',
+        margin: '1rem 0',
+    },
+    image: {
+        fontSize: '12px',
+        fontWeight: '400',
+        margin: '1rem auto',
+    },
+    file: {
+        fontSize: '12px',
+        fontWeight: '400',
+        margin: '1rem auto',
     },
 };
