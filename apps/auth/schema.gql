@@ -22,6 +22,12 @@ type ProjectConfig {
   backgroundColor: String!
   heading: ProjectConfigBlock!
   paragraph: ProjectConfigBlock!
+  divider: ProjectConfigBlock!
+  callout: ProjectConfigBlock!
+  listItem: ProjectConfigBlock!
+  todoItem: ProjectConfigBlock!
+  image: ProjectConfigBlock!
+  file: ProjectConfigBlock!
 }
 
 type ProjectDto {
@@ -102,6 +108,12 @@ input ProjectConfigInput {
   backgroundColor: String!
   heading: ProjectConfigBlockInput!
   paragraph: ProjectConfigBlockInput!
+  divider: ProjectConfigBlockInput!
+  callout: ProjectConfigBlockInput!
+  listItem: ProjectConfigBlockInput!
+  todoItem: ProjectConfigBlockInput!
+  image: ProjectConfigBlockInput!
+  file: ProjectConfigBlockInput!
 }
 
 input ProjectConfigBlockInput {

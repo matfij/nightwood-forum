@@ -77,11 +77,17 @@ export type MutationUpdateProjectConfigArgs = {
 export type ProjectConfig = {
     __typename?: 'ProjectConfig';
     backgroundColor: Scalars['String']['output'];
+    callout: ProjectConfigBlock;
+    divider: ProjectConfigBlock;
+    file: ProjectConfigBlock;
     fontColor: Scalars['String']['output'];
     fontFamily: Scalars['String']['output'];
     fontUrl: Scalars['String']['output'];
     heading: ProjectConfigBlock;
+    image: ProjectConfigBlock;
+    listItem: ProjectConfigBlock;
     paragraph: ProjectConfigBlock;
+    todoItem: ProjectConfigBlock;
 };
 
 export type ProjectConfigBlock = {
@@ -99,11 +105,17 @@ export type ProjectConfigBlockInput = {
 
 export type ProjectConfigInput = {
     backgroundColor: Scalars['String']['input'];
+    callout: ProjectConfigBlockInput;
+    divider: ProjectConfigBlockInput;
+    file: ProjectConfigBlockInput;
     fontColor: Scalars['String']['input'];
     fontFamily: Scalars['String']['input'];
     fontUrl: Scalars['String']['input'];
     heading: ProjectConfigBlockInput;
+    image: ProjectConfigBlockInput;
+    listItem: ProjectConfigBlockInput;
     paragraph: ProjectConfigBlockInput;
+    todoItem: ProjectConfigBlockInput;
 };
 
 export type ProjectConfigUpdateDto = {
@@ -193,6 +205,12 @@ export type ProjectsQuery = {
             backgroundColor: string;
             heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
             paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            divider: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            callout: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            listItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            todoItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            image: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            file: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
         } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     }>;
@@ -220,6 +238,12 @@ export type ProjectQuery = {
             backgroundColor: string;
             heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
             paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            divider: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            callout: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            listItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            todoItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            image: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            file: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
         } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     };
@@ -274,6 +298,12 @@ export type CreateProjectMutation = {
             backgroundColor: string;
             heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
             paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            divider: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            callout: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            listItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            todoItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            image: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            file: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
         } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     };
@@ -301,6 +331,12 @@ export type UpdateProjectMutation = {
             backgroundColor: string;
             heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
             paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            divider: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            callout: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            listItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            todoItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            image: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            file: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
         } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     };
@@ -328,6 +364,12 @@ export type UpdateProjectConfigMutation = {
             backgroundColor: string;
             heading: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
             paragraph: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            divider: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            callout: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            listItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            todoItem: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            image: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
+            file: { __typename?: 'ProjectConfigBlock'; fontSize: string; fontWeight: string; margin: string };
         } | null;
         user?: { __typename?: 'UserDto'; id: string; username: string } | null;
     };
@@ -403,6 +445,36 @@ export const ProjectsDocument = gql`
                     fontWeight
                     margin
                 }
+                divider {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                callout {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                listItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                todoItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                image {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                file {
+                    fontSize
+                    fontWeight
+                    margin
+                }
             }
             createdAt
             user {
@@ -458,6 +530,36 @@ export const ProjectDocument = gql`
                     margin
                 }
                 paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                divider {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                callout {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                listItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                todoItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                image {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                file {
                     fontSize
                     fontWeight
                     margin
@@ -632,6 +734,36 @@ export const CreateProjectDocument = gql`
                     fontWeight
                     margin
                 }
+                divider {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                callout {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                listItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                todoItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                image {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                file {
+                    fontSize
+                    fontWeight
+                    margin
+                }
             }
             createdAt
             user {
@@ -695,6 +827,36 @@ export const UpdateProjectDocument = gql`
                     fontWeight
                     margin
                 }
+                divider {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                callout {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                listItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                todoItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                image {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                file {
+                    fontSize
+                    fontWeight
+                    margin
+                }
             }
             createdAt
             user {
@@ -754,6 +916,36 @@ export const UpdateProjectConfigDocument = gql`
                     margin
                 }
                 paragraph {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                divider {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                callout {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                listItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                todoItem {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                image {
+                    fontSize
+                    fontWeight
+                    margin
+                }
+                file {
                     fontSize
                     fontWeight
                     margin
